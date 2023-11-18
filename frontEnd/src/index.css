@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Cafe24Shiningstar";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Shiningstar.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer base {
+  li {
+    @apply pb-4 cursor-pointer hover:border-b-4 border-black
+  }
+  button {
+    @apply relative w-full py-3 transition bg-gray-300 border-gray-300  rounded-lg disabled:opacity-70 disabled:cursor-not-allowed hover:opacity-80 text-black font-semibold
+  }
+}
