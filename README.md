@@ -34,16 +34,14 @@
 > 4. 본인의 작업플로우 완료 및 수정 완료시 다음과 같은 진행을 해주세요 <br />
 > > <code>$ git add .</code> <br/>
 > > <code>$ git commit</code> <br/>
-> > 'i'누르고 편집창 진입후 <img width="300" alt="스크린샷 2023-11-17 오후 6 35 41" src="https://github.com/bigone-77/Bueno-meat-app/assets/106367655/ac4a7048-849e-4866-abf1-a1a0d9b88859"> 첨부된 사진 형식대로 empty line에 제목, 본문, 꼬리말 작성 <br />
+> > 'i'누르고 편집창 진입후 <img width="588" alt="스크린샷 2023-11-17 오후 6 35 41" src="https://github.com/bigone-77/Bueno-meat-app/assets/106367655/3bdb249d-628b-4569-8bab-442b42b7aa36">
+ 첨부된 사진 형식대로 empty line에 제목, 본문, 꼬리말 작성 <br />
 >
 > 5.커밋 테스트 하고 싶다면 <code>$ git log</code> <br />
 > 6. 본인이 맡은 브랜치에 push! <br />
-<code>$ git push --set-upstream origin [본인 작업 브랜치명]</code></br />
+<code>$ git push --set-upstream origin [본인 작업 브랜치명]</code><br />
 > Finally 완료띠 ~~~~~🔥🔥🔥🔥🔥
 
 
 
-
-
-
-<img width="500" alt="스크린샷 2023-11-17 오후 4 07 33" src="https://github.com/bigone-77/Bueno-meat-app/assets/106367655/867663ba-d021-4863-8d94-507e0052188f">
+<img width="1339" alt="스크린샷 2023-11-17 오후 4 07 33" src="https://github.com/bigone-77/Bueno-meat-app/assets/106367655/c7037728-9fae-4654-a8f6-e219c29ea7bd">
