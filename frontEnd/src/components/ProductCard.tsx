@@ -1,6 +1,7 @@
 import { IconType } from "react-icons"
 import { ProductProps } from "../types/ProductProps"
 import CartButton from "./ShoppingCart/CartButton";
+import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps extends ProductProps {
     icon: IconType;
@@ -14,8 +15,14 @@ const ProductCard = ({
     icon: Icon 
 }: ProductCardProps) => {
 
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/products/${id}`);
+    }
+
     return (
-        <div className="cursor-pointer">
+        <div className="cursor-pointer" onClick={handleClick} >
             <div className="relative border rounded-lg w-[286px] h-[320px] bg-gray-200">
                 <Icon 
                     size={25} 

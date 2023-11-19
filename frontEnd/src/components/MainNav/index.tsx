@@ -15,25 +15,21 @@ import { removeUser } from '../../redux/slices/userSlice';
 const MainNavbar = () => {
     const [showModal, setShowModal] = useState(false);
     const show = useScroll();
-
     const dispatch = useDispatch();
-    const currentUser = useSelector((state: RootState) => state.user.nickname);
-    
+
+    const currentUserData = useSelector((state: RootState) => state.user);
+    const nickName = currentUserData.nickname;
     
     return (
         <Container>
             <div className={`fixed top-0 left-0 right-0 z-20 ${show ? 'bg-zinc-50' : 'bg-transparent'} px-10`}>
-                <div className={`flex ${currentUser ? 'justify-between' : 'justify-end'} w-full px-10 py-5`}>
-                    {currentUser && <ul className='flex gap-3 text-gray-300 text-light'>
-                        <p className='ml-2 text-2xl text-black font-Cafe24Shiningstar'>Hello {currentUser}</p>
-                        <li>Point</li>
-                        <li>Coupon</li>
-                        <li>Heart</li>
-                        <li>Cart</li>
-                    </ul>}
+                <div className={`flex ${nickName ? 'justify-between' : 'justify-end'} w-full px-10 py-5`}>
+                    {nickName && <span className='flex gap-3 text-gray-300 text-light'>
+                        <p className='ml-2 text-2xl text-black font-Cafe24Shiningstar'>Hello {nickName}</p>
+                    </span>}
                     <ul className='flex items-center gap-4 text-sm font-light'>
-                        {currentUser ? <Link to="/"><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
-                        {currentUser ? <li onClick={() => dispatch(removeUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
+                        {nickName ? <Link to="/"><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
+                        {nickName ? <li onClick={() => dispatch(removeUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
                         <li>고객센터</li>
                     </ul>
                 </div>
