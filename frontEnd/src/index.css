@@ -14,7 +14,20 @@
   li {
     @apply pb-4 cursor-pointer hover:border-b-4 border-black
   }
+
   button {
     @apply relative w-full py-3 transition bg-gray-300 border-gray-300  rounded-lg disabled:opacity-70 disabled:cursor-not-allowed hover:opacity-80 text-black font-semibold
+  }
+
+  hr {
+    @apply w-full h-[2px] mb-2 bg-gray-300
+  }
+
+  tr {
+    @apply border-b border-black
+  }
+
+  th, td {
+    @apply border-r border-black font-light text-gray-500 px-2 py-2
   }
 }

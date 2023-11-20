@@ -22,23 +22,26 @@ const ProductCard = ({
     }
 
     return (
-        <div className="cursor-pointer" onClick={handleClick} >
-            <div className="relative border rounded-lg w-[286px] h-[320px] bg-gray-200">
-                <Icon 
-                    size={25} 
-                    className="absolute top-2 left-3"
-                />
-                <img src={imageURL} alt="bueno-img" className="px-2 pt-12 object-fit" />
-                <div className="absolute bottom-3 right-3">
-                    <CartButton 
-                        productId={id}
+        <div className="relative">
+            <div className="cursor-pointer" onClick={handleClick} >
+                <div className=" border rounded-lg w-[286px] h-[320px] bg-gray-200">
+                    <Icon 
+                        size={25} 
+                        className="absolute top-2 left-3"
                     />
+                    <img src={imageURL} alt="bueno-img" className="px-2 pt-12 object-fit" />
+                    
                 </div>
+                <span className="flex flex-col items-start justify-center mt-4">
+                    <p className="text-2xl font-bold">{title}</p>
+                    <p className="font-semibold text-zinc-700">{`${price}원`}</p>
+                </span>
             </div>
-            <span className="flex flex-col items-start justify-center mt-4">
-                <p className="text-2xl font-bold">{title}</p>
-                <p className="font-semibold text-zinc-700">{`${price}원`}</p>
-            </span>
+            <div className="absolute bottom-0 right-0">
+                <CartButton 
+                    productId={id}
+                />
+            </div>
         </div>
     )
 }

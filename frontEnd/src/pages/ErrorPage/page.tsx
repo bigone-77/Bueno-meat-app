@@ -1,8 +1,8 @@
-import React from 'react'
-
 const ErrorPage = () => {
     return (
-        <div className='w-screen h-screen bg-cover bg-404'></div>
+        <div className='w-screen h-screen bg-cover bg-404'>
+            
+        </div>
     )
 }
 

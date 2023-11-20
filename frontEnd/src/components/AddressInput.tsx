@@ -22,7 +22,7 @@ const AddressInput:React.FC<AddressInputProps> = ({
     const [popup, setPopup] = useState(false);
 
     const complete = (data: Address) => {
-        console.log(data);
+        
         
         let fullAddress = data.address;
         let extraAddress = '';
