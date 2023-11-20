@@ -21,7 +21,7 @@ spring:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
-
+# ROOT 로거의 레벨을 DEBUG로 설정
 logging:
   level:
-    org.hibernate.SQL: debug
+    root: DEBUG
