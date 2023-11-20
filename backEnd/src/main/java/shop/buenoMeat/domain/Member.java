@@ -32,17 +32,16 @@ public class Member {
     @Column(name = "phoneNumber", length = 11)
     private String phone;
 
-    @Column(length = 16)
+    @Column(length = 16, unique = true)
     private String nickname;
 
-    @Embedded
-    private Address address;
+    private String address;
 
+    private String detailAddress;
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'NORMAL'")
     private MemberRole role; //ADMIN, NORMAL  ( default = Normal )
 
-    @ColumnDefault("1000")
     private int point;
 
     @OneToMany(mappedBy = "member")
@@ -59,6 +58,9 @@ public class Member {
         member.phone = memberDto.getPhone();
         member.nickname = memberDto.getNickname();
         member.address = memberDto.getAddress();
+        member.detailAddress = memberDto.getDetailAddress();
+        member.role = MemberRole.NORMAL;
+        member.point = 1000;
         return member;
     }
 
@@ -82,12 +84,11 @@ public class Member {
         this.nickname = nickname;
     }
 
-    public void changeAddress(Address address) {
-        Address newAddress = new Address(address.getZipcode(), address.getAddress(), address.getDetailAddress());
-        this.address = newAddress;
-    }
+    public void changeAddress(String address){this.address = address;}
 
-    public void changeRole(MemberRole memberRole) {
+    public void changeDetailAddress(String detailAddress){this.detailAddress = detailAddress;}
+
+    public void changeMemberRole(MemberRole memberRole) {
         this.role = memberRole;
     }
 }

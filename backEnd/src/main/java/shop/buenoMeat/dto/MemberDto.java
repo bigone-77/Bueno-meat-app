@@ -2,7 +2,7 @@ package shop.buenoMeat.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.buenoMeat.domain.Address;
+import shop.buenoMeat.domain.Member;
 
 @Getter @Setter
 public class MemberDto {
@@ -12,14 +12,18 @@ public class MemberDto {
     private String email;
     private String phone;
     private String nickname;
-    private Address address;
+    private String address;
+    private String detailAddress;
 
-    public MemberDto(String username, String pw, String email, String phone, String nickname, Address address) {
-        this.username = username;
-        this.pw = pw;
-        this.email = email;
-        this.phone = phone;
-        this.nickname = nickname;
-        this.address = address;
+    public Member toEntity() {
+        Member member = Member.createMember(this);
+        member.changeUserName(username);
+        member.changePw(pw);
+        member.changeEmail(email);
+        member.changePhone(phone);
+        member.changeNickname(nickname);
+        member.changeAddress(address);
+        member.changeDetailAddress(detailAddress);
+        return member;
     }
 }

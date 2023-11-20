@@ -25,4 +25,9 @@ public class MemberRepository {
         return em.createQuery("select m from Member m where m.nickname = :nickname", Member.class)
                 .setParameter("nickname", nickname).getResultList();
     } // 닉네임으로 회원 조회
+
+    public List<Member> findByEmail(String email) {
+        return em.createQuery("select m from Member m where m.email = :email", Member.class)
+                .setParameter("email", email).getResultList();
+    }// 이메일로 회원 조회
 }

@@ -40,9 +40,11 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
-    @Embedded
     @Column(name = "delivery_address", nullable = false)
-    private Address address;
+    private String address;
+
+    @Column(nullable = false)
+    private String detailAddress;
 
     @Column(length = 100)
     private String memo;
@@ -54,21 +56,22 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; // COMPLETE, CANCEL
 
-    public Order(Member member, String recipient, String phone, String email, LocalDateTime orderDate, Address address, String memo, int totalPrice, OrderStatus orderStatus) {
+    public Order(Member member, String recipient, String phone, String email, LocalDateTime orderDate, String address,String detailAddress, String memo, int totalPrice, OrderStatus orderStatus) {
         this.member = member;
         this.recipient = recipient;
         this.phone = phone;
         this.email = email;
         this.orderDate = orderDate;
         this.address = address;
+        this.detailAddress = detailAddress;
         this.memo = memo;
         this.totalPrice = totalPrice;
         this.orderStatus = orderStatus;
     }
 
     //--생성 메서드--//
-    public static Order createOrder(Member member, String recipient, String phone, String email, Address address, String memo, int totalPrice, OrderItem... orderItems) {
-        Order order = new Order(member, recipient, phone, email, LocalDateTime.now(), address, memo, totalPrice, OrderStatus.COMPLETE);
+    public static Order createOrder(Member member, String recipient, String phone, String email, String address, String detailAddress, String memo, int totalPrice, OrderItem... orderItems) {
+        Order order = new Order(member, recipient, phone, email, LocalDateTime.now(), address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE);
         for (OrderItem orderItem : orderItems) {
             order.orderItems.add(orderItem);
         }
