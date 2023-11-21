@@ -22,7 +22,7 @@ const MainNavbar = () => {
     
     return (
         <Container>
-            <div className={`fixed top-0 left-0 right-0 z-20 ${show ? 'bg-zinc-50' : 'bg-transparent'} px-10`}>
+            <div className={`fixed h-52 top-0 left-0 right-0 z-20 ${show ? 'bg-zinc-50' : 'bg-transparent'} px-10`}>
                 <div className={`flex ${nickName ? 'justify-between' : 'justify-end'} w-full px-10 py-5`}>
                     {nickName && <span className='flex gap-3 text-gray-300 text-light'>
                         <p className='ml-2 text-2xl text-black font-Cafe24Shiningstar'>Hello {nickName}</p>
@@ -51,7 +51,6 @@ const MainNavbar = () => {
                 </div>
                 <ShowNavItems />
             </div>
-            <hr className="h-1 my-12 bg-gray-200" />
             {showModal && 
                 <CategoryModal 
                     setShowModal={setShowModal}
