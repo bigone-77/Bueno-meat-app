@@ -5,8 +5,7 @@ import lombok.Setter;
 import shop.buenoMeat.domain.Member;
 
 @Getter @Setter
-public class MemberDto {
-
+public class MemberJoinDto {
     private String username;
     private String pw;
     private String email;
