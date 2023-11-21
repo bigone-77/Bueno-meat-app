@@ -8,18 +8,21 @@ const NavItems = [
     {
         id: 1,
         label: 'MY BUENO',
+        path: 'mypage',
         icon: CgProfile
     },
     {
         id: 2,
         label: 'SHOPPING CART',
         icon: AiOutlineShoppingCart,
+        path: 'mycart',
         type: 'shoppingCart'
     },
     {
         id: 3,
         label: 'WISHLIST',
         icon: BsFillBagHeartFill,
+        path: 'wishlist',
         type: 'heart'
     },
 ]
@@ -33,6 +36,7 @@ export const ShowNavItems = () => {
                     label={item.label}
                     icon={item.icon}
                     type={item.type}
+                    path={item.path}
                 />
             ))}
         </div>

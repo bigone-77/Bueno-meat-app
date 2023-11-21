@@ -5,6 +5,7 @@ import LoginPage from "./pages/Auth/LoginPage/page";
 import MainPage from "./pages/MainPage/page";
 import ProductDetailPage from "./pages/DetailProduct/page";
 import ErrorPage from "./pages/ErrorPage/page";
+import CategoryPage from "./pages/CategoryPage/page";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='/' element={<MainLayout />}>
           <Route index element={<MainPage />} />
           <Route path='/products/:productId' element={<ProductDetailPage />} />
+          <Route path='/category/:path' element={<CategoryPage />} />
           <Route path='/auth/join' element={<JoinPage />} />
           <Route path='/auth/login' element={<LoginPage />} />
         </Route>
