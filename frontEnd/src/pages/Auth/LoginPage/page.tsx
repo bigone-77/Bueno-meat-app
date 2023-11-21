@@ -34,7 +34,9 @@ const LoginPage = () => {
             .then(response => {
                 dispatch(setUser({
                     nickname: response.data[0].nickname,
-                    token: response.data[0].accessToken
+                    token: response.data[0].accessToken,
+                    cartCount: response.data[0].cartCount,
+                    heartCount: response.data[0].heartCount
                 }))
             })
             .catch(error => {
@@ -46,7 +48,7 @@ const LoginPage = () => {
     }
     
     return (
-        <section className="grid mt-48 overflow-y-scroll place-items-center">
+        <section className="grid mt-56 overflow-y-scroll place-items-center">
             <h1 className="mb-10 text-3xl font-bold">Login</h1>
             <div className="flex flex-col gap-5 w-[350px]">
                 <div 

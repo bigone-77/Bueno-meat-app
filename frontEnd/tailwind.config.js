@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        '404': "url('./assets/404/404.jpeg')",
+      },
       keyframes: {
         fadeIn: {
           from: { 

@@ -17,17 +17,19 @@ const CountButton = ({
     return (
         <div className="relative">
             <input 
-                className="w-20 pl-5"
+                className="w-32 pl-5 rounded-md outline"
                 value={count}
                 min='1'
                 readOnly
             />
             <span className="absolute top-0 right-0">
-                <IoMdArrowDropup 
+                <IoMdArrowDropup
+                    size={20}
                     className="w-6 h-3 border" 
                     onClick={() => setCount(count+1)}
                 />
                 <IoMdArrowDropdown
+                    size={20}
                     className="w-6 h-3 border" 
                     onClick={() => setCount(count-1)}
                 />
