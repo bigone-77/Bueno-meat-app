@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { ShowCategoryItems } from "./CategoryItems"
-import useOnClickOutside from "../../hooks/useOnClickOutSide";
+import useOnClickOutside from "../../utils/useOnClickOutSide";
 
 interface Props {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;

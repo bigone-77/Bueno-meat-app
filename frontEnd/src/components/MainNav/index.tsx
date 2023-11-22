@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { ShowNavItems } from './NavItems';
 import CategoryModal from './CategoryModal';
 import { useState } from 'react';
-import useScroll from '../../hooks/useScroll';
+import useScroll from '../../utils/useScroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import { removeUser } from '../../redux/slices/userSlice';

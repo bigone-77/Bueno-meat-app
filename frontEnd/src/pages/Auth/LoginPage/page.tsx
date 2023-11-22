@@ -1,23 +1,20 @@
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { DevTool } from "@hookform/devtools";
 
 import { AiOutlineGoogle } from "react-icons/ai";
 import { RiKakaoTalkFill } from "react-icons/ri";
-import axios from "axios";
-import requests from "../../../api/requests";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../../redux/slices/userSlice";
 import Container from "../../../components/Container";
+import { useLogin } from "../../../hooks/auth/useLogin";
+
+
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    
+    const { login } = useLogin();
     
     const { register, control, handleSubmit, formState: { 
         errors
@@ -30,32 +27,8 @@ const LoginPage = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-
-        // axios.post('/auth/login', data)
-        //     .then(response => {
-        //         console.log(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     })
-        //     navigate('/');
-        //     setIsLoading(false);
-        // }
-        
-        axios.get(`${requests.login}`, data)
-            .then(response => {
-                dispatch(setUser({
-                    nickname: response.data[0].nickname,
-                    token: response.data[0].accessToken,
-                    cartCount: response.data[0].cartCount,
-                    heartCount: response.data[0].heartCount
-                }))
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        
-        navigate('/');
+        const { email, pw } = data;
+        login(email, pw);
         setIsLoading(false);
     }
     

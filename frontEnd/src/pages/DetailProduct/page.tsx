@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 
 import { IoIosArrowForward } from "react-icons/io";
 import SelectedBox from '../../components/SelectedBox';
-import useExtractedNumber from '../../hooks/useExtractedNumber';
+import useExtractedNumber from '../../utils/useExtractedNumber';
 
 const ProductDetailPage = () => {
     const [showTable, setShowTable] = useState(false);
