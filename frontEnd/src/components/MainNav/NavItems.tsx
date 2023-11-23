@@ -8,14 +8,14 @@ const NavItems = [
     {
         id: 1,
         label: 'MY BUENO',
-        path: 'mypage',
-        icon: CgProfile
+        icon: CgProfile,
+        path: 'orderlist',
     },
     {
         id: 2,
         label: 'SHOPPING CART',
         icon: AiOutlineShoppingCart,
-        path: 'mycart',
+        path: 'cart',
         type: 'shoppingCart'
     },
     {

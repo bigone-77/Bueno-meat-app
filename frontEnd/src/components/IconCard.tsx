@@ -32,7 +32,12 @@ const IconCard = ({
     
     
     return (
-        <div className='flex flex-col relative items-center justify-center px-2 py-1 transition-all border-2 rounded-lg text-center cursor-pointer border-zinc-800 hover:bg-zinc-300 w-[100px] h-[100px]' onClick={() => navigate(`/category/${path}`)}>
+        <div 
+            className='flex flex-col relative items-center justify-center px-2 py-1 transition-all border-2 rounded-lg text-center cursor-pointer border-zinc-800 hover:bg-zinc-300 w-[100px] h-[100px]'
+            onClick={() => {
+                navigate(`/member/mypage/${path}`)
+            }}
+        >
             <span className='flex gap-2'>
                 <Icon size={30} />
                 {type && typeCount !== 0 && 

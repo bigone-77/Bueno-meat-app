@@ -1,5 +1,5 @@
 import requests from '../../api/requests'
-import Container from '../../components/Container'
+import Container from '../../components/utils/Container'
 import Row from '../../components/Row'
 
 const MainPage = () => {

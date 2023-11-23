@@ -1,6 +1,6 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi'
-import Container from '../Container';
+import Container from '../utils/Container';
 import { Link } from 'react-router-dom';
 import { ShowNavItems } from './NavItems';
 import CategoryModal from './CategoryModal';
@@ -29,7 +29,7 @@ const MainNavbar = () => {
                         <p className='ml-2 text-2xl text-black font-Cafe24Shiningstar'>Hello {nickName}</p>
                     </span>}
                     <ul className='flex items-center gap-4 text-sm font-light'>
-                        {nickName ? <Link to="/"><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
+                        {nickName ? <Link to='/member/mypage/edit'><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
                         {nickName ? <li onClick={() => dispatch(removeUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
                         <li>고객센터</li>
                     </ul>

@@ -21,7 +21,7 @@ const useGetFetchedData = (axiosParams: RawAxiosRequestConfig) => {
 
     useEffect(() => {
         fetchData(axiosParams);
-    }, [axiosParams]);
+    }, []);
 
     return { response, error, loading };
 }

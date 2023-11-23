@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
-import Container from '../../components/Container';
-import Header from '../../components/Header';
+import Container from '../../components/utils/Container';
+import Header from '../../components/utils/Header';
 
 const CategoryPage = () => {
     const params = useParams();
@@ -9,7 +9,10 @@ const CategoryPage = () => {
     
     return (
         <Container>
-            <Header pageName={pageName} />
+            <Header 
+                pageType="category"
+                pageName={pageName} 
+            />
         </Container>
     )
 }

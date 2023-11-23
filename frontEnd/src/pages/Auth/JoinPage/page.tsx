@@ -1,11 +1,11 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { DevTool } from "@hookform/devtools";
-import Input from "../../../components/Input"
+import Input from "../../../components/utils/Input"
 import { useState } from "react";
-import Button from "../../../components/Button";
+import Button from "../../../components/utils/Button";
 import { Link, useNavigate } from "react-router-dom";
-import AddressInput from "../../../components/AddressInput";
-import Container from "../../../components/Container";
+import AddressInput from "../../../components/utils/AddressInput";
+import Container from "../../../components/utils/Container";
 // import axios from "axios";
 
 const JoinPage = () => {
