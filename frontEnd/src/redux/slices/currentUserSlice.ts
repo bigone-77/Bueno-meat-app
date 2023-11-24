@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 export interface CurrentUserState {
+    id: number;
     token: string;
     nickname: string;
     cartCount: number;
@@ -8,23 +9,26 @@ export interface CurrentUserState {
 }
 
 const initialState = {
+    id: 0,
     token: "",
     nickname: "",
     cartCount: 0,
     heartCount: 0,
 } as CurrentUserState
 
-const userSlice = createSlice({
-    name: "user",
+const currentUserSlice = createSlice({
+    name: "currentUser",
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<CurrentUserState>) => {
+        setCurrentUser: (state, action: PayloadAction<CurrentUserState>) => {
+            state.id = action.payload.id;
             state.token = action.payload.token;
             state.nickname = action.payload.nickname;
             state.cartCount = action.payload.cartCount;
             state.heartCount = action.payload.heartCount;
         },
-        removeUser: (state) => {
+        removeCurrentUser: (state) => {
+            state.id = 0;
             state.token = "";
             state.nickname = "";
             state.cartCount = 0;
@@ -33,6 +37,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { setUser, removeUser } = userSlice.actions;
+export const { setCurrentUser, removeCurrentUser } = currentUserSlice.actions;
 
-export default userSlice.reducer;
+export default currentUserSlice.reducer;

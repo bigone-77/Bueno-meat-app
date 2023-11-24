@@ -4,7 +4,7 @@ import { RootState } from "../../redux";
 import CartContents from "./CartContents";
 import { ProductProps } from "../../types/ProductProps";
 import { useRef } from "react";
-import useOnClickOutside from "../../hooks/useOnClickOutSide";
+import useOnClickOutside from "../../utils/useOnClickOutSide";
 
 interface Props extends CartButtonProps {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;

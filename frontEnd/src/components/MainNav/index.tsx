@@ -1,14 +1,16 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi'
-import Container from '../Container';
+import Container from '../utils/Container';
 import { Link } from 'react-router-dom';
 import { ShowNavItems } from './NavItems';
 import CategoryModal from './CategoryModal';
 import { useState } from 'react';
-import useScroll from '../../hooks/useScroll';
+import useScroll from '../../utils/useScroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import { removeUser } from '../../redux/slices/userSlice';
+
+import CategoriesBox from './CategoriesBox';
+import { removeCurrentUser } from '../../redux/slices/currentUserSlice';
 
 
 
@@ -17,7 +19,7 @@ const MainNavbar = () => {
     const show = useScroll();
     const dispatch = useDispatch();
 
-    const currentUserData = useSelector((state: RootState) => state.user);
+    const currentUserData = useSelector((state: RootState) => state.currentUser);
     const nickName = currentUserData.nickname;
     
     return (
@@ -28,35 +30,36 @@ const MainNavbar = () => {
                         <p className='ml-2 text-2xl text-black font-Cafe24Shiningstar'>Hello {nickName}</p>
                     </span>}
                     <ul className='flex items-center gap-4 text-sm font-light'>
-                        {nickName ? <Link to="/"><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
-                        {nickName ? <li onClick={() => dispatch(removeUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
+                        {nickName ? <Link to='/member/mypage/edit'><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
+                        {nickName ? <li onClick={() => dispatch(removeCurrentUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
                         <li>고객센터</li>
                     </ul>
                 </div>
-            <div className='flex items-center justify-between h-8 mt-10'>
-                <GiHamburgerMenu
-                    className='cursor-pointer'
-                    size={25} 
-                    onClick={() => setShowModal(true)}
-                />
-                <Link to="/"><p className='text-6xl font-Cafe24Shiningstar'>Bueno Meat</p></Link>
-                <div className='flex items-center border-4 border-zinc-800'>
-                    <input 
-                        type='text'
-                        className='w-auto px-2 py-1 outline-none'
+                <div className='flex items-center justify-between h-8 mt-10'>
+                    <GiHamburgerMenu
+                        className='cursor-pointer'
+                        size={25} 
+                        onClick={() => setShowModal(true)}
                     />
-                    <span className='flex items-center justify-center h-[32px] w-[32px] bg-zinc-800'>
-                        <AiOutlineSearch size={25} className='text-white' />
-                    </span>
+                    <Link to="/"><p className='text-6xl font-Cafe24Shiningstar'>Bueno Meat</p></Link>
+                    <div className='flex items-center border-4 border-zinc-800'>
+                        <input 
+                            type='text'
+                            className='w-auto px-2 py-1 outline-none'
+                        />
+                        <span className='flex items-center justify-center h-[32px] w-[32px] bg-zinc-800'>
+                            <AiOutlineSearch size={25} className='text-white' />
+                        </span>
+                    </div>
+                    <ShowNavItems />
                 </div>
-                <ShowNavItems />
-            </div>
-            {showModal && 
-                <CategoryModal 
+                {showModal && 
+                    <CategoryModal 
                     setShowModal={setShowModal}
-                />
-            }
-            </div>
+                    />
+                }
+                </div>
+                <CategoriesBox />
         </Container>
     )
 }

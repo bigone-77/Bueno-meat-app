@@ -14,7 +14,6 @@ const Container = ({children}: ContainerProps) => {
             md:px-10
             sm:px-2
             px-4
-            py-6
         '>
             {children}
         </div>

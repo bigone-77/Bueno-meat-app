@@ -1,5 +1,6 @@
 export interface ProductProps {
     id?: number;
+    category?: string;
     title: string;
     weightCount?: number;
     weightUnit?: string;

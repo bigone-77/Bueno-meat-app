@@ -1,9 +1,11 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import userReducer from "./slices/userSlice";
+import currentUserReducer from "./slices/currentUserSlice";
+import editUserReducer from "./slices/memberEditSlice";
 import productReducer from "./slices/productSlice";
 
 const rootReducer = combineReducers({
-    user: userReducer,
+    currentUser: currentUserReducer,
+    editUser: editUserReducer,
     product: productReducer
 });
 

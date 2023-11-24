@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ProductProps } from '../../types/ProductProps'
-import CountButton from '../CountButton';
+import CountButton from '../utils/CountButton';
 
 import { TbMoneybag } from "react-icons/tb";
 import { LiaWindowCloseSolid } from "react-icons/lia";

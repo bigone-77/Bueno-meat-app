@@ -16,7 +16,7 @@
   }
 
   button {
-    @apply w-full py-3 transition bg-white border rounded-lg disabled:opacity-70 disabled:cursor-not-allowed hover:opacity-80 text-black font-semibold
+    @apply w-full py-3 transition bg-white border rounded-lg disabled:opacity-70 disabled:cursor-not-allowed hover:opacity-80 hover:border-black text-black font-semibold
   }
 
   hr {

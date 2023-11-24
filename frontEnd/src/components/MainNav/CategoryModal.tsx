@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { ShowCategoryItems } from "./CategoryItems"
+import useOnClickOutside from "../../utils/useOnClickOutSide";
 
 interface Props {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -7,11 +9,18 @@ interface Props {
 
 const CategoryModal = ({ setShowModal }: Props) => {
 
+    const ref = useRef<HTMLDivElement>(null);
+
+    useOnClickOutside(ref, () => {
+        setShowModal(false);
+    })
+
     return (
         <div role='presentation' className='absolute z-10 w-full'> 
             <div className='fixed top-0 bottom-0 left-0 flex justify-center'>
                 <div 
                     className='relative overflow-y-scroll duration-300 ease-in-out rounded-lg w-96 animate-fadeOut bg-zinc-50'
+                    ref={ref}
                 >
                     <span
                         className='absolute right-[20px] top-[20px] cursor-pointer'

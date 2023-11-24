@@ -2,36 +2,42 @@ import { FaCow, FaPiggyBank, FaFish } from "react-icons/fa6"
 import { GiChicken, GiKnifeFork, GiSheep } from "react-icons/gi"
 import IconCard from "../IconCard"
 
-const Categories = [
+export const Categories = [
     {
         id: 1,
         label: 'Pig',
-        icon: FaPiggyBank
+        icon: FaPiggyBank,
+        path: 'pig'
     },
     {
         id: 2,
         label: 'Cow',
-        icon: FaCow
+        icon: FaCow,
+        path: 'cow'
     },
     {
         id: 3,
         label: 'Chicken',
-        icon: GiChicken
+        icon: GiChicken,
+        path: 'chicken'
     },
     {
         id: 4,
         label: 'Sheep',
-        icon: GiSheep
+        icon: GiSheep,
+        path: 'sheep'
     },
     {
         id: 5,
         label: 'Fishery',
-        icon: FaFish
+        icon: FaFish,
+        path: 'sea'
     },
     {
         id: 6,
         label: 'MealKit',
-        icon: GiKnifeFork
+        icon: GiKnifeFork,
+        path: 'mealkit'
     }
 ]
 
@@ -43,6 +49,7 @@ export const ShowCategoryItems = () => {
                     key={c.id}
                     label={c.label}
                     icon={c.icon}
+                    path={c.path}
                 />
             ))}
         </div>
