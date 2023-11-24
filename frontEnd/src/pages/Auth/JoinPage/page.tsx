@@ -6,7 +6,7 @@ import Button from "../../../components/utils/Button";
 import { Link, useNavigate } from "react-router-dom";
 import AddressInput from "../../../components/utils/AddressInput";
 import Container from "../../../components/utils/Container";
-// import axios from "axios";
+import axios from "axios";
 
 const JoinPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,14 +29,14 @@ const JoinPage = () => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
 
-        // axios.post("http://localhost:8080/auth/join", data)
-        //     .then(response => {
-        //         console.log(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
+        axios.post("/auth/join", data)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
                 
-        //     })
+            })
         console.log(data);
         navigate('/auth/login');
         setIsLoading(false);

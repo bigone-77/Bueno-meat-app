@@ -10,7 +10,7 @@ export const useLogin = () => {
     const navigate = useNavigate();
 
     const login = async (email: string, pw: string) => {
-        axios.get(requests.login)
+        axios.post(requests.login, {email, pw})
             .then(response => {
                 console.log(response);
                 
