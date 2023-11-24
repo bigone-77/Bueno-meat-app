@@ -8,8 +8,9 @@ import { useState } from 'react';
 import useScroll from '../../utils/useScroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import { removeUser } from '../../redux/slices/userSlice';
+
 import CategoriesBox from './CategoriesBox';
+import { removeCurrentUser } from '../../redux/slices/currentUserSlice';
 
 
 
@@ -18,7 +19,7 @@ const MainNavbar = () => {
     const show = useScroll();
     const dispatch = useDispatch();
 
-    const currentUserData = useSelector((state: RootState) => state.user);
+    const currentUserData = useSelector((state: RootState) => state.currentUser);
     const nickName = currentUserData.nickname;
     
     return (
@@ -30,7 +31,7 @@ const MainNavbar = () => {
                     </span>}
                     <ul className='flex items-center gap-4 text-sm font-light'>
                         {nickName ? <Link to='/member/mypage/edit'><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
-                        {nickName ? <li onClick={() => dispatch(removeUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
+                        {nickName ? <li onClick={() => dispatch(removeCurrentUser())}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
                         <li>고객센터</li>
                     </ul>
                 </div>

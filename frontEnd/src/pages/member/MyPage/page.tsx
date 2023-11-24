@@ -1,7 +1,7 @@
 import Container from '../../../components/utils/Container'
 import { useParams } from 'react-router-dom'
 import Header from '../../../components/utils/Header'
-import Edit from '../../../components/Member/Edit'
+import Edit from '../../../components/Member/Edit/Edit'
 
 
 const MyPage = () => {

@@ -31,7 +31,7 @@ function App() {
     )
   }
 
-  const currentUser = useSelector((state: RootState) => state.user.nickname);
+  const currentUser = useSelector((state: RootState) => state.currentUser.nickname);
   
   return (
     <div>

@@ -17,8 +17,8 @@ const IconCard = ({
     type,
 }: IconCardProps) => {
     
-    const cartCount = useSelector((state: RootState) => state.user.cartCount);
-    const heartCount = useSelector((state: RootState) => state.user.heartCount);
+    const cartCount = useSelector((state: RootState) => state.currentUser.cartCount);
+    const heartCount = useSelector((state: RootState) => state.currentUser.heartCount);
     const navigate = useNavigate();
 
     let typeCount: number | undefined;
