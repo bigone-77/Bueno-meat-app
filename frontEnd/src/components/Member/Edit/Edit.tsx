@@ -10,10 +10,6 @@ const Edit = () => {
     const editUserData = useSelector((state: RootState) => state.editUser);
     const dispatch = useDispatch();
     
-    // const { response } = useGetFetchedData({
-    //     method: "get",
-    //     url: `http://localhost:8080/mypage/${userId}`
-    // });
     const { response } = useGetFetchedData({
         method: "get",
         url: `/mypage/${userId}`

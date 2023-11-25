@@ -1,43 +1,58 @@
-import { Dispatch, SetStateAction } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../../utils/Input";
-import { FieldValues, useForm } from "react-hook-form";
+import { Dispatch, SetStateAction, useState } from "react";
 import Button from "../../utils/Button";
 
-interface UpdateFieldProps {
+export interface UpdateFieldProps {
+    prevValue?: string;
     fieldName: string;
-    showEdit: boolean;
     setShowEdit: Dispatch<SetStateAction<boolean>>
 }
 
 const UpdateField = ({
+    prevValue,
     fieldName,
-    showEdit,
-    setShowEdit
+    setShowEdit,
 }: UpdateFieldProps) => {
-    
+    const [isLoading, setIsLoading] = useState(false);
 
-
-    const { register, control, handleSubmit, setValue, formState: {
+    const { register, handleSubmit, formState: {
         errors
     }} = useForm<FieldValues>({
         defaultValues: {
-            fieldName: fieldName,
+
         }
     })
 
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        setIsLoading(true);
+
+        console.log(data);
+
+        setIsLoading(false);
+        setShowEdit(false)
+    }
 
     return (
-        <div>
-            <Input 
-                id={fieldName}
-                label={fieldName.toUpperCase()}
-                type={fieldName === "pw" ? 'password' : 'text'}
-                register={register}
-                errors={errors}
-                required
-            />
-            <button onClick={() => setShowEdit(false)}>취소</button>
-            <Button label="완료" />
+        <div className="w-[360px]">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex items-center gap-5">
+                    <label className="w-full">{`신규 ${fieldName}`}</label>
+                    <Input 
+                        id={`신규 ${fieldName}`}
+                        type="text"
+                        disabled={isLoading}
+                        register={register}
+                        errors={errors}
+                        required
+                    />
+                </div>
+                <p className="mt-5 font-light text-gray-400 ">{`기존 ${fieldName}: ${prevValue}`}</p>
+                <div className="flex w-1/2 gap-2 mt-10">
+                    <button onClick={() => setShowEdit(false)}>취소</button>
+                    <Button label="완료" />
+                </div>
+            </form>
         </div>
     )
 }
