@@ -30,4 +30,27 @@ public class MyPageController {
         return memberService.updatePw(id, updatePwDto);
     }
 
+    //--회원이름 수정--//
+    @PatchMapping("/{id}/username")
+    public ResponseEntity<String> updateUsername(@PathVariable Long id, @RequestBody UpdateDto.updateUsernameDto updateUsernameDto) {
+        return memberService.updateUsername(id, updateUsernameDto);
+    }
+
+    //--회원 닉네임 수정--//
+    @PatchMapping("/{id}/nickname")
+    public ResponseEntity<String> updateNickname(@PathVariable Long id, @RequestBody UpdateDto.updateNickname updateNicknameDto) {
+        return memberService.updateNickname(id, updateNicknameDto);
+    }
+
+    //--회원 전화번호 수정--//
+    @PatchMapping("/{id}/phone")
+    public ResponseEntity<String> updatePhone(@PathVariable Long id, @RequestBody UpdateDto.updatePhone updatePhoneDto) {
+        return memberService.updatePhone(id, updatePhoneDto);
+    }
+
+    //--회원 주소 수정--//
+    @PatchMapping("/{id}/address")
+    public ResponseEntity<String> updateAddress(@PathVariable Long id, @RequestBody UpdateDto.updateAddress updateAddressDto) {
+        return memberService.updateAddress(id, updateAddressDto);
+    }
 }
