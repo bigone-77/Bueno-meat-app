@@ -1,5 +1,8 @@
 import { useState } from "react";
+
+import UpdatePasswordField from "./UpdatePasswordField";
 import UpdateField from "./UpdateField";
+import UpdateZipcode from "./UpdateZipcode";
 
 interface EditInputProps {
     label: string;
@@ -31,13 +34,26 @@ const EditInput = ({
                     {`${label} 변경`}
                 </button>
                 </>}
-                {/* {showEdit && label === "비밀번호" && <EditPassword />} */}
+                
                 {showEdit && 
-                    <UpdateField 
-                        fieldName={label}
-                        showEdit={showEdit}
-                        setShowEdit={setShowEdit}
-                    />
+                    (label === "비밀번호" ? (
+                        <UpdatePasswordField 
+                            // prevValue={inputValue}
+                            fieldName={label}
+                            setShowEdit={setShowEdit}
+                        />
+                    ): label === "주소지" ? (
+                        <UpdateZipcode 
+                            prevValue={inputValue}
+                            fieldName={label}
+                            setShowEdit={setShowEdit}
+                        />
+                    ) : <UpdateField 
+                            prevValue={inputValue}
+                            fieldName={label}
+                            setShowEdit={setShowEdit}
+                        />
+                    )
                 }
             </div>
             <hr className="my-5 h-0.5"/>

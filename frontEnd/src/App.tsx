@@ -36,8 +36,7 @@ function App() {
   return (
     <div>
       <Routes>
-        {/* <Route path='/auth/join' element={<JoinPage />} />
-        <Route path='/auth/login' element={<LoginPage />} /> */}
+        
         <Route path='/auth'>
           <Route path='join' element={<JoinPage />} />
           <Route path='login' element={<LoginPage />} />

@@ -12,6 +12,7 @@ import { useLogin } from "../../../hooks/auth/useLogin";
 
 
 
+
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useLogin();
@@ -27,8 +28,8 @@ const LoginPage = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        const { email, pw } = data;
-        login(email, pw);
+        login(data);
+            
         setIsLoading(false);
     }
     
@@ -59,16 +60,17 @@ const LoginPage = () => {
                 </p>
                 <form className="flex flex-col justify-center gap-10 min-w-[350px]" onSubmit={handleSubmit(onSubmit)}>
                     <Input 
-                        id="id"
-                        label='ID'
+                        id="email"
+                        label='EMAIL'
                         disabled={isLoading}
                         register={register}
                         errors={errors}
-                        message="Please enter an ID"
+                        type="email"
+                        message="Please enter an EMAIL"
                         required
                     />
                     <Input 
-                        id="password"
+                        id="pw"
                         label='Password'
                         disabled={isLoading}
                         register={register}

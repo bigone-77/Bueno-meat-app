@@ -27,10 +27,7 @@ const Row = ({
 
     useEffect(() => {
         dispatch(setProduct(response?.data));
-    },[]);
-
-    console.log(response);
-        
+    },[response]);
         
     return (
         <div className="px-10">
