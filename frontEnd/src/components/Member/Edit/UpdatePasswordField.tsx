@@ -7,7 +7,7 @@ import { UpdateFieldProps } from "./UpdateField";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux";
 import axios from "axios";
-import { setEditUser, updateField } from "../../../redux/slices/memberEditSlice";
+import { updateField } from "../../../redux/slices/memberEditSlice";
 
 const UpdatePasswordField = ({
     fieldName,

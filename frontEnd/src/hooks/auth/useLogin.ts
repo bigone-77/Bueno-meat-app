@@ -27,19 +27,7 @@ export const useLogin = () => {
             .catch(error => {
                 console.log(error);
             });
-        // axios.get(requests.login)
-        //     .then(response => {
-        //         console.log(response);
-                
-        //         dispatch(setCurrentUser({
-        //             id: response.data[0].id,
-        //             nickname: response.data[0].nickname,
-        //             cartCount: response.data[0].cartCount,
-        //             heartCount: response.data[0].heartCount,
-        //         }));
-        //         navigate('/');
-        //     })
-            
+        
     };
     return { login };
 }

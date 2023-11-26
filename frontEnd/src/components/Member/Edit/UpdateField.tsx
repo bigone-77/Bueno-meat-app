@@ -44,8 +44,6 @@ const UpdateField = ({
                 console.log(error);
                 
             })
-        
-        
         setIsLoading(false);
         setShowEdit(false)
     }
