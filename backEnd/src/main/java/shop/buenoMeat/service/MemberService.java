@@ -54,7 +54,38 @@ public class MemberService {
         }
     }
 
+    //--회원이름 수정--//
+    @Transactional
+    public ResponseEntity<String> updateUsername(Long id, UpdateDto.updateUsernameDto updateUsernameDto) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.changeUserName(updateUsernameDto.getUsername());
+        return ResponseEntity.ok("회원이름 변경이 완료되었습니다.");
+    }
 
+    //--회원 닉네임 수정--//
+    @Transactional
+    public ResponseEntity<String> updateNickname(Long id, UpdateDto.updateNickname updateNicknameDto) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.changeNickname(updateNicknameDto.getNickname());
+        return ResponseEntity.ok("회원닉네임 변경이 완료되었습니다.");
+    }
+
+    //--회원 전화번호 수정--//
+    @Transactional
+    public ResponseEntity<String> updatePhone(Long id, UpdateDto.updatePhone updatePhoneDto) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.changePhone(updatePhoneDto.getPhone());
+        return ResponseEntity.ok("회원전화번호 변경이 완료되었습니다.");
+    }
+
+    //--회원 주소 수정--//
+    @Transactional
+    public ResponseEntity<String> updateAddress(Long id, UpdateDto.updateAddress updateAddressDto) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.changeAddress(updateAddressDto.getAddress());
+        findMember.changeDetailAddress(updateAddressDto.getDetailAddress());
+        return ResponseEntity.ok("회원주소 변경이 완료되었습니다.");
+    }
 
     //--중복 회원 검증--//
     private void validateDuplicateMember(Member member) {
