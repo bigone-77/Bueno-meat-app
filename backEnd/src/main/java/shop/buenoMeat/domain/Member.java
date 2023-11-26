@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import shop.buenoMeat.dto.MemberJoinDto;
+import shop.buenoMeat.dto.MemberDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -50,15 +50,15 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<WishList> wishLists = new ArrayList<>();
 
-    public static Member createMember(MemberJoinDto memberJoinDto) {
+    public static Member createMember(MemberDto memberDto) {
         Member member = new Member();
-        member.username = memberJoinDto.getUsername();
-        member.pw = memberJoinDto.getPw();
-        member.email = memberJoinDto.getEmail();
-        member.phone = memberJoinDto.getPhone();
-        member.nickname = memberJoinDto.getNickname();
-        member.address = memberJoinDto.getAddress();
-        member.detailAddress = memberJoinDto.getDetailAddress();
+        member.username = memberDto.getUsername();
+        member.pw = memberDto.getPw();
+        member.email = memberDto.getEmail();
+        member.phone = memberDto.getPhone();
+        member.nickname = memberDto.getNickname();
+        member.address = memberDto.getAddress();
+        member.detailAddress = memberDto.getDetailAddress();
         member.role = MemberRole.NORMAL;
         member.point = 1000;
         return member;
