@@ -12,7 +12,7 @@ const initialState = {
 } as UserProps;
 
 const editUserDataSlice = createSlice({
-    name: "editData",
+    name: "editUser",
     initialState,
     reducers: {
         setEditUser: (state, action: PayloadAction<UserProps>) => {
@@ -24,9 +24,12 @@ const editUserDataSlice = createSlice({
             state.address = action.payload.address;
             state.detailAddress = action.payload.detailAddress;
         },
+        updateField: (state, action: PayloadAction<Partial<UserProps>>) => {
+            Object.assign(state, action.payload);
+        }
     }
 })
 
-export const { setEditUser } = editUserDataSlice.actions;
+export const { setEditUser, updateField } = editUserDataSlice.actions;
 
 export default editUserDataSlice.reducer;

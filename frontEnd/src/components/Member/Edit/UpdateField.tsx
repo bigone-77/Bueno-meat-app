@@ -2,6 +2,10 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../../utils/Input";
 import { Dispatch, SetStateAction, useState } from "react";
 import Button from "../../utils/Button";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux";
+import { updateField } from "../../../redux/slices/memberEditSlice";
 
 export interface UpdateFieldProps {
     prevValue?: string;
@@ -14,6 +18,9 @@ const UpdateField = ({
     fieldName,
     setShowEdit,
 }: UpdateFieldProps) => {
+    const userId = useSelector((state: RootState) => state.currentUser.id);
+    const dispatch = useDispatch();
+
     const [isLoading, setIsLoading] = useState(false);
 
     const { register, handleSubmit, formState: {
@@ -26,9 +33,19 @@ const UpdateField = ({
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-
-        console.log(data);
-
+        
+        axios.patch(`/mypage/${userId}/${Object.keys(data)[0]}`, data)
+            .then((response) => {
+                console.log(response);
+                dispatch(updateField(data));
+                
+            })
+            .catch((error) => {
+                console.log(error);
+                
+            })
+        
+        
         setIsLoading(false);
         setShowEdit(false)
     }
@@ -39,7 +56,7 @@ const UpdateField = ({
                 <div className="flex items-center gap-5">
                     <label className="w-full">{`신규 ${fieldName}`}</label>
                     <Input 
-                        id={`신규 ${fieldName}`}
+                        id={`${fieldName === "이름(실명)" ? "username" : fieldName === "닉네임" ? "nickname" : "phone"}`}
                         type="text"
                         disabled={isLoading}
                         register={register}

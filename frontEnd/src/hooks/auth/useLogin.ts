@@ -13,9 +13,14 @@ export const useLogin = () => {
     const login = async (data: FieldValues) => {
         axios.post(requests.login, data)
             .then(response => {
-                // dispatch(setCurrentUser({
-                //     nickname: response.data.nickname,
-                // }));
+                console.log(response.data.message);
+                
+                dispatch(setCurrentUser({
+                    id: response.data.id,
+                    nickname: response.data.nickname,
+                }));
+                console.log(response);
+                
                 navigate('/');
 
             })

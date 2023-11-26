@@ -17,18 +17,15 @@ const Edit = () => {
     
     useEffect(() => {
         dispatch(setEditUser({
-            email: response?.data[0].email,
-            pw: response?.data[0].pw,
-            username: response?.data[0].username,
-            phone: response?.data[0].phone,
-            nickname: response?.data[0].nickname,
-            address: response?.data[0].address,
-            detailAddress: response?.data[0].detailAddress
+            email: response?.data.email,
+            pw: response?.data.pw,
+            username: response?.data.username,
+            phone: response?.data.phone,
+            nickname: response?.data.nickname,
+            address: response?.data.address,
+            detailAddress: response?.data.detailAddress
         }));
     }, [response])
-
-    
-    
     
 
     return (

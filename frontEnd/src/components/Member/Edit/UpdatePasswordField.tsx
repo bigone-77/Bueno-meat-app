@@ -4,6 +4,10 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../../utils/Input";
 import Button from "../../utils/Button";
 import { UpdateFieldProps } from "./UpdateField";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux";
+import axios from "axios";
+import { setEditUser, updateField } from "../../../redux/slices/memberEditSlice";
 
 const UpdatePasswordField = ({
     fieldName,
@@ -12,6 +16,9 @@ const UpdatePasswordField = ({
     const [isLoading, setIsLoading] = useState(false);
     const [checkedPw, setCheckedPw] = useState('');
 
+    const userId = useSelector((state: RootState) => state.currentUser.id);
+    const dispatch = useDispatch();
+
     const { register, handleSubmit, getValues, setValue, formState: {
         errors
     }} = useForm<FieldValues>({
@@ -19,18 +26,27 @@ const UpdatePasswordField = ({
             
         }
     })
-
-    // console.log(fieldName); // fieldName은 비밀번호
+    
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        if (checkedPw !== getValues(`신규 ${fieldName}`)) {
+        if (checkedPw !== getValues("newPw")) {
             alert("신규 비밀번호와 재입력 비밀번호가 같지 않습니다");
             setCheckedPw('');
-            setValue(`신규 ${fieldName}`, '');
+            setValue("newPw", '');
             // post axios 코드
         }
-        // console.log(getValues(`신규 ${fieldName}`)); 신규 비밀번호 값을 뱉음
+        
+        axios.patch(`/mypage/${userId}/password`, data)
+            .then((response) => {
+                const { newPw } = data;
+                dispatch(updateField(newPw));
+            })
+            .catch((error) => {
+                console.log(error);
+                
+            })
+        
         setIsLoading(false);
         setShowEdit(false)
     }
@@ -44,7 +60,7 @@ const UpdatePasswordField = ({
                         현재 비밀번호
                     </label>
                     <Input
-                        id={`현재 ${fieldName}`}
+                        id="pw"
                         type="password"
                         disabled={isLoading}
                         register={register}
@@ -57,7 +73,7 @@ const UpdatePasswordField = ({
                         신규 비밀번호
                     </label>
                     <Input 
-                        id={`신규 ${fieldName}`}
+                        id="newPw"
                         type='password'
                         disabled={isLoading}
                         register={register}
