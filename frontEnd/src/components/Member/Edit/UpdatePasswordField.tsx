@@ -34,7 +34,7 @@ const UpdatePasswordField = ({
             alert("신규 비밀번호와 재입력 비밀번호가 같지 않습니다");
             setCheckedPw('');
             setValue("newPw", '');
-            // post axios 코드
+            
         }
         
         axios.patch(`/mypage/${userId}/password`, data)
