@@ -4,7 +4,7 @@ import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface InputProps {
     id: string;
-    label: string;
+    label?: string;
     type?: string;
     disabled?: boolean;
     register: UseFormRegister<FieldValues>;
@@ -29,7 +29,7 @@ const Input:React.FC<InputProps> = ({
 }) => {
     const hasError = errors[id] !== undefined;
     return (
-        <div className='relative w-full bg-zinc-300'>
+        <div className='relative w-full'>
             {hasError && <p className='absolute text-sm font-semibold text-rose-500 -bottom-5'>{message}</p>}
             <input 
                 id={id}
@@ -52,7 +52,6 @@ const Input:React.FC<InputProps> = ({
                     outline-none
                     transition
                     disabled: opacity-70
-                    disabled: cursor-not-allowed
                     ${errors[id] ? 'border-rose-500' : 'border-black'}
                     ${errors[id] ? 'focus: border-rose-500' : 'focus: border-black'}
                 `}

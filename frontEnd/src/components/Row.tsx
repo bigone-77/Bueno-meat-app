@@ -1,11 +1,11 @@
-import { useCallback, useEffect } from "react";
-import axios from "axios";
 import ProductCard from "./ProductCard";
 
 import { AiFillFire } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
 import { setProduct } from "../redux/slices/productSlice";
+import useGetFetchedData from "../hooks/useGetFetchedData";
+import { useEffect } from "react";
 
 interface RowProps {
     title: string;
@@ -19,21 +19,15 @@ const Row = ({
 
     const dispatch = useDispatch();
     const products = useSelector((state: RootState) => state.product);
-    
-    const fetchProductData = useCallback(async () => {
-        try {
-            const response = await axios.get(`${fetchUrl}`);
-            console.log(response.data.length);
-            
-            dispatch(setProduct(response.data))
-        } catch (error) {
-            console.error("Error fetching product data:", error);
-        }
-    }, [fetchUrl, dispatch]);
-    
+
+    const { response } = useGetFetchedData({
+        method: "get",
+        url: fetchUrl,
+    });
+
     useEffect(() => {
-        fetchProductData();
-    }, [fetchProductData])
+        dispatch(setProduct(response?.data));
+    },[response]);
         
     return (
         <div className="px-10">

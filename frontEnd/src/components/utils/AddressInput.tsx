@@ -4,7 +4,7 @@ import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import DaumPostcode, { Address } from "react-daum-postcode";
 
 interface AddressInputProps {
-    label: string;
+    label?: string;
     register: UseFormRegister<FieldValues>;
     setValue: UseFormSetValue<FieldValues>;
     message?: string;
@@ -53,7 +53,6 @@ const AddressInput:React.FC<AddressInputProps> = ({
                         border-2 
                         border-black 
                         rounded-md
-                        bg-zinc-200
                     `}
                     type="text"
                     {...register('address', { required })}

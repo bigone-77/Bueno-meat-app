@@ -1,22 +1,25 @@
 import { IconType } from 'react-icons';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux';
+import { useNavigate } from 'react-router-dom';
 
 interface IconCardProps {
     label: string;
+    path?: string;
     icon: IconType;
     type?: string; 
-    selected?: boolean;
 }
 
 const IconCard = ({
     label,
+    path,
     icon: Icon,
-    type
+    type,
 }: IconCardProps) => {
     
-    const cartCount = useSelector((state: RootState) => state.user.cartCount);
-    const heartCount = useSelector((state: RootState) => state.user.heartCount);
+    const cartCount = useSelector((state: RootState) => state.currentUser.cartCount);
+    const heartCount = useSelector((state: RootState) => state.currentUser.heartCount);
+    const navigate = useNavigate();
 
     let typeCount: number | undefined;
     if (type?.includes('shopping')) {
@@ -29,7 +32,12 @@ const IconCard = ({
     
     
     return (
-        <div className='flex flex-col relative items-center justify-center px-2 py-1 transition-all border-2 rounded-lg text-center cursor-pointer border-zinc-800 hover:bg-zinc-300 w-[100px] h-[100px]'>
+        <div 
+            className='flex flex-col relative items-center justify-center px-2 py-1 transition-all border-2 rounded-lg text-center cursor-pointer border-zinc-800 hover:bg-zinc-300 w-[100px] h-[100px]'
+            onClick={() => {
+                navigate(`/member/mypage/${path}`)
+            }}
+        >
             <span className='flex gap-2'>
                 <Icon size={30} />
                 {type && typeCount !== 0 && 

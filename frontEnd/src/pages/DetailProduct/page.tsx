@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom'
-import Container from '../../components/Container'
+import Container from '../../components/utils/Container'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import EmptyState from '../../components/EmptyState';
 import SubDiv from '../../components/SubDiv';
 import ProductLabel from '../../components/ProductLabel';
-import CountButton from '../../components/CountButton';
+import CountButton from '../../components/utils/CountButton';
 import React, { useState } from 'react';
 
 import { IoIosArrowForward } from "react-icons/io";
-import SelectedBox from '../../components/SelectedBox';
-import useExtractedNumber from '../../hooks/useExtractedNumber';
+import SelectedBox from '../../components/utils/SelectedBox';
+import useExtractedNumber from '../../utils/useExtractedNumber';
 
 const ProductDetailPage = () => {
     const [showTable, setShowTable] = useState(false);
