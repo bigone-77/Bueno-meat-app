@@ -48,7 +48,7 @@ const UpdatePasswordField = ({
             })
         
         setIsLoading(false);
-        setShowEdit(false)
+        setShowEdit(false);
     }
 
 
