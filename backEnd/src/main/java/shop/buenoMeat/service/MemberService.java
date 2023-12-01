@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
     //-- 회원가입 --//
