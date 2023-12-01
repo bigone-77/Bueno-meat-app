@@ -31,13 +31,13 @@ export const Categories = [
         id: 5,
         label: 'Fishery',
         icon: FaFish,
-        path: 'sea'
+        path: 'fish'
     },
     {
         id: 6,
         label: 'MealKit',
         icon: GiKnifeFork,
-        path: 'mealkit'
+        path: 'meal_kit'
     }
 ]
 

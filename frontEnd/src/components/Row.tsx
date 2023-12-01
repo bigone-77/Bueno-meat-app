@@ -37,9 +37,9 @@ const Row = ({
                     <span key={product.id}>
                         <ProductCard 
                             id={product.id}
-                            title={product.title}
+                            name={product.name}
                             price={product.price}
-                            imageURL={product.imageURL}
+                            image={product.image}
                             icon={AiFillFire}
                         />
                     </span>

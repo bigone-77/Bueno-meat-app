@@ -1,10 +1,10 @@
 export interface ProductProps {
     id?: number;
     category?: string;
-    title: string;
-    weightCount?: number;
+    name?: string;
+    weight?: number;
     weightUnit?: string;
-    description?: string;
+    info?: string;
     price: number;
-    imageURL: string;
+    image: string;
 }
