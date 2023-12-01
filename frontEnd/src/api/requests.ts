@@ -1,5 +1,5 @@
 const requests = {
-    hotBueno: "http://localhost:8080/products/hot",
+    // hotBueno: "http://localhost:8080/products/hot",
     newBueno: "products/new",
     saleBueno: "products/sale",
     login: "/auth/login",
