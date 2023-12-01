@@ -2,13 +2,14 @@ package shop.buenoMeat.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.buenoMeat.domain.Item;
 import shop.buenoMeat.domain.Member;
 
 @Setter
 @Getter
 public class ConvertToDto {
 
-    public MemberDto convertToMemberDto(Member member) {
+    public static MemberDto convertToMemberDto(Member member) {
         MemberDto memberDto = new MemberDto();
         memberDto.setPw(member.getPw());
         memberDto.setAddress(member.getAddress());
@@ -18,5 +19,18 @@ public class ConvertToDto {
         memberDto.setDetailAddress(member.getDetailAddress());
         memberDto.setUsername(member.getUsername());
         return memberDto;
+    }
+
+    public static ItemDto.itemHotAndCategoryDto convertToItemCategoryDto(Item item) {
+        return new ItemDto.itemHotAndCategoryDto(
+                item.getId(),
+                item.getCategory().getCategoryName(),
+                item.getName(),
+                item.getInfo(),
+                item.getImage(),
+                item.getPrice(),
+                item.getWeight(),
+                item.getWeightUnit()
+        );
     }
 }
