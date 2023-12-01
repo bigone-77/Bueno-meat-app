@@ -3,7 +3,6 @@ const requests = {
     newBueno: "products/new",
     saleBueno: "products/sale",
     login: "/auth/login",
-    // login:"http://localhost:8080/auth/login",
     join: "/auth/join",
 }
 

@@ -33,7 +33,7 @@ const ProductDetailPage = () => {
     const detailProductData = productData.find((product) => product.id === parseInt(params.productId!)); 
 
     if (detailProductData) {
-        let { title, description, price, weightCount, weightUnit, imageURL } = detailProductData;
+        let { name, info, price, weight, weightUnit, image } = detailProductData;
 
         // 최종상품금액
         let resultPrice = extractedPrice === 0 ? price*count : (extractedPrice + price)*count;
@@ -42,15 +42,15 @@ const ProductDetailPage = () => {
             <Container>
                 <div className='grid grid-cols-1 gap-5 mt-56 sm:grid-cols-2'>
 
-                    <img src={imageURL} alt='product-img' className='w-[480px] h-[580px]' />
+                    <img src={image} alt='product-img' className='w-[480px] h-[580px]' />
 
                     
                     <div>
                         <hr className='w-full h-1 mb-10 bg-black' />
                         <section className='flex flex-col items-start justify-center gap-5'>
-                            <p className='text-3xl font-Cafe24Shiningstar'>{title}</p>
+                            <p className='text-3xl font-Cafe24Shiningstar'>{name}</p>
                             <hr/>
-                            <p className='font-semibold text-gray-500'>{description}</p>
+                            <p className='font-semibold text-gray-500'>{info}</p>
                             <hr />
                             <SubDiv 
                                 firstTitle="PRICE"
@@ -66,7 +66,7 @@ const ProductDetailPage = () => {
                                 <p>중량 선택</p>
                                 <SelectedBox 
                                     price={price}
-                                    weightCount={weightCount || 0} 
+                                    weightCount={weight || 0} 
                                     weightUnit={weightUnit || ''}
                                     selectedPlusPrice={selectedPlusPrice}
                                     handleSelect={handleSelect}

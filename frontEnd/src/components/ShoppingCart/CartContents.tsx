@@ -7,10 +7,10 @@ import { LiaWindowCloseSolid } from "react-icons/lia";
 import ConfirmCart from './ConfirmCart';
 
 const CartContents = ({
-    title,
-    imageURL,
+    name,
+    image,
     price,
-    description,
+    info,
 }: ProductProps) => {
     const [count, setCount] = useState(1);
 
@@ -19,15 +19,15 @@ const CartContents = ({
     return (
         <div>
             {!showConfirmCart && <>
-            <p className='my-5 text-2xl font-bold'>{title}</p>
+            <p className='my-5 text-2xl font-bold'>{info}</p>
             <hr className="h-1 bg-gray-200" />
             <section className='grid items-center grid-cols-2 gap-2 mt-4'>
-                <img src={imageURL} alt='product-img' className='rounded-md w-44 h-52'/>
-                <p className='font-semibold text-slate-200'>{description}</p>
+                <img src={image} alt='product-img' className='rounded-md w-44 h-52'/>
+                <p className='font-semibold text-slate-200'>{info}</p>
             </section>
             <hr className="h-1 my-5 bg-gray-200" />
             <section className='flex items-center justify-between'>
-                <p>{title}</p>
+                <p>{name}</p>
                 
                 <div className='grid items-center grid-cols-3 gap-2'>
                     <div className='flex items-center gap-5'>

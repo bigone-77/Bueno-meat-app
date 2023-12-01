@@ -9,9 +9,9 @@ interface ProductCardProps extends ProductProps {
 
 const ProductCard = ({
     id,
-    title,
+    name,
     price,
-    imageURL,
+    image,
     icon: Icon 
 }: ProductCardProps) => {
 
@@ -29,11 +29,11 @@ const ProductCard = ({
                         size={25} 
                         className="absolute top-2 left-3"
                     />
-                    <img src={imageURL} alt="bueno-img" className="px-2 pt-12 object-fit" />
+                    <img src={image} alt="bueno-img" className="px-2 pt-12 object-fit" />
                     
                 </div>
                 <span className="flex flex-col items-start justify-center mt-4">
-                    <p className="text-2xl font-bold">{title}</p>
+                    <p className="text-2xl font-bold">{name}</p>
                     <p className="font-semibold text-zinc-700">{`${price}원`}</p>
                 </span>
             </div>
