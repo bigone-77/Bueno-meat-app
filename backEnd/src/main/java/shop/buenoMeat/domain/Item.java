@@ -52,8 +52,7 @@ public class Item {
     @Column(nullable = false, length = 1000)
     private String image;
 
-    private Integer soldQuantity; // 판매수량, 판매량이 없는경우 0
-
+    private Integer soldQuantity; // 판매수량, 판매량이 없는 경우 0
 
     /***
      * 재고 감소
@@ -66,3 +65,4 @@ public class Item {
         this.quantity = remainStock;
     }
 }
+
