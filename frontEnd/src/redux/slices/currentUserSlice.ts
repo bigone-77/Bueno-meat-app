@@ -3,15 +3,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 export interface CurrentUserState {
     id: number;
     nickname: string;
-    cartCount?: number;
-    heartCount?: number;
+    favorites: number[];
+    // cartList: number[];
 }
 
 const initialState = {
     id: 0,
     nickname: "",
-    // cartCount: 0,
-    // heartCount: 0,
+    favorites: [],
+    // cartList: [],
 } as CurrentUserState
 
 const currentUserSlice = createSlice({
@@ -21,18 +21,21 @@ const currentUserSlice = createSlice({
         setCurrentUser: (state, action: PayloadAction<CurrentUserState>) => {
             state.id = action.payload.id;
             state.nickname = action.payload.nickname;
-            // state.cartCount = action.payload.cartCount;
-            // state.heartCount = action.payload.heartCount;
+            // state.cartList = action.payload.cartList;
+            state.favorites = action.payload.favorites;
         },
         removeCurrentUser: (state) => {
             state.id = 0;
             state.nickname = "";
-            // state.cartCount = 0;
-            // state.heartCount = 0;
+            // state.cartList = [];
+            state.favorites = [];
+        },
+        updateCurrentUserNickname: (state, action: PayloadAction<Partial<CurrentUserState>>) => {
+            Object.assign(state, action.payload);
         }
     }
 })
 
-export const { setCurrentUser, removeCurrentUser } = currentUserSlice.actions;
+export const { setCurrentUser, removeCurrentUser, updateCurrentUserNickname } = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

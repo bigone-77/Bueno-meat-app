@@ -4,8 +4,8 @@ import { AiFillFire } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
 import { setProduct } from "../redux/slices/productSlice";
-import useGetFetchedData from "../hooks/useGetFetchedData";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import axios from "axios";
 
 interface RowProps {
     title: string;
@@ -20,14 +20,14 @@ const Row = ({
     const dispatch = useDispatch();
     const products = useSelector((state: RootState) => state.product);
 
-    const { response } = useGetFetchedData({
-        method: "get",
-        url: fetchUrl,
-    });
+    const fetchData = useCallback(async () => {
+        const response = await axios.get(fetchUrl);
+        dispatch(setProduct(response?.data));
+    }, [fetchUrl]);
 
     useEffect(() => {
-        dispatch(setProduct(response?.data));
-    },[response]);
+        fetchData();
+    }, [fetchData]);
     
     return (
         <div className="px-10">

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux";
 import { updateField } from "../../../redux/slices/memberEditSlice";
+import { updateCurrentUserNickname } from "../../../redux/slices/currentUserSlice";
 
 export interface UpdateFieldProps {
     prevValue?: string;
@@ -38,7 +39,7 @@ const UpdateField = ({
             .then((response) => {
                 console.log(response);
                 dispatch(updateField(data));
-                
+                dispatch(updateCurrentUserNickname(data));
             })
             .catch((error) => {
                 console.log(error);

@@ -17,13 +17,13 @@ const IconCard = ({
     type,
 }: IconCardProps) => {
     
-    const cartCount = useSelector((state: RootState) => state.currentUser.cartCount);
-    const heartCount = useSelector((state: RootState) => state.currentUser.heartCount);
+    // const cartCount = useSelector((state: RootState) => state.currentUser.cartList?.length);
+    const heartCount = useSelector((state: RootState) => state.currentUser.favorites?.length);
     const navigate = useNavigate();
 
     let typeCount: number | undefined;
     if (type?.includes('shopping')) {
-        typeCount = cartCount;
+        // typeCount = cartCount;
     }
 
     if (type?.includes('heart')) {
@@ -31,11 +31,19 @@ const IconCard = ({
     }
     
     
+    
     return (
         <div 
             className='flex flex-col relative items-center justify-center px-2 py-1 transition-all border-2 rounded-lg text-center cursor-pointer border-zinc-800 hover:bg-zinc-300 w-[100px] h-[100px]'
             onClick={() => {
-                navigate(`/member/mypage/${path}`)
+                if (path === 'orderlist' 
+                || path === 'cart' 
+                || path === 'wishlist') {
+                    navigate(`/member/mypage/${path}`);
+                } else {
+                    navigate(`/category/${path}`);
+                }
+                
             }}
         >
             <span className='flex gap-2'>
