@@ -21,6 +21,7 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String categoryName;
+    private CategoryName categoryName; // PIG,COW,CHICKEN,SHEEP,FISH,MEAL_KIT
 }

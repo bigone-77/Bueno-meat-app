@@ -28,7 +28,7 @@ const Row = ({
     useEffect(() => {
         dispatch(setProduct(response?.data));
     },[response]);
-    
+        
     return (
         <div className="px-10">
             <p className="mb-10 text-5xl font-Cafe24Shiningstar">{title}</p>
