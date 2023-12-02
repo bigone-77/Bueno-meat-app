@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import shop.buenoMeat.exception.NotEnoughStockException;
 
 import javax.persistence.*;
+<<<<<<< HEAD
+=======
+import java.time.LocalDateTime;
+>>>>>>> main
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,17 +39,33 @@ public class Item {
     private String info;
 
     @Column(nullable = false)
+<<<<<<< HEAD
     private String price;
+=======
+    private int price;
+>>>>>>> main
 
     @Column(nullable = false)
     private String weight;
 
+<<<<<<< HEAD
     private int quantity;
 
     @Column(nullable = false)
     private String enrolled; // 상품등록일
 
     @Column(nullable = false)
+=======
+    @Column(nullable = false)
+    private String weightUnit;
+
+    private int quantity;
+
+    @Column(nullable = false)
+    private LocalDateTime enrolled;
+
+    @Column(nullable = false, length = 1000)
+>>>>>>> main
     private String image;
 
     private Integer soldQuantity; // 판매수량, 판매량이 없는경우 0
