@@ -4,7 +4,7 @@ const useScroll = (): boolean => {
     const [show, setShow] = useState(false);
 
     const handleScroll = () => {
-        if (window.scrollY > 100) {
+        if (window.scrollY > 80) {
             setShow(true);
         }   else {
             setShow(false);

@@ -28,6 +28,6 @@
   }
 
   th, td {
-    @apply border-r border-black font-light text-gray-500 px-2 py-2
+    @apply border-black font-light text-black px-2 py-2
   }
 }

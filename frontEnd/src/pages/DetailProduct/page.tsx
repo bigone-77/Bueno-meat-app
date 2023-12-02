@@ -4,28 +4,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import EmptyState from '../../components/EmptyState';
 import SubDiv from '../../components/SubDiv';
-import ProductLabel from '../../components/ProductLabel';
-import CountButton from '../../components/utils/CountButton';
-import React, { useState } from 'react';
-
-import { IoIosArrowForward } from "react-icons/io";
-import SelectedBox from '../../components/utils/SelectedBox';
-import useExtractedNumber from '../../utils/useExtractedNumber';
+import ProductWeightOption from '../../components/ProductWeightOption';
 
 const ProductDetailPage = () => {
-    const [showTable, setShowTable] = useState(false);
-    const [selectedPlusPrice, setSelectedPlusPrice] = useState('');
-    const [count, setCount] = useState(1);
-
-
-    const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedPlusPrice(e.target.value);
-        setShowTable(true);
-    }
-
-    let extractedPrice = 0;
-    extractedPrice = useExtractedNumber(selectedPlusPrice);
-
 
     const params = useParams();
     const productData = useSelector((state: RootState) => state.product);
@@ -34,9 +15,6 @@ const ProductDetailPage = () => {
 
     if (detailProductData) {
         let { name, info, price, weight, weightUnit, image } = detailProductData;
-
-        // 최종상품금액
-        let resultPrice = extractedPrice === 0 ? price*count : (extractedPrice + price)*count;
         
         return (
             <Container>
@@ -61,55 +39,12 @@ const ProductDetailPage = () => {
                                 subTitle='1%'
                             />
                             <hr />
-                            <span className='flex items-center justify-center'>
-                                <IoIosArrowForward />
-                                <p>중량 선택</p>
-                                <SelectedBox 
-                                    price={price}
-                                    weightCount={weight || 0} 
-                                    weightUnit={weightUnit || ''}
-                                    selectedPlusPrice={selectedPlusPrice}
-                                    handleSelect={handleSelect}
-                                />
-                            </span>
-                            <hr />
-                            <p className='text-sm font-semibold text-gray-500'>최소주문수량 1개 이상</p>
-                            {showTable && <table className='w-full border-2 border-b-0 border-collapse border-black rounded-md'>
-                                <thead>
-                                    <tr>
-                                        <td>상품명</td>
-                                        <td>상품수</td>
-                                        <td>가격</td>
-                                    </tr>
-                                </thead>
-                                <tbody className='border-transparent border-none'>
-                                    <tr>
-                                        <td>
-                                            <ProductLabel
-                                                selectedOption={selectedPlusPrice}
-                                            />
-                                        </td>
-                                        <td>
-                                            <CountButton
-                                                count={count}
-                                                setCount={setCount}
-                                            />
-                                        </td>
-                                        <td className='flex items-center gap-2 text-xl font-Cafe24Shiningstar'>
-                                            <p>{resultPrice}원</p>
-                                            <p>({resultPrice/100} Point)</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>}
-                            <hr />
-                            {showTable && <>
-                                <span className='flex items-center justify-end w-full'>TOTAL: 
-                                    <p className='pl-2 text-lg font-bold'>{resultPrice}</p>
-                                    원 ({count}개)
-                                </span>
-                                <hr />
-                            </>}
+                            
+                            <ProductWeightOption 
+                                price={price}
+                                weight={weight}
+                                weightUnit={weightUnit}
+                            />
                             
                             <span className='grid w-full grid-cols-3 gap-3'>
                                 <button className='bg-blue-500'>바로구매</button>

@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useParams } from "react-router-dom";
 import MainNavbar from "./components/MainNav";
 import JoinPage from "./pages/Auth/JoinPage/page";
 import LoginPage from "./pages/Auth/LoginPage/page";
@@ -23,15 +23,16 @@ function App() {
   }
 
   const MemberLayout = () => {
+    const params = useParams();
     return (
       <div>
-        <MemberNav />
+        <MemberNav params={params}/>
         <Outlet />
       </div>
     )
   }
 
-  const currentUser = useSelector((state: RootState) => state.currentUser.nickname);
+  const currentUser = useSelector((state: RootState) => state.currentUser.id);
   
   return (
     <div>
@@ -47,10 +48,10 @@ function App() {
           <Route path='/products/:productId' element={<ProductDetailPage />} />
           <Route path='/category/:path' element={<CategoryPage />} />
 
-          {currentUser && 
+          {currentUser ?
           <Route path='/member/mypage/:path' element={<MemberLayout />}>
             <Route index element={<MyPage />} />
-          </Route>
+          </Route>  :  <Route path='/member/mypage/:path' element={<Navigate to="/auth/login" />} />
           }
 
         </Route>

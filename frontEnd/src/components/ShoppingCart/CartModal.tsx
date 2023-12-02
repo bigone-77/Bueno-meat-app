@@ -25,7 +25,7 @@ const CartModal = ({ setShowModal, productId }: Props) => {
         <div className='absolute z-30 w-full'> 
             <div className='fixed inset-0 flex justify-center'>
                 <div 
-                    className='relative my-20 overflow-y-scroll duration-300 ease-in-out rounded-lg w-[580px] animate-fadeIn bg-slate-500'
+                    className='relative my-20 overflow-y-scroll duration-300 ease-in-out rounded-lg w-[580px] h-[550px] animate-fadeIn bg-slate-300'
                     ref={ref}
                 >
                     <span
@@ -42,9 +42,9 @@ const CartModal = ({ setShowModal, productId }: Props) => {
                         <p className="text-4xl font-Cafe24Shiningstar">Shopping cart</p>
                         <CartContents 
                             name={currentProductData.name}
-                            image={currentProductData?.image}
                             price={currentProductData.price}
-                            info={currentProductData?.info}
+                            weight={currentProductData.weight}
+                            weightUnit={currentProductData.weightUnit}
                         />
                         
                     </div>

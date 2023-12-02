@@ -7,6 +7,7 @@ const CategoryPage = () => {
     const params = useParams();
     
     const categoryName = params.path?.toUpperCase();
+    console.log(categoryName);
     
     return (
         <Container>

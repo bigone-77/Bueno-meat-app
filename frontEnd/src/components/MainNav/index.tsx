@@ -1,32 +1,27 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import Container from '../utils/Container';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ShowNavItems } from './NavItems';
 import CategoryModal from './CategoryModal';
 import { useState } from 'react';
 import useScroll from '../../utils/useScroll';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 
 import CategoriesBox from './CategoriesBox';
-import { removeCurrentUser } from '../../redux/slices/currentUserSlice';
+import { useLogout } from '../../hooks/auth/useLogout';
 
 
 
 const MainNavbar = () => {
     const [showModal, setShowModal] = useState(false);
     const show = useScroll();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { logout } = useLogout();
 
     const currentUserData = useSelector((state: RootState) => state.currentUser);
     const nickName = currentUserData.nickname;
 
-    const logoutHandler = () => {
-        dispatch(removeCurrentUser());
-        navigate('/');
-    }
     
     return (
         <Container>
@@ -37,7 +32,7 @@ const MainNavbar = () => {
                     </span>}
                     <ul className='flex items-center gap-4 text-sm font-light'>
                         {nickName ? <Link to='/member/mypage/edit'><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
-                        {nickName ? <li onClick={logoutHandler}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
+                        {nickName ? <li onClick={logout}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
                         <li>고객센터</li>
                     </ul>
                 </div>

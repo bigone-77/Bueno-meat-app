@@ -17,7 +17,7 @@ const CountButton = ({
     return (
         <div className="relative">
             <input 
-                className="w-32 pl-5 rounded-md outline"
+                className="w-32 pl-2 rounded-md outline"
                 value={count}
                 min='1'
                 readOnly
