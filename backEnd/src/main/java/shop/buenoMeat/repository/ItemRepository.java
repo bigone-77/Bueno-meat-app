@@ -16,6 +16,12 @@ public class ItemRepository {
 
     public Item findOne(Long id){return em.find(Item.class,id);} // 아이디로 상품 조회
 
+    public List<Item> findByItemName(String name) {
+        return em.createQuery("SELECT i FROM Item i WHERE i.name LIKE :itemName", Item.class)
+                .setParameter("itemName", "%" + name + "%")
+                .getResultList();
+    } // 검색어가 이름에 포함된 상품 조회
+
     public List<Item> findAll() {
         return em.createQuery("select i from Item i", Item.class)
                 .getResultList();

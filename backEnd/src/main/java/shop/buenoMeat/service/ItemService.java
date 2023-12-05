@@ -59,4 +59,18 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+
+    //-- 검색어로 상품 조회 --//
+    public Object searchItemByName(String name) {
+        List<Item> findItemByName = itemRepository.findByItemName(name);
+        if (findItemByName.size() != 0) {
+            return findItemByName.stream()
+                    .map(ConvertToDto::convertToSearchItemByNameDto)
+                    .collect(Collectors.toList());
+        } else {
+            return "검색결과가 존재하지 않습니다.";
+        }
+    }
+
+
 }
