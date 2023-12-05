@@ -2,10 +2,7 @@ package shop.buenoMeat.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import shop.buenoMeat.domain.CategoryName;
 import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.service.ItemService;
@@ -38,8 +35,9 @@ public class ItemController {
 
 
     //-- hot(판매량순) 상품 조회 --//
-    @GetMapping("/products/hot")
+    @GetMapping("/hot")
     public ResponseEntity<List<ItemDto.itemHotAndCategoryDto>> findHotItem() {
         return ResponseEntity.ok(itemService.findHotItems());
     }
+
 }

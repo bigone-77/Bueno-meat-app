@@ -35,4 +35,16 @@ public class ItemDto {
         private String weightUnit;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class mypageWishListDto {
+        private Long id;
+        private String name;
+        private String info;
+        private String image;
+        private int price;
+        private String weight;
+        private String weightUnit;
+    }
 }

@@ -33,4 +33,16 @@ public class ConvertToDto {
                 item.getWeightUnit()
         );
     }
+
+    public static ItemDto.mypageWishListDto convertToMyPageWishListDto(Item item) {
+        return new ItemDto.mypageWishListDto(
+                item.getId(),
+                item.getName(),
+                item.getInfo(),
+                item.getImage(),
+                item.getPrice(),
+                item.getWeight(),
+                item.getWeightUnit()
+        );
+    }
 }
