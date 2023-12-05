@@ -40,4 +40,11 @@ public class ItemController {
         return ResponseEntity.ok(itemService.findHotItems());
     }
 
+
+    //-- 검색어로 상품 조회 --//
+    @GetMapping("/search/{itemName}")
+    public ResponseEntity<Object> searchItem(@PathVariable("itemName") String name) {
+        return ResponseEntity.ok(itemService.searchItemByName(name));
+    }
+
 }

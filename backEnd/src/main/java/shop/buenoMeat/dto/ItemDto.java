@@ -47,4 +47,16 @@ public class ItemDto {
         private String weight;
         private String weightUnit;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class searchItemByNameDto {
+        private Long id;
+        private String image;
+        private int price;
+        private String name;
+        private String weight;
+        private String weightUnit;
+    }
 }

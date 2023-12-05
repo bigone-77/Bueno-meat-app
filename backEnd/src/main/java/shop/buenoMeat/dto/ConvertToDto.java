@@ -45,4 +45,15 @@ public class ConvertToDto {
                 item.getWeightUnit()
         );
     }
+
+    public static ItemDto.searchItemByNameDto convertToSearchItemByNameDto(Item item) {
+        return new ItemDto.searchItemByNameDto(
+                item.getId(),
+                item.getImage(),
+                item.getPrice(),
+                item.getName(),
+                item.getWeight(),
+                item.getWeightUnit()
+        );
+    }
 }
