@@ -23,4 +23,11 @@ public class WishList {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    public static WishList createWishList(Member member, Item item) {
+        WishList wishList = new WishList();
+        wishList.member = member;
+        wishList.item = item;
+        return wishList;
+    }
 }

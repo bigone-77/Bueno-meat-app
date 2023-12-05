@@ -8,9 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.Item;
 import shop.buenoMeat.domain.Member;
 import shop.buenoMeat.domain.WishList;
+import shop.buenoMeat.dto.ConvertToDto;
+import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.repository.ItemRepository;
 import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.repository.WishListRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -51,5 +57,17 @@ public class WishListService {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("찜 목록에 해당 상품이 존재하지 않습니다.");
         }
+    }
+
+    //-- 마이페이지 찜 목록 불러오기 --//
+    public List<ItemDto.mypageWishListDto> getWishListToMyPage(Long id) {
+        List<WishList> findWishLists = wishListRepository.findByMemberId(id);
+        List<Item> findItems = new ArrayList<>();
+        for (WishList findWishList : findWishLists) {
+            findItems.add(findWishList.getItem());
+        }
+        return findItems.stream()
+                .map(ConvertToDto::convertToMyPageWishListDto)
+                .collect(Collectors.toList());
     }
 }
