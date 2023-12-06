@@ -1,7 +1,7 @@
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { BsFillBagHeartFill } from 'react-icons/bs'
 import { CgProfile } from 'react-icons/cg'
-import IconCard from '../IconCard'
+import IconCard from '../utils/IconCard'
 
 
 const NavItems = [

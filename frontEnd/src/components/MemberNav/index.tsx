@@ -15,8 +15,6 @@ const MemberNav = ({ params }:  any) => {
     return (
         <div className='absolute left-0 w-52'>
             <ul className="flex flex-col gap-5 px-5 text-4xl text-gray-400 font-Cafe24Shiningstar">
-                <p className="mb-10 text-6xl text-black">My Bueno</p>
-                
                 {labels.map((label) => (
                     <span key={label}>
                         <Link to={`/member/mypage/${label.toLowerCase()}`}>

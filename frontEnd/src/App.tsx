@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "./redux";
 import MyPage from "./pages/member/MyPage/page";
 import MemberNav from "./components/MemberNav";
+import SearchPage from "./pages/SearchPage/page";
+import ToastProvider from "./components/utils/ToastProvider";
 
 
 function App() {
@@ -36,6 +38,7 @@ function App() {
   
   return (
     <div>
+      <ToastProvider />
       <Routes>
         
         <Route path='/auth'>
@@ -47,6 +50,7 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path='/products/:productId' element={<ProductDetailPage />} />
           <Route path='/category/:path' element={<CategoryPage />} />
+          <Route path='search' element={<SearchPage />}/>
 
           {currentUser ?
           <Route path='/member/mypage/:path' element={<MemberLayout />}>

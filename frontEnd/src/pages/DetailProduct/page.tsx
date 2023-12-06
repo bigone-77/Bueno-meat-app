@@ -2,8 +2,8 @@ import { useParams } from 'react-router-dom'
 import Container from '../../components/utils/Container'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import EmptyState from '../../components/EmptyState';
-import SubDiv from '../../components/SubDiv';
+import EmptyState from '../../components/utils/EmptyState';
+import SubDiv from '../../components/utils/SubDiv';
 import ProductWeightOption from '../../components/ProductWeightOption';
 
 const ProductDetailPage = () => {
