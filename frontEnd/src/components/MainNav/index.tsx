@@ -1,10 +1,10 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import Container from '../utils/Container';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShowNavItems } from './NavItems';
 import CategoryModal from './CategoryModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useScroll from '../../utils/useScroll';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
@@ -16,11 +16,23 @@ import { useLogout } from '../../hooks/auth/useLogout';
 
 const MainNavbar = () => {
     const [showModal, setShowModal] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    const navigate = useNavigate();
     const show = useScroll();
     const { logout } = useLogout();
 
     const currentUserData = useSelector((state: RootState) => state.currentUser);
     const nickName = currentUserData.nickname;
+
+    const searchHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setSearchValue(e.target.value);
+    }
+
+    useEffect(() => {
+        navigate(`/search?q=${searchValue}`);
+    }, [searchValue]);
+    
 
     
     return (
@@ -47,6 +59,8 @@ const MainNavbar = () => {
                         <input 
                             type='text'
                             className='w-auto px-2 py-1 outline-none'
+                            value={searchValue}
+                            onChange={searchHandler}
                         />
                         <span className='flex items-center justify-center h-[32px] w-[32px] bg-zinc-800'>
                             <AiOutlineSearch size={25} className='text-white' />

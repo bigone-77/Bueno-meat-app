@@ -9,12 +9,14 @@ interface ProductWeightOptionProps {
     price: number;
     weight?: number;
     weightUnit?: string;
+    setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ProductWeightOption = ({
     price, 
     weight,
     weightUnit,
+    setDisabled,
 }: ProductWeightOptionProps) => {
     const [showTable, setShowTable] = useState(false);
     const [selectedPlusPrice, setSelectedPlusPrice] = useState('');
@@ -22,6 +24,10 @@ const ProductWeightOption = ({
 
 
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        if (!e.target.value) {
+            setDisabled!(true);
+        }
+        setDisabled!(false);
         setSelectedPlusPrice(e.target.value);
         setShowTable(true);
     }
@@ -32,7 +38,7 @@ const ProductWeightOption = ({
     let resultPrice = extractedPrice === 0 ? price*count : (extractedPrice + price)*count;
     return (
         <>
-            <span className='flex items-center justify-center'>
+            <span className='flex items-center justify-center my-5'>
                 <IoIosArrowForward />
                 <p>중량 선택</p>
                 <SelectedBox 
@@ -43,9 +49,8 @@ const ProductWeightOption = ({
                     handleSelect={handleSelect}
                 />
             </span>
-
             <hr />
-            <p className='text-sm font-semibold text-gray-500'>최소주문수량 1개 이상</p>
+            <p className='my-4 text-sm font-semibold text-gray-500'>최소주문수량 1개 이상</p>
             {showTable && <table className='w-full border-2 border-b-0 border-collapse border-black rounded-md'>
                 <thead>
                     <tr>

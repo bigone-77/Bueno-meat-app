@@ -2,7 +2,7 @@ import { IconType } from "react-icons"
 import { ProductProps } from "../types/ProductProps"
 import CartButton from "./ShoppingCart/CartButton";
 import { useNavigate } from "react-router-dom";
-import HeartButton from "./HeartButton";
+import HeartButton from "./utils/HeartButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux";
 

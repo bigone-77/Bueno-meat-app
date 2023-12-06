@@ -1,4 +1,5 @@
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const ConfirmCart = () => {
     return (
@@ -15,8 +16,8 @@ const ConfirmCart = () => {
             </div>
             <hr className="w-full h-1 my-10 bg-gray-200"/>
             <div className="flex items-center w-full gap-5">
-                <button className="bg-blue-300 border-slate-300">장바구니 이동</button>
-                <button>쇼핑계속하기</button>
+                <Link to="/member/mypage/cart" className="w-1/2"><button className="bg-blue-300 border-slate-300">장바구니 이동</button></Link>
+                <button className="w-1/2">쇼핑계속하기</button>
             </div>
         </div>
     )

@@ -18,7 +18,7 @@ export const useLogin = () => {
                 dispatch(setCurrentUser({
                     id: response.data.id,
                     nickname: response.data.nickname,
-                    favorites: response.data.favorites,
+                    // favorites: response.data.favorites,
                     // cartList: response.data.cartList,
                 }));
                 console.log(response);
