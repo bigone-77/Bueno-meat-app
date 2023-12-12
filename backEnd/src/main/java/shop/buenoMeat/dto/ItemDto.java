@@ -59,4 +59,28 @@ public class ItemDto {
         private String weight;
         private String weightUnit;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class addToCartDto {
+        private Long itemId;
+        private String itemName;
+        private int itemCount;
+        private int totalPrice;
+        private String itemOption;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class getCartDto {
+        private Long itemId;
+        private String itemName;
+        private int itemCount;
+        private int totalPrice;
+        private String itemOption;
+        private int stock;
+        private String image;
+    }
 }

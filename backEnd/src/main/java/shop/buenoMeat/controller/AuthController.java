@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.buenoMeat.dto.LoginDto;
 import shop.buenoMeat.dto.MemberDto;
-import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.service.MemberService;
 
 @RestController
@@ -13,7 +12,6 @@ import shop.buenoMeat.service.MemberService;
 public class AuthController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     @PostMapping("/auth/join")
     public ResponseEntity<String> join(@RequestBody MemberDto memberDto) {

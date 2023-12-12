@@ -7,7 +7,7 @@ import shop.buenoMeat.service.WishListService;
 
 @RestController
 @RequiredArgsConstructor
-public class WishListController {
+public class WishListController { //찜 목록 불러오기는 wishListController 에 존재
 
     private final WishListService wishListService;
 
