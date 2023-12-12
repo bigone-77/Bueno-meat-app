@@ -21,9 +21,27 @@ public class CartItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private Integer count;
+    private int itemCount;
 
-    public void changeCount(Integer count) {
-        this.count = count;
+    private int totalPrice;
+
+    private String itemOption;
+
+
+    public void changeCount(int itemCount) {this.itemCount = itemCount;}
+
+    public void changeTotalPrice(int totalPrice) {this.totalPrice = totalPrice;}
+
+    public void changeItemOption(String itemOption) {this.itemOption = itemOption;}
+
+    public static CartItem createCartItem(Cart cart, Item item, int itemCount, int totalPrice, String itemOption) {
+        CartItem cartItem = new CartItem();
+        cartItem.cart = cart;
+        cartItem.item = item;
+        cartItem.itemCount = itemCount;
+        cartItem.totalPrice = totalPrice;
+        cartItem.itemOption = itemOption;
+        return cartItem;
     }
+
 }
