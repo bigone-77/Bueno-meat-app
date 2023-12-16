@@ -44,9 +44,8 @@ public class OrderService {
     @Transactional
     public Long order(Long memberId, OrderDto.orderRequestDto orderRequestDto) {
         Member findMember = memberRepository.findOne(memberId);
-        findMember.usePoint(orderRequestDto.getUsePoint()); // 포인트 사용
-        Map<Long, Integer> itemAndCount = orderRequestDto.getItemAndCount();
-        List<OrderItem> orderItems = new ArrayList<>();
+        Map<Long, Integer> itemAndCount = orderRequestDto.getItemAndCount(); // Key: 상품 ID, Value: 갯수
+        List<OrderItem> orderItems = new ArrayList<>(); // 주문된 상품 리스트
         for (Long itemId : itemAndCount.keySet()) {
             Item findItem = itemRepository.findOne(itemId);
             OrderItem orderItem = OrderItem.createOrderItem(findItem, itemAndCount.get(itemId));
@@ -55,7 +54,7 @@ public class OrderService {
         }
         Order order = Order.createOrder(findMember, orderRequestDto.getRecipient(), orderRequestDto.getPhone(),
                 orderRequestDto.getEmail(), orderRequestDto.getAddress(), orderRequestDto.getDetailAddress(),
-                orderRequestDto.getMemo(), orderRequestDto.getTotalPrice(), orderItems);
+                orderRequestDto.getMemo(), orderRequestDto.getTotalPrice(), orderItems, orderRequestDto.getOrderNum(), orderRequestDto.getUsePoint());
         orderRepository.save(order);
         for (OrderItem orderItem : orderItems) {
             orderItem.setOrder(order);
@@ -63,4 +62,19 @@ public class OrderService {
         return order.getId();
     }
 
+
+    //-- 주문 취소 --//
+    @Transactional
+    public void cancelOrder(Long memberId, Long orderNum) {
+        Order findOrder = orderRepository.findByMemberIdAndOrderNum(memberId, orderNum);
+        List<OrderItem> findOrderItems = orderItemRepository.findAllByOrderId(findOrder.getId());
+        Member findMember = memberRepository.findOne(memberId);
+        findMember.addPoint(findOrder.getPoint()); // 포인트 사용 취소
+        for (OrderItem findOrderItem : findOrderItems) {
+            Item findItem = itemRepository.findOne(findOrderItem.getItem().getId());
+            findItem.addStock(findOrderItem.getCount()); // 상품 재고 증가
+            orderItemRepository.delete(findOrderItem);
+        }
+        orderRepository.delete(findOrder);
+    }
 }

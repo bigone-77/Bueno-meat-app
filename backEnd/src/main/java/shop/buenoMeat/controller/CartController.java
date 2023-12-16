@@ -39,12 +39,14 @@ public class CartController { // 장바구니 화면 불러오기는 myPageContr
         return ResponseEntity.ok("장바구니 담기에 성공하였습니다.");
     }
 
-    //-- 장바구니 여러개의 상품 동시삭제 --//
+
+    //-- 장바구니 전체 삭제 --//
     @DeleteMapping("/mypage/cart/{memberId}")
-    public ResponseEntity<String> deleteMultiItemFromCart(@PathVariable("memberId") Long id, @RequestBody List<Long> itemIdList) {
-        cartService.deleteMultiItemFromCart(id, itemIdList);
-        return ResponseEntity.ok("장바구니 다중 삭제에 성공하였습니다.");
+    public ResponseEntity<String> deleteAllFromCart(@PathVariable("memberId") Long id) {
+        cartService.deleteAllFromCart(id);
+        return ResponseEntity.ok("장바구니 전체 삭제에 성공하였습니다");
     }
+
 
     //-- 장바구니 단일 상품 삭제 --//
     @DeleteMapping("/mypage/cart/{memberId}/{itemId}")

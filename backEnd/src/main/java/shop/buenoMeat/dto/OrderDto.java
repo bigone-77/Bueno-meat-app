@@ -43,6 +43,7 @@ public class OrderDto {
         private String phone;
         private int usePoint;
         private int totalPrice;
+        private Long orderNum;
     }
 
     @Data
@@ -52,4 +53,33 @@ public class OrderDto {
         private String msg;
         private Long id;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class orderDataDto {
+        private String orderDate;
+        private Long orderNum;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class orderItemDto {
+        private Long itemId;
+        private String itemName;
+        private String image;
+        private String itemOption;
+        private int price;
+        private int itemCount;
+    }
+
+   /* @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class getOrdersDto {
+
+    }*/
+
+
 }
