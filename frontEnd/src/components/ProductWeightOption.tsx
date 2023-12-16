@@ -1,15 +1,17 @@
 import { IoIosArrowForward } from "react-icons/io"
 import SelectedBox from "./utils/SelectedBox"
 import useExtractedNumber from "../utils/useExtractedNumber";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductLabel from "./ProductLabel";
 import CountButton from "./utils/CountButton";
+import { useDispatch } from "react-redux";
+import { setCartData } from "../redux/slices/cartSlice";
 
 interface ProductWeightOptionProps {
     price: number;
     weight?: number;
     weightUnit?: string;
-    setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
+    setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ProductWeightOption = ({
@@ -21,21 +23,36 @@ const ProductWeightOption = ({
     const [showTable, setShowTable] = useState(false);
     const [selectedPlusPrice, setSelectedPlusPrice] = useState('');
     const [count, setCount] = useState(1);
-
+    
+    const dispatch = useDispatch();
 
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         if (!e.target.value) {
-            setDisabled!(true);
+            setDisabled(true);
         }
-        setDisabled!(false);
+        setDisabled(false);
         setSelectedPlusPrice(e.target.value);
         setShowTable(true);
+        dispatch(setCartData({
+            itemCount: count,
+            totalPrice: resultPrice,
+            itemOption: selectedPlusPrice
+        }))
     }
+
+    useEffect(() => {
+        dispatch(setCartData({
+            itemCount: count,
+            totalPrice: resultPrice,
+            itemOption: selectedPlusPrice
+        }))
+    }, [count, selectedPlusPrice])
 
     let extractedPrice = 0;
     extractedPrice = useExtractedNumber(selectedPlusPrice);
 
     let resultPrice = extractedPrice === 0 ? price*count : (extractedPrice + price)*count;
+    
     return (
         <>
             <span className='flex items-center justify-center my-5'>

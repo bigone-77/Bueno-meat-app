@@ -12,6 +12,7 @@ import MyPage from "./pages/member/MyPage/page";
 import MemberNav from "./components/MemberNav";
 import SearchPage from "./pages/SearchPage/page";
 import ToastProvider from "./components/utils/ToastProvider";
+import OrderPage from "./pages/OrderPage/page";
 
 
 function App() {
@@ -51,12 +52,15 @@ function App() {
           <Route path='/products/:productId' element={<ProductDetailPage />} />
           <Route path='/category/:path' element={<CategoryPage />} />
           <Route path='search' element={<SearchPage />}/>
+          <Route path='order' element={ currentUser ? (<OrderPage />) : (<Navigate to="/auth/login" />) } />
 
           {currentUser ?
-          <Route path='/member/mypage/:path' element={<MemberLayout />}>
-            <Route index element={<MyPage />} />
-          </Route>  :  <Route path='/member/mypage/:path' element={<Navigate to="/auth/login" />} />
+            <Route path='/member/mypage/:path' element={<MemberLayout />}>
+              <Route index element={<MyPage />} />
+            </Route>  :  <Route path='/member/mypage/:path' element={<Navigate to="/auth/login" />} />
           }
+
+          
 
         </Route>
         <Route path=":bulabula" element={<ErrorPage />} />

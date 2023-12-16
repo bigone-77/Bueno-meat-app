@@ -1,28 +1,76 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Container from '../../components/utils/Container'
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux';
 import EmptyState from '../../components/utils/EmptyState';
 import SubDiv from '../../components/utils/SubDiv';
 import ProductWeightOption from '../../components/ProductWeightOption';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import useGetFetchedData from '../../hooks/useGetFetchedData';
+import { ProductProps } from '../../types/ProductProps';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux';
+import { removeCartData } from '../../redux/slices/cartSlice';
 
 const ProductDetailPage = () => {
+    const [detailProductData, setDetailProductData] = useState<ProductProps>();
+    const [disabled, setDisabled] = useState(true);
 
+    const memberId = useSelector((state: RootState) => state.currentUser.id);
+    const cartData = useSelector((state: RootState) => state.cart);
+    const dispatch = useDispatch();
+
+    
     const params = useParams();
-    const productData = useSelector((state: RootState) => state.product);
+    const navigate = useNavigate();
+    
+    const { response } = useGetFetchedData({
+        method: "get",
+        url: `/products/${params.productId}/detail`
+    });
 
-    const detailProductData = productData.find((product) => product.id === parseInt(params.productId!)); 
+    useEffect(() => {
+        setDetailProductData(response?.data);
+    }, [response])
 
+    const { itemCount, totalPrice, itemOption } = cartData;
+
+    const putCartHandler = async () => {
+        if (disabled) {
+            toast.warn("옵션을 선택해주세요")
+        } else {
+            try {
+                const response = await axios.post(`/products/putCart/${memberId}/${params.productId}`,{
+                    memberId,
+                    itemId: params.productId,
+                    itemCount,
+                    totalPrice,
+                    itemOption
+                });
+                toast.success('해당 상품이 장바구니에 담겼습니다!')
+                console.log(response.data);
+                dispatch(removeCartData());
+            }   catch (error) {
+                toast.error(String("이미 장바구니에 있는 상품입니다."));
+            }
+        }
+    }
+
+    const gotoOrderHandler = () => {
+        if (disabled) {
+            toast.warn("옵션을 선택해주세요");
+        } else {
+            navigate('/order');
+        }
+    }
+    
     if (detailProductData) {
         let { name, info, price, weight, weightUnit, image } = detailProductData;
         
         return (
             <Container>
-                <div className='grid grid-cols-1 gap-5 mt-56 sm:grid-cols-2'>
-
+                <div className='grid grid-cols-1 gap-5 my-40 sm:grid-cols-2'>
                     <img src={image} alt='product-img' className='w-[480px] h-[580px]' />
-
-                    
                     <div>
                         <hr className='w-full h-1 mb-10 bg-black' />
                         <section className='flex flex-col items-start justify-center gap-5'>
@@ -44,11 +92,15 @@ const ProductDetailPage = () => {
                                 price={price}
                                 weight={weight}
                                 weightUnit={weightUnit}
+                                setDisabled={setDisabled}
                             />
                             
                             <span className='grid w-full grid-cols-3 gap-3'>
-                                <button className='bg-blue-500'>바로구매</button>
-                                <button>장바구니</button>
+                                <button 
+                                    className='bg-blue-500'
+                                    onClick={gotoOrderHandler}
+                                >바로구매</button>
+                                <button onClick={putCartHandler}>장바구니</button>
                                 <button>관심상품</button>
                             </span>
                         </section>

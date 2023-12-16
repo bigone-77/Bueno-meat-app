@@ -3,9 +3,13 @@ import { ProductProps } from '../../types/ProductProps'
 import ConfirmCart from './ConfirmCart';
 import ProductWeightOption from '../ProductWeightOption';
 import { toast } from 'react-toastify';
-
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux';
+import { removeCartData } from '../../redux/slices/cartSlice';
 
 const CartContents = ({
+    id,
     name,
     price,
     weight,
@@ -13,16 +17,29 @@ const CartContents = ({
 }: ProductProps) => {
     const [showConfirmCart, setShowConfirmCart] = useState(false);
     const [disabled, setDisabled] = useState(true);
-    
-    const putCartHandler = () => {
+    const memberId = useSelector((state: RootState) => state.currentUser.id);
+    const cartData = useSelector((state: RootState) => state.cart);
+    const dispatch = useDispatch();
+
+    const { itemCount, totalPrice, itemOption } = cartData;
+    const putCartHandler = async () => {
         if (disabled) {
             toast.warn("옵션을 선택해주세요")
             setShowConfirmCart(false);
         } else {
-            
+            const response = await axios.post(`/products/putCart/${memberId}/${id}`,{
+                memberId,
+                itemId: id,
+                itemCount,
+                totalPrice,
+                itemOption
+            });
+            console.log(response.data);
+            dispatch(removeCartData());
             setShowConfirmCart(true);
         }
     }
+    
 
     return (
         <div>

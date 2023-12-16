@@ -41,6 +41,7 @@ const CartModal = ({ setShowModal, productId }: Props) => {
                     <div className="mx-10 mt-5">
                         <p className="text-4xl font-Cafe24Shiningstar">Shopping cart</p>
                         <CartContents 
+                            id={productId}
                             name={currentProductData.name}
                             price={currentProductData.price}
                             weight={currentProductData.weight}

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux";
 import axios from "axios";
 import { updateField } from "../../../redux/slices/memberEditSlice";
+import { toast } from "react-toastify";
 
 const UpdatePasswordField = ({
     fieldName,
@@ -41,10 +42,11 @@ const UpdatePasswordField = ({
             .then((response) => {
                 const { newPw } = data;
                 dispatch(updateField(newPw));
+                toast.success('비밀번호 변경이 완료되었습니다!')
             })
             .catch((error) => {
                 console.log(error);
-                
+                toast.error('비밀번호 변경에 실패했습니다.')
             })
         
         setIsLoading(false);
