@@ -19,7 +19,7 @@ public class WishListController { //찜 목록 불러오기는 wishListControlle
 
     //-- 찜 목록 삭제 --//
     @DeleteMapping("/products/favorites/{memberId}/{itemId}")
-    public ResponseEntity<String>   removeWishList(@PathVariable Long memberId, @PathVariable Long itemId) {
+    public ResponseEntity<String> removeWishList(@PathVariable Long memberId, @PathVariable Long itemId) {
         return wishListService.deleteWishList(memberId, itemId);
     }
 

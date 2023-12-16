@@ -60,7 +60,7 @@ public class ConvertToDto {
 
     public static ItemDto.getCartDto convertToGetCartDto(CartItem cartItem) {
         return new ItemDto.getCartDto(
-                cartItem.getId(),
+                cartItem.getItem().getId(),
                 cartItem.getItem().getName(),
                 cartItem.getItemCount(),
                 cartItem.getTotalPrice(),

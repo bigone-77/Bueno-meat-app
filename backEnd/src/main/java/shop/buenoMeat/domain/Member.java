@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import shop.buenoMeat.dto.MemberDto;
+import shop.buenoMeat.exception.NotEnoughPointExist;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,5 +90,14 @@ public class Member {
 
     public void changeMemberRole(MemberRole memberRole) {
         this.role = memberRole;
+    }
+
+    //-- 포인트 사용 --//
+    public void usePoint(int point) {
+        if (this.point - point < 0) {
+            throw new NotEnoughPointExist("사용가능한 포인트가 부족합니다.");
+        } else {
+            this.point -= point;
+        }
     }
 }

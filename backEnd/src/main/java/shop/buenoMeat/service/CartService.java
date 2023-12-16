@@ -70,7 +70,7 @@ public class CartService {
     }
 
 
-    //-- 장바구니 여러개의 상품 동시 삭제 --//
+    //-- 장바구니 여러개의 상품 동시 삭제 --// TODO::( 리스트안에 다 일치하고 한개만 존재하지 않는 상품이 있는 경우 예외처리 ???? )
     @Transactional
     public void deleteMultiItemFromCart(Long id, List<Long> itemIdList) {
         Cart findCart = cartRepository.findByMemberId(id);

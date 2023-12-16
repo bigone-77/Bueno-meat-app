@@ -3,7 +3,6 @@ package shop.buenoMeat.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.exception.NotEnoughStockException;
 
 import javax.persistence.*;
@@ -66,4 +65,12 @@ public class Item {
         }
         this.stock = remainStock;
     }
+
+    /*
+     * 재고 증가
+     */
+    public void addStock(int quantity) {
+        this.stock += quantity;
+    }
+
 }
