@@ -1,5 +1,6 @@
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 
+
 interface CountButtonProps {
     count: number;
     setCount: React.Dispatch<React.SetStateAction<number>>
@@ -26,12 +27,18 @@ const CountButton = ({
                 <IoMdArrowDropup
                     size={20}
                     className="w-6 h-3 border" 
-                    onClick={() => setCount(count+1)}
+                    onClick={() => {
+                        setCount(count+1);
+                    }
+                        
+                    }
                 />
                 <IoMdArrowDropdown
                     size={20}
                     className="w-6 h-3 border" 
-                    onClick={() => setCount(count-1)}
+                    onClick={() => {
+                        setCount(count-1);
+                    }}
                 />
             </span>
         </div>

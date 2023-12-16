@@ -4,7 +4,6 @@
 .Toastify__toast {
     white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
     overflow: hidden; /* 넘치는 내용을 숨김 */
-    /* text-overflow: ellipsis; 텍스트가 넘칠 경우 ...으로 표시 */
     width: fit-content;
     padding-left: 20;
     padding-right: 20;

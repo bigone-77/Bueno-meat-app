@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux";
 import { updateField } from "../../../redux/slices/memberEditSlice";
 import { updateCurrentUserNickname } from "../../../redux/slices/currentUserSlice";
+import { toast } from "react-toastify";
 
 export interface UpdateFieldProps {
     prevValue?: string;
@@ -38,6 +39,7 @@ const UpdateField = ({
         axios.patch(`/mypage/${userId}/${Object.keys(data)[0]}`, data)
             .then((response) => {
                 console.log(response);
+                toast.success(`${Object.keys(data)[0]} 변경이 완료되었습니다!`)
                 dispatch(updateField(data));
                 dispatch(updateCurrentUserNickname(data));
             })
