@@ -61,7 +61,7 @@ public class WishListService {
 
     //-- 마이페이지 찜 목록 불러오기 --//
     public List<ItemDto.mypageWishListDto> getWishListToMyPage(Long id) {
-        List<WishList> findWishLists = wishListRepository.findByMemberId(id);
+        List<WishList> findWishLists = wishListRepository.findAllByMemberId(id);
         List<Item> findItems = new ArrayList<>();
         for (WishList findWishList : findWishLists) {
             findItems.add(findWishList.getItem());

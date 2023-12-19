@@ -5,9 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.dto.MemberDto;
+import shop.buenoMeat.dto.OrderDto;
 import shop.buenoMeat.dto.UpdateDto;
 import shop.buenoMeat.service.CartService;
 import shop.buenoMeat.service.MemberService;
+import shop.buenoMeat.service.OrderService;
 import shop.buenoMeat.service.WishListService;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class MyPageController {
     private final MemberService memberService;
     private final WishListService wishListService;
     private final CartService cartService;
+    private final OrderService orderService;
 
     //--마이페이지 회원정보 --//
     @GetMapping("/{id}")
@@ -67,7 +70,13 @@ public class MyPageController {
 
     //-- 장바구니 목록 불러오기 --//
     @GetMapping("/cart/{memberId}")
-    public ResponseEntity<List<ItemDto.getCartDto>> getCartToMyPage(@PathVariable("memberId") Long id) {
+    public ResponseEntity<Object> getCartListToMyPage(@PathVariable("memberId") Long id) {
         return ResponseEntity.ok(cartService.getCartToMyPage(id));
+    }
+
+    //-- 주문내역 불러오기 --//
+    @GetMapping("/order/{memberId}")
+    public ResponseEntity<List<OrderDto.orderHistoryDto>> getOrderHistoryToMyPage(@PathVariable Long memberId) {
+        return ResponseEntity.ok(orderService.getOrderHistoryToMyPage(memberId));
     }
 }

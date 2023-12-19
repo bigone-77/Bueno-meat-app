@@ -1,6 +1,9 @@
 package shop.buenoMeat.dto;
 
 import lombok.*;
+import shop.buenoMeat.domain.WishList;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,5 +25,6 @@ public class LoginDto {
         private String msg;
         private String nickname;
         private Long id;
+        private List<WishList> wishListItems;
     }
 }

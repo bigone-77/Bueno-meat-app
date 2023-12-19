@@ -48,7 +48,8 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>(); // 주문된 상품 리스트
         for (Long itemId : itemAndCount.keySet()) {
             Item findItem = itemRepository.findOne(itemId);
-            OrderItem orderItem = OrderItem.createOrderItem(findItem, itemAndCount.get(itemId));
+            CartItem findCartItem = cartItemRepository.findByItemId(findItem.getId());
+            OrderItem orderItem = OrderItem.createOrderItem(findItem, itemAndCount.get(itemId), findCartItem.getItemOption());
             orderItemRepository.save(orderItem);
             orderItems.add(orderItem);
         }
@@ -59,11 +60,17 @@ public class OrderService {
         for (OrderItem orderItem : orderItems) {
             orderItem.setOrder(order);
         }
+        Cart findCart = cartRepository.findByMemberId(memberId);
+        List<CartItem> findAllByCartId = cartItemRepository.findAllByCartId(findCart.getId());
+        // 구매 후에 장바구니 초기화
+        for (CartItem cartItem : findAllByCartId) {
+            cartItemRepository.delete(cartItem);
+        }
         return order.getId();
     }
 
 
-    //-- 주문 취소 --//
+    //-- 주문 취소 --// TODO :: 취소 시 장바구니에 삼품 다시 담아놓기
     @Transactional
     public void cancelOrder(Long memberId, Long orderNum) {
         Order findOrder = orderRepository.findByMemberIdAndOrderNum(memberId, orderNum);
@@ -76,5 +83,19 @@ public class OrderService {
             orderItemRepository.delete(findOrderItem);
         }
         orderRepository.delete(findOrder);
+    }
+
+
+    //-- 마이페이지에 주문내역 불러오기 --// TODO::미완료
+    public List<OrderDto.orderHistoryDto> getOrderHistoryToMyPage(Long memberId) {
+        List<Order> findAllOrders = orderRepository.findAllByMemberId(memberId);
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (Order order : findAllOrders) {
+            List<OrderItem> findOrderItems = orderItemRepository.findAllByOrderId(order.getId());
+            orderItems.addAll(findOrderItems);
+        }
+        return orderItems.stream()
+                .map(ConvertToDto::convertToGetOrderHistoryDto)
+                .collect(Collectors.toList());
     }
 }

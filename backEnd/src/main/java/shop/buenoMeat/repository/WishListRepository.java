@@ -25,20 +25,20 @@ public class WishListRepository {
         return em.find(WishList.class, id);
     } // 아이디로 찜 상품 검색
 
-    public List<WishList> findByMemberId(Long id) {
+    public List<WishList> findAllByMemberId(Long id) {
         return em.createQuery("select w from WishList w where w.member.id = :member_id", WishList.class)
                 .setParameter("member_id", id)
                 .getResultList();
     } // 회원아이디로 검색
 
-    public List<WishList> findByItemId(Long id) {
+    public List<WishList> findAllByItemId(Long id) {
         return em.createQuery("select w from WishList w where w.item.id = :item_id", WishList.class)
                 .setParameter("item_id", id)
                 .getResultList();
     } // 상품 아이디로 검색
 
     public Long findAlreadyExist(Long memberId, Long itemId) {
-        List<WishList> findByMemberId = findByMemberId(memberId);
+        List<WishList> findByMemberId = findAllByMemberId(memberId);
         for (WishList wishList : findByMemberId) {
             if (wishList.getItem().getId() == itemId) {
                 return wishList.getId();
@@ -46,4 +46,5 @@ public class WishListRepository {
         }
         return Long.parseLong("0");
     } // 찜 목록에 존재하는지 체크 및 wishList 아이디 반환
+
 }

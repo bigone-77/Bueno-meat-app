@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.Member;
+import shop.buenoMeat.domain.WishList;
 import shop.buenoMeat.dto.ConvertToDto;
 import shop.buenoMeat.dto.LoginDto;
 import shop.buenoMeat.dto.MemberDto;
 import shop.buenoMeat.dto.UpdateDto;
 import shop.buenoMeat.repository.MemberRepository;
+import shop.buenoMeat.repository.WishListRepository;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final WishListRepository wishListRepository;
+
     //-- 회원가입 --//
     @Transactional
     public Long join(Member member) {
@@ -32,8 +36,10 @@ public class MemberService {
         String pw = loginRequestDto.getPw();
         List<Member> findMembers = memberRepository.findByEmail(email);
         Member findMember = findMembers.get(0);
+        List<WishList> findWishLists = wishListRepository.findAllByMemberId(findMember.getId());
         if (findMember.getPw().equals(pw)) {
-            LoginDto.loginResponseDto loginResponseDto= new LoginDto.loginResponseDto("로그인이 성공하였습니다.", findMember.getNickname(),findMember.getId());
+            LoginDto.loginResponseDto loginResponseDto= new LoginDto.loginResponseDto("로그인이 성공하였습니다.",
+                    findMember.getNickname(),findMember.getId(),findWishLists);
             return ResponseEntity.ok(loginResponseDto);
         } else {
             return ResponseEntity.notFound().build();
