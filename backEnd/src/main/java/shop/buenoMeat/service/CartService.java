@@ -1,6 +1,8 @@
 package shop.buenoMeat.service;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.Cart;
@@ -58,19 +60,23 @@ public class CartService {
 
     //-- 마이페이지 장바구니 불러오기 --//
     @Transactional
-    public List<ItemDto.getCartDto> getCartToMyPage(Long id) {
+    public Object getCartToMyPage(Long id) {
         Cart findCart = cartRepository.findByMemberId(id);
         if (findCart == null) { // 장바구니 존재하지 않는경우 예외처리
-            throw new CartNotExistException("해당 회원은 장바구니가 존재하지 않습니다.");
+            throw new CartNotExistException("장바구니가 존재하지 않습니다.");
         }
         List<CartItem> findAllCartItem = cartItemRepository.findAllByCartId(findCart.getId());
-        return findAllCartItem.stream()
-                .map(ConvertToDto::convertToGetCartDto)
-                .collect(Collectors.toList());
+        if (findAllCartItem == null) { // 장바구니가 비어있는 경우
+            return "장바구니에 상품이 존재하지 않습니다.";
+        }else { // 장바구니에 상품이 있는 경우
+            return findAllCartItem.stream()
+                    .map(ConvertToDto::convertToGetCartDto)
+                    .collect(Collectors.toList());
+        }
     }
 
 
-    //-- 장바구니 전체 삭제 --// TODO::( 리스트안에 다 일치하고 한개만 존재하지 않는 상품이 있는 경우 예외처리 ???? )
+    //-- 장바구니 전체 삭제 --//
     @Transactional
     public void deleteAllFromCart(Long id) {
         Cart findCart = cartRepository.findByMemberId(id);
@@ -79,7 +85,6 @@ public class CartService {
             for (CartItem cartItem : findAllCartItem) {
                 cartItemRepository.delete(cartItem);
             }
-            cartRepository.delete(findCart);
         } else {
             throw new CartNotExistException("해당 회원은 장바구니가 존재하지 않습니다.");
         }
@@ -95,11 +100,6 @@ public class CartService {
 
             if (findCartItem != null) { // 해당 상품이 장바구니에 존재하는 경우
                 cartItemRepository.delete(findCartItem);
-
-                // 삭제 후 장바구니에 상품이 더 이상 없다면 장바구니 삭제
-                if (cartItemRepository.countByCartId(findCart.getId()) == 0) {
-                    cartRepository.delete(findCart);
-                }
             } else { // 해당 상품이 장바구니에 존재하지 않는 경우 예외 처리
                 throw new CartItemNotExistException("장바구니에 해당 상품이 존재하지 않습니다.");
             }

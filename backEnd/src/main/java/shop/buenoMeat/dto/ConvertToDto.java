@@ -2,9 +2,7 @@ package shop.buenoMeat.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.buenoMeat.domain.CartItem;
-import shop.buenoMeat.domain.Item;
-import shop.buenoMeat.domain.Member;
+import shop.buenoMeat.domain.*;
 
 @Setter
 @Getter
@@ -69,4 +67,19 @@ public class ConvertToDto {
                 cartItem.getItem().getImage()
         );
     }
+
+    public static OrderDto.orderHistoryDto convertToGetOrderHistoryDto(OrderItem orderItem) {
+
+        return new OrderDto.orderHistoryDto(
+                orderItem.getItem().getId(),
+                orderItem.getItem().getName(),
+                orderItem.getCount(),
+                orderItem.getOrder().getTotalPrice(),
+                orderItem.getItemOption(),
+                orderItem.getItem().getImage(),
+                orderItem.getOrder().getOrderNum(),
+                orderItem.getOrder().getOrderDate()
+        );
+    }
+
 }

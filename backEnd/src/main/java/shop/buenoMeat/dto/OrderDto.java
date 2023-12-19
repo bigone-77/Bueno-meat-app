@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -74,12 +75,19 @@ public class OrderDto {
         private int itemCount;
     }
 
-   /* @Data
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class getOrdersDto {
-
-    }*/
+    public static class orderHistoryDto {
+        private Long itemId;
+        private String itemName;
+        private int itemCount;
+        private int totalPrice;
+        private String itemOption;
+        private String image;
+        private Long orderNum;
+        private LocalDateTime orderDate;
+    }
 
 
 }
