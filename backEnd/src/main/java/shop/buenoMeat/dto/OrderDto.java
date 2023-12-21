@@ -3,6 +3,7 @@ package shop.buenoMeat.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import shop.buenoMeat.domain.OrderItemStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,7 +45,7 @@ public class OrderDto {
         private String phone;
         private int usePoint;
         private int totalPrice;
-        private Long orderNum;
+        private String orderNum;
     }
 
     @Data
@@ -60,7 +61,7 @@ public class OrderDto {
     @NoArgsConstructor
     public static class orderDataDto {
         private String orderDate;
-        private Long orderNum;
+        private String orderNum;
     }
 
     @Data
@@ -85,8 +86,9 @@ public class OrderDto {
         private int totalPrice;
         private String itemOption;
         private String image;
-        private Long orderNum;
+        private String orderNum;
         private LocalDateTime orderDate;
+        private OrderItemStatus orderItemStatus;
     }
 
 

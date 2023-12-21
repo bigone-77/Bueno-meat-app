@@ -38,13 +38,13 @@ public class CartService {
         Member findMember = memberRepository.findOne(memberId);
         Cart findCart = cartRepository.findByMemberId(memberId);
 
-        //장바구니가 존재하지 않으면 새롭게 생성
+        //장바구니가 존재하지 않으면 새롭게 생성 ( 관계 주입 )
         if (findCart == null) {
             findCart = Cart.createCart(findMember);
             cartRepository.save(findCart);
         }
 
-        Item findItem = itemRepository.findOne(addToCartDto.getItemId());
+        Item findItem = itemRepository.findOne(itemId);
         CartItem findCartItem = cartItemRepository.findByCartIdAndItemId(findCart.getId(), findItem.getId());
         //해당 상품이 장바구니에 존재하지 않으면 생성 후 추가
         if (findCartItem == null) {
