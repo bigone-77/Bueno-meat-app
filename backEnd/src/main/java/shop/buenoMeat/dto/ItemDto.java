@@ -64,7 +64,6 @@ public class ItemDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class addToCartDto {
-        private Long itemId;
         private String itemName;
         private int itemCount;
         private int totalPrice;

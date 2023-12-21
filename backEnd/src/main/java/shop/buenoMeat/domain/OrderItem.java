@@ -53,6 +53,10 @@ public class OrderItem {
         return orderItem;
     }
 
+    public void changeOrderStatus(OrderItemStatus orderItemStatus) {
+        this.orderItemStatus = orderItemStatus;
+    }
+
     //-- 연관관계 메소드 --//
     public void setOrder(Order order) {
         this.order = order;

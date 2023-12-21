@@ -78,7 +78,8 @@ public class ConvertToDto {
                 orderItem.getItemOption(),
                 orderItem.getItem().getImage(),
                 orderItem.getOrder().getOrderNum(),
-                orderItem.getOrder().getOrderDate()
+                orderItem.getOrder().getOrderDate(),
+                orderItem.getOrderItemStatus()
         );
     }
 

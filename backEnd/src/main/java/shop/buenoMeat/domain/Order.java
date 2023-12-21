@@ -53,7 +53,7 @@ public class Order {
     private int totalPrice;
 
     @Column(nullable = false, unique = true)
-    private Long orderNum;
+    private String orderNum;
 
     @Column(name = "usePoint")
     private int point;
@@ -63,7 +63,7 @@ public class Order {
     private OrderStatus orderStatus; // COMPLETE, CANCEL
 
     public Order(Member member, String recipient, String phone, String email, String address, String detailAddress,
-                 String memo, int totalPrice, OrderStatus orderStatus, Long orderNum, int point) {
+                 String memo, int totalPrice, OrderStatus orderStatus, String orderNum, int point) {
         this.member = member;
         this.recipient = recipient;
         this.phone = phone;
@@ -80,7 +80,7 @@ public class Order {
 
     //--생성 메서드--//
     public static Order createOrder(Member member, String recipient, String phone, String email, String address,
-                                    String detailAddress, String memo, int totalPrice, List<OrderItem> orderItems, Long orderNum, int point) {
+                                    String detailAddress, String memo, int totalPrice, List<OrderItem> orderItems, String orderNum, int point) {
         Order order = new Order(member, recipient, phone, email, address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE, orderNum, point);
         order.orderItems.addAll(orderItems);
         member.usePoint(point);

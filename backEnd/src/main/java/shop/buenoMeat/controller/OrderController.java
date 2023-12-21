@@ -31,10 +31,10 @@ public class OrderController {
         return ResponseEntity.ok(new OrderDto.orderResponseDto("주문이 완료되었습니다.", orderId));
     }
 
-    //-- 주문 취소하기 --//
-    @DeleteMapping("/{memberId}/{orderNum}")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long memberId, @PathVariable Long orderNum) {
-        orderService.cancelOrder(memberId, orderNum);
-        return ResponseEntity.ok("주문이 취소되었습니다.");
+    //-- 단일상품 주문 취소하기 --//
+    @DeleteMapping("/{memberId}/{orderNum}/{itemId}")
+    public ResponseEntity<String> cancelOrder(@PathVariable Long memberId, @PathVariable String orderNum, @PathVariable Long itemId) {
+        orderService.cancelOrder(memberId, orderNum, itemId);
+        return ResponseEntity.ok("단일상품 주문이 취소되었습니다.");
     }
 }

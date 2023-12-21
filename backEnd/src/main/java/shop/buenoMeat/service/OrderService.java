@@ -40,7 +40,7 @@ public class OrderService {
     }
 
 
-    //-- 주문하기 --//
+    //-- 주문하기 --// TODO:: 포인트 적립에 관한 부분 처리 ??
     @Transactional
     public Long order(Long memberId, OrderDto.orderRequestDto orderRequestDto) {
         Member findMember = memberRepository.findOne(memberId);
@@ -57,7 +57,7 @@ public class OrderService {
                 orderRequestDto.getEmail(), orderRequestDto.getAddress(), orderRequestDto.getDetailAddress(),
                 orderRequestDto.getMemo(), orderRequestDto.getTotalPrice(), orderItems, orderRequestDto.getOrderNum(), orderRequestDto.getUsePoint());
         orderRepository.save(order);
-        for (OrderItem orderItem : orderItems) {
+        for (OrderItem orderItem : orderItems) { // 연관관계 설정
             orderItem.setOrder(order);
         }
         Cart findCart = cartRepository.findByMemberId(memberId);
@@ -70,23 +70,25 @@ public class OrderService {
     }
 
 
-    //-- 주문 취소 --// TODO :: 취소 시 장바구니에 삼품 다시 담아놓기
+    //-- 단일상품 주문 취소 --// TODO:: 단일상품에 대한 포인트 사용은 어떻게 복구 ?>?
     @Transactional
-    public void cancelOrder(Long memberId, Long orderNum) {
+    public void cancelOrder(Long memberId, String orderNum, Long itemId) {
         Order findOrder = orderRepository.findByMemberIdAndOrderNum(memberId, orderNum);
-        List<OrderItem> findOrderItems = orderItemRepository.findAllByOrderId(findOrder.getId());
+        OrderItem findOrderItem = orderItemRepository.findByOrderIdAndItemId(findOrder.getId(), itemId);
+        //포인트 사용 취소
         Member findMember = memberRepository.findOne(memberId);
-        findMember.addPoint(findOrder.getPoint()); // 포인트 사용 취소
-        for (OrderItem findOrderItem : findOrderItems) {
-            Item findItem = itemRepository.findOne(findOrderItem.getItem().getId());
-            findItem.addStock(findOrderItem.getCount()); // 상품 재고 증가
-            orderItemRepository.delete(findOrderItem);
-        }
-        orderRepository.delete(findOrder);
+        findMember.addPoint(findOrder.getPoint());
+
+        // 상품 재고 증가
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.addStock(findOrderItem.getCount());
+
+         // 주문 상태 변경
+        findOrderItem.changeOrderStatus(OrderItemStatus.CANCEL);
     }
 
 
-    //-- 마이페이지에 주문내역 불러오기 --// TODO::미완료
+    //-- 마이페이지에 주문내역 불러오기 --//
     public List<OrderDto.orderHistoryDto> getOrderHistoryToMyPage(Long memberId) {
         List<Order> findAllOrders = orderRepository.findAllByMemberId(memberId);
         List<OrderItem> orderItems = new ArrayList<>();
