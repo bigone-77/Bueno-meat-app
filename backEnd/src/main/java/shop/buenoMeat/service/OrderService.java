@@ -40,44 +40,60 @@ public class OrderService {
     }
 
 
-    //-- 주문하기 --// TODO:: 포인트 적립에 관한 부분 처리 ??
+    //-- 주문하기 --// TODO:: 포인트 적립에 관한 부분 처리 (완료 ? 테스트 필요 )
     @Transactional
     public Long order(Long memberId, OrderDto.orderRequestDto orderRequestDto) {
         Member findMember = memberRepository.findOne(memberId);
-        Map<Long, Integer> itemAndCount = orderRequestDto.getItemAndCount(); // Key: 상품 ID, Value: 갯수
+        Map<Long, Integer> itemAndPoint = orderRequestDto.getItemAndPoint(); // Key: 상품 ID, Value: 사용한 포인트
         List<OrderItem> orderItems = new ArrayList<>(); // 주문된 상품 리스트
-        for (Long itemId : itemAndCount.keySet()) {
+        int earnPoint = 0;
+        for (Long itemId : itemAndPoint.keySet()) {
             Item findItem = itemRepository.findOne(itemId);
-            CartItem findCartItem = cartItemRepository.findByItemId(findItem.getId());
-            OrderItem orderItem = OrderItem.createOrderItem(findItem, itemAndCount.get(itemId), findCartItem.getItemOption());
+            CartItem findCartItem = cartItemRepository.findByItemId(itemId);
+            OrderItem orderItem = OrderItem.createOrderItem(findItem, findCartItem.getItemCount(),
+                    findCartItem.getItemOption(), findCartItem.getTotalPrice(), itemAndPoint.get(itemId));
             orderItemRepository.save(orderItem);
             orderItems.add(orderItem);
+            findMember.usePoint(orderItem.getUsePoint()); // 포인트 사용
+            earnPoint += orderItem.getEarnPoint();
         }
         Order order = Order.createOrder(findMember, orderRequestDto.getRecipient(), orderRequestDto.getPhone(),
                 orderRequestDto.getEmail(), orderRequestDto.getAddress(), orderRequestDto.getDetailAddress(),
-                orderRequestDto.getMemo(), orderRequestDto.getTotalPrice(), orderItems, orderRequestDto.getOrderNum(), orderRequestDto.getUsePoint());
+                orderRequestDto.getMemo(), orderRequestDto.getTotalPrice(), orderItems, orderRequestDto.getOrderNum());
         orderRepository.save(order);
-        for (OrderItem orderItem : orderItems) { // 연관관계 설정
+
+        // 연관관계 설정
+        for (OrderItem orderItem : orderItems) {
             orderItem.setOrder(order);
         }
+
         Cart findCart = cartRepository.findByMemberId(memberId);
         List<CartItem> findAllByCartId = cartItemRepository.findAllByCartId(findCart.getId());
+
         // 구매 후에 장바구니 초기화
         for (CartItem cartItem : findAllByCartId) {
             cartItemRepository.delete(cartItem);
         }
+
+        //구매 후 사용자 포인트 적립
+        findMember.addPoint(earnPoint);
+
         return order.getId();
     }
 
 
-    //-- 단일상품 주문 취소 --// TODO:: 단일상품에 대한 포인트 사용은 어떻게 복구 ?>?
+    //-- 단일상품 주문 취소 --// TODO:: 단일상품에 대한 포인트 사용은 어떻게 복구 ?>? (완료 )
     @Transactional
     public void cancelOrder(Long memberId, String orderNum, Long itemId) {
         Order findOrder = orderRepository.findByMemberIdAndOrderNum(memberId, orderNum);
         OrderItem findOrderItem = orderItemRepository.findByOrderIdAndItemId(findOrder.getId(), itemId);
+
         //포인트 사용 취소
         Member findMember = memberRepository.findOne(memberId);
-        findMember.addPoint(findOrder.getPoint());
+        findMember.addPoint(findOrderItem.getUsePoint());
+
+        //포인트 적립 취소
+        findMember.usePoint(findOrderItem.getEarnPoint());
 
         // 상품 재고 증가
         Item findItem = itemRepository.findOne(itemId);

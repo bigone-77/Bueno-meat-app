@@ -47,23 +47,20 @@ public class Order {
     private String detailAddress;
 
     @Column(length = 100)
-    private String memo;
+    private String memo; // 주문 요청 사항
 
     @Column(nullable = false)
-    private int totalPrice;
+    private int totalPrice; // 해당 주문 상품들 총 가격
 
     @Column(nullable = false, unique = true)
-    private String orderNum;
-
-    @Column(name = "usePoint")
-    private int point;
+    private String orderNum; //주문 번호
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; // COMPLETE, CANCEL
 
     public Order(Member member, String recipient, String phone, String email, String address, String detailAddress,
-                 String memo, int totalPrice, OrderStatus orderStatus, String orderNum, int point) {
+                 String memo, int totalPrice, OrderStatus orderStatus, String orderNum) {
         this.member = member;
         this.recipient = recipient;
         this.phone = phone;
@@ -75,17 +72,15 @@ public class Order {
         this.totalPrice = totalPrice;
         this.orderStatus = orderStatus;
         this.orderNum = orderNum;
-        this.point = point;
     }
 
     //--생성 메서드--//
     public static Order createOrder(Member member, String recipient, String phone, String email, String address,
-                                    String detailAddress, String memo, int totalPrice, List<OrderItem> orderItems, String orderNum, int point) {
-        Order order = new Order(member, recipient, phone, email, address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE, orderNum, point);
+                                    String detailAddress, String memo, int totalPrice, List<OrderItem> orderItems, String orderNum) {
+        Order order = new Order(member, recipient, phone, email, address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE, orderNum);
         order.orderItems.addAll(orderItems);
-        member.usePoint(point);
+
         return order;
     }
 
-    //
 }
