@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import shop.buenoMeat.domain.OrderItemStatus;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class OrderDto {
     @NoArgsConstructor
     public static class orderRequestDto {
         private String memo;
-        private Map<Long,Integer> ItemAndCount;
+        private Map<Long,Integer> itemAndPoint;
         private String address;
         private String detailAddress;
         private String recipient;
@@ -56,25 +57,6 @@ public class OrderDto {
         private Long id;
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class orderDataDto {
-        private String orderDate;
-        private String orderNum;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class orderItemDto {
-        private Long itemId;
-        private String itemName;
-        private String image;
-        private String itemOption;
-        private int price;
-        private int itemCount;
-    }
 
     @Data
     @AllArgsConstructor

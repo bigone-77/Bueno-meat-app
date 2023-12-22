@@ -105,4 +105,5 @@ public class Member {
         this.point += point;
         System.out.println("포인트가 추가되었습니다." + ":" + point);
     }
+
 }
