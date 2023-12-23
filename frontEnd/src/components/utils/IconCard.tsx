@@ -1,6 +1,4 @@
 import { IconType } from 'react-icons';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../redux';
 import { useNavigate } from 'react-router-dom';
 
 interface IconCardProps {
@@ -16,9 +14,6 @@ const IconCard = ({
     icon: Icon,
     type,
 }: IconCardProps) => {
-    
-    // const cartCount = useSelector((state: RootState) => state.currentUser.cartList?.length);
-    // const heartCount = useSelector((state: RootState) => state.currentUser.favorites?.length);
     const navigate = useNavigate();
 
     let typeCount: number | undefined;
@@ -29,8 +24,6 @@ const IconCard = ({
     if (type?.includes('heart')) {
         // typeCount = heartCount;
     }
-    
-    
     
     return (
         <div 

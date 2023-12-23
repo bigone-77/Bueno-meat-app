@@ -7,6 +7,8 @@ interface FirstProps {
     detailAddress: string;
     memo: string;
     setMemo: React.Dispatch<React.SetStateAction<string>>
+    email: string;
+    setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const First = ({
@@ -16,7 +18,10 @@ const First = ({
     detailAddress,
     memo,
     setMemo,
+    email,
+    setEmail
 }: FirstProps) => {
+
     const selectedMemo = [
         {
             id: 1,
@@ -36,14 +41,15 @@ const First = ({
         },
     ]
 
-
     return (
         <div className="mt-10 border border-black">
             <div className="flex items-center px-3 py-2">
                 <p className="w-24 font-bold">배송지</p>
                 <GrRadialSelected size={30} className="pr-2"/>
                 <p className="w-1/4 text-sm font-semibold">{name}님 배송지</p>
-                <button className="w-24 px-2 py-2">배송지 변경</button>
+                <button className="w-24 px-2 py-2">
+                    배송지 변경
+                </button>
             </div>
 
             <hr />
@@ -51,6 +57,18 @@ const First = ({
             <div className="flex items-center px-3 py-2">
                 <p className="w-24 font-bold">이름/연락처</p>
                 <p className="w-1/4 text-sm font-semibold">{name} | {phone}</p>
+            </div>
+
+            <hr />
+
+            <div className="flex items-center px-3 py-2">
+                <p className="w-32 font-bold">전달받을 이메일</p>
+                <input 
+                    className='px-4 py-2 border border-black rounded-md'
+                    type="email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                />
             </div>
 
             <hr />

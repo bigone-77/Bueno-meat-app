@@ -11,67 +11,74 @@ import EmptyState from "../../components/utils/EmptyState";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 const OrderPage = () => {
     const navigate = useNavigate();
 
     const memberId = useSelector((state: RootState) => state.currentUser.id);
-    const memberEmail = useSelector((state: RootState) => state.editUser.email);
+    const orderNum = uuidv4();
 
     const [userData, setUserData] = useState<OrderMemberInfoProps>();
     const [productData, setProductData] = useState<OrderItemListProps[]>([]);
+
     const [memo, setMemo] = useState('');   // memo
-    const [pointValue, setPointValue] = useState('');   // 사용한 포인트 값
+    const [memberEmail, setMemberEmail] = useState('');
+
+    const [pointValue, setPointValue] = useState('0');   // 사용한 포인트 값
     const [finalPrice, setFinalPrice] = useState(0);    // 최종 주문 금액
 
     const fetchData = async () => {
-        axios.get(`/order/${memberId}`)
-        .then ((response) => {
+        try {
+            const response = await axios.get(`/order/${memberId}`);
             setUserData(response.data.orderMemberInfo);
-            setProductData(response.data.orderItemList);
-        })
-        .catch(error => {
+
+            const plusProductList = response.data.orderItemList.map((item:OrderItemListProps[]) => {
+                return { ...item, itemUsePoint: 0 }
+            });
+
+            setProductData(plusProductList);
+        } catch (error) {
             console.log(error);
-        })
+        }
     }
-    
+
+
     useEffect(() => {
         fetchData();
     }, [])
 
+    
     if (userData && productData) {
         const priceSum = productData.map((data) => data.totalPrice).reduce((a,b) => a + b);
 
         
         const postHandler = async () => {
-            const itemAndCount: Map<string, number> = new Map();
+            const itemAndPoint: Map<number, number> = new Map();
             productData.forEach(item => {
-                const { itemName, itemCount } = item;
-                itemAndCount.set(itemName, itemCount);
+                const { itemId, itemUsePoint } = item;
+                itemAndPoint.set(itemId, 100);
             });
-
-            const data = {
+        
+                const data = {
                     "memo": memo,
-                    itemAndCount: itemAndCount,
+                    itemAndPoint: Object.fromEntries(itemAndPoint),
                     "address": userData.address,
                     "detailAddress": userData.detailAddress,
                     "recipient": userData.name,
                     "email": memberEmail,
                     "phone": userData.phone,
-                    "usePoint": Number(pointValue),
-                    "totalPrice": finalPrice,
+                    "totalPrice": productData.map((product) => product.totalPrice).reduce((a, b) => a + b),
+                    "orderNum": orderNum.slice(0,10)
                 };
-
 
             console.log(data);
             
             
-            await axios.post(`/order/${memberId}`, JSON.stringify(data), {
-                    headers: {
-                    'Content-Type': 'application/json', // 요청 헤더에 JSON 형식임을 명시
-                    }
-                })
+            
+            await axios.post(`/order/${memberId}`,data)
                 .then(response => {
                     console.log(response.data);
                     toast.success("주문이 완료되었습니다!");
@@ -81,7 +88,7 @@ const OrderPage = () => {
                     console.log(error);
                 })
         }
-
+        
         return (
             <Container>
                 <div className="px-10 py-5">
@@ -97,6 +104,8 @@ const OrderPage = () => {
                         detailAddress={userData.detailAddress}
                         memo={memo}
                         setMemo={setMemo}
+                        email={memberEmail}
+                        setEmail={setMemberEmail}
                     />
                     
                     <div className="mb-16" />
@@ -147,6 +156,9 @@ const OrderPage = () => {
                                     itemCount={product.itemCount}
                                     itemOption={product.itemOption}
                                     stock={product.stock}
+                                    maxPoint={userData.point}
+                                    point={product.itemUsePoint}  // 각 아이템에서 사용할 usePoint
+                                    setPoint={(point: any) => product.itemUsePoint = point}
                                 />
                             ))}
                         </tbody>

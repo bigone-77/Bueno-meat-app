@@ -57,11 +57,8 @@ const ProductDetailPage = () => {
     }
 
     const gotoOrderHandler = () => {
-        if (disabled) {
-            toast.warn("옵션을 선택해주세요");
-        } else {
-            navigate('/order');
-        }
+        putCartHandler();
+        navigate('/member/mypage/cart');
     }
     
     if (detailProductData) {

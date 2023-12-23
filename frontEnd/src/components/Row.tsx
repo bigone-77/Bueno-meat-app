@@ -21,14 +21,19 @@ const Row = ({
     const products = useSelector((state: RootState) => state.product);
 
     const fetchData = useCallback(async () => {
-        const response = await axios.get(fetchUrl);
-        dispatch(setProduct(response?.data));
+        try {
+            const response = await axios.get(fetchUrl);
+            dispatch(setProduct(response?.data));
+        } catch (error) {
+            console.log(error);
+        }
     }, [fetchUrl]);
+    
 
     useEffect(() => {
         fetchData();
     }, [fetchData]);
-    
+
     return (
         <div className="px-10">
             <p className="mb-10 text-5xl font-Cafe24Shiningstar">{title}</p>

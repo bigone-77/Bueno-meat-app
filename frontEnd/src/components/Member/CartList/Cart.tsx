@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom"
 const Cart = () => {
     const navigate = useNavigate();
     const [cartData, setCartData] = useState<CartDataProps[]>([]);
-    // const [itemIdList, setItemIdList] = useState<number[]>([]); // itemIdList
     
     const memberId = useSelector((state: RootState) => state.currentUser.id);
     
@@ -24,6 +23,11 @@ const Cart = () => {
             })
     }
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    
     const patchHandler = async (id: number, newCount: number) => {
         
         await axios.patch(`/mypage/cart/${memberId}/${id}`, newCount, {
@@ -32,6 +36,7 @@ const Cart = () => {
             },
         }).then((response) => {
             toast.success(response.data);
+            fetchData();
         }).catch(error => {
             toast.error('수량 변경에 실패했습니다')
         })
@@ -55,31 +60,6 @@ const Cart = () => {
             }
     }, []);
     
-    useEffect(() => {
-        fetchData();
-    }, [deleteHandler, patchHandler]);
-
-
-    // const checkedItemHandler = (id: number, isChecked: boolean) => {
-    //     if (isChecked) {
-    //         setItemIdList((prev) => [...prev, id]);
-    //     } else {
-    //         setItemIdList(itemIdList.filter((item) => item !== id));
-    //     }
-    // };
-    
-    // const allCheckedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.checked) { 
-    //         setItemIdList(cartData.map((item) => item.itemId));
-            
-    //     } else {
-    //         setItemIdList([]);
-    //     }
-    // };
-    
-    // console.log(itemIdList);
-    
-
     return (
         <div className='my-10 ml-52'>
             <p className="text-5xl font-bold text-start">장바구니</p>
@@ -91,17 +71,8 @@ const Cart = () => {
                         scope="col"
                         className="w-24 hover:bg-[rgba(0,0,0,0.2)]"
                     >
-                        전체 {cartData?.length}개
+                        {cartData.length !== 0 ? `전체 ${cartData.length}개` : '0개'}
                     </th>
-
-                    {/* <th
-                        scope="col"
-                        className="hover:bg-[rgba(0,0,0,0.2)] w-7"
-                    >
-                        <input type="checkbox" onChange={allCheckedHandler} 
-                            checked={itemIdList.length === cartData.length ? true : false}
-                        />
-                    </th> */}
 
                     <th
                         scope="col"
@@ -139,36 +110,39 @@ const Cart = () => {
                 </thead>
 
                 <tbody>
-                    {cartData?.map((data, index) => (
-                        <CartItem 
-                            key={data.itemId}
-                            idx={index + 1}
-                            memberId={memberId}
-                            id={data.itemId}
-                            img={data.image}
-                            name={data.itemName}
-                            option={data.itemOption}
-                            count={data.itemCount}
-                            resultPrice={data.totalPrice}
-                            stock={data.stock}
-                            deleteHandler={deleteHandler}
-                            patchHandler={patchHandler}
-                            // checkedItemHandler={checkedItemHandler}
-                            // checked={itemIdList.includes(data.itemId) ? true : false}
-                        />
-                    ))}
+                    {cartData.length !== 0 ? 
+                        cartData?.map((data, index) => (
+                            <CartItem 
+                                key={data.itemId}
+                                idx={index + 1}
+                                memberId={memberId}
+                                id={data.itemId}
+                                img={data.image}
+                                name={data.itemName}
+                                option={data.itemOption}
+                                count={data.itemCount}
+                                resultPrice={data.totalPrice}
+                                stock={data.stock}
+                                deleteHandler={deleteHandler}
+                                patchHandler={patchHandler}
+                            />
+                        )) :
+                        <div className="w-screen py-20">
+                            <p className="mr-[350px] text-lg text-center text-gray-400">장바구니에 담긴 상품이 없습니다.</p>
+                        </div>
+                    }
                 </tbody>
                 </table>
-                <hr />
-                <div className="flex items-center gap-10 mt-10">
-                    <button onClick={() => deleteHandler()}>전체삭제</button>
-                    <button 
-                        className="text-white bg-black"
-                        onClick={() => navigate('/order')}
-                    >
-                        주문하기
-                    </button>
-                </div>
+                {cartData.length !== 0 ? 
+                    <div className="flex items-center gap-10 mt-10">
+                        <button onClick={() => deleteHandler()}>전체삭제</button>
+                        <button 
+                            className="text-white bg-black"
+                            onClick={() => navigate('/order')}
+                        >
+                            주문하기
+                        </button> 
+                    </div> : ''}
         </div>
     )
 }
