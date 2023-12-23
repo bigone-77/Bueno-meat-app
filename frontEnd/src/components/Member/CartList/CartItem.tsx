@@ -16,13 +16,10 @@ interface CartItemProps {
     stock: number;
     deleteHandler: (productId: number) => Promise<void>;
     patchHandler:  (id: number, newCount: number) => Promise<void>
-    // checkedItemHandler: (id: number, isChecked: boolean) => void;
-    // checked: boolean;
 }
 
 const CartItem = ({
     idx,
-    memberId,
     id,
     img,
     name,
@@ -32,12 +29,7 @@ const CartItem = ({
     stock,
     deleteHandler,
     patchHandler
-    // checkedItemHandler,
-    // checked
 }: CartItemProps) => {
-    // const checkedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     checkedItemHandler(id, e.target.checked);
-    // };
     const [showEdit, setShowEdit] = useState(false);
     const [newCount, setNewCount] = useState(count);
 
@@ -68,12 +60,10 @@ const CartItem = ({
         <>
         <tr>
             <td className="pl-2 text-center">{idx}</td>
-            {/* <td className="text-center">
-                <input id={name} type="checkbox" checked={checked} onChange={checkedHandler}/>
-            </td> */}
+            
             <td className="flex items-center justify-start gap-2 text-center hover:cursor-pointer" onClick={handleClick}>
                 <span className="items-center">
-                    <img src={img} alt={img} className="object-cover w-12 h-16"/>
+                    <img src={img} alt={img} className="object-cover w-24 h-28"/>
                 </span>
                 <span className="text-start">
                     <p className="mb-2 font-bold">{name}</p>
@@ -83,11 +73,12 @@ const CartItem = ({
             <td className="text-center">{resultPrice}</td>
             <td className="text-center">{count}</td>
             <td className="text-center">{resultPrice} ({resultPrice/20}P)</td>
-            <td className="flex flex-col items-center gap-2">
-                <button className="bg-blue-400" onClick={() => setShowEdit(true)}>수량변경</button>
+            <td className="text-center">
+                <button className="mb-2 bg-blue-400" onClick={() => setShowEdit(true)}>수량변경</button>
                 <button onClick={() => deleteHandler(id)}>삭제</button>
             </td>
         </tr>
+        <hr className="w-screen my-5"/>
         {showEdit && 
             <div className='absolute z-30 w-full'> 
                 <div className='fixed inset-0 flex justify-center bg-opacity-60 bg-slate-300'>

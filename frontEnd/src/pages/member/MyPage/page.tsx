@@ -4,6 +4,7 @@ import Header from '../../../components/utils/Header'
 import Edit from '../../../components/Member/Edit/Edit'
 import WishList from '../../../components/Member/WishList'
 import Cart from '../../../components/Member/CartList/Cart'
+import OrderList from '../../../components/Member/orderList/OrderList'
 
 
 const MyPage = () => {
@@ -17,7 +18,7 @@ const MyPage = () => {
                 pageType="mypage"
                 pageName={path} 
             />
-            {path === 'orderlist' && <div>주문내역페이지입니다!</div>}
+            {path === 'orderlist' && <OrderList />}
             {path === "review" && <div>리뷰페이지입니다!</div>}
             {path === "counsel" && <div>문의페이지입니다!</div>}
             {path === "wishlist" && <WishList />}
