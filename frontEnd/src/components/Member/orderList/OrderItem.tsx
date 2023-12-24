@@ -64,11 +64,13 @@ const OrderItem = ({
                     >
                         주문 취소
                     </button>
-                    <button className={`
-                        bg-amber-400
-                        ${status === "RELEASE" ? 'block' : 'hidden'}
-                        ${status === "RELEASE" ? 'mt-2' : 'mt-0'}
-                        `}
+                    <button
+                        className={`
+                            bg-amber-400
+                            ${status === "RELEASE" ? 'block' : 'hidden'}
+                            ${status === "RELEASE" ? 'mt-2' : 'mt-0'}
+                            `}
+                        onClick={() => navigate('/member/mypage/review')}
                     >
                         리뷰 작성하기
                     </button>

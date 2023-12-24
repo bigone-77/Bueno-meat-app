@@ -6,4 +6,5 @@ export interface UserProps {
     nickname?: string;
     address?: string;
     detailAddress?: string;
+    recommendNum?: number;
 }

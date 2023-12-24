@@ -29,9 +29,9 @@ input[type='number']::-webkit-inner-spin-button {
     @apply w-full h-[2px] bg-gray-300
   }
 
-  tr {
+  /* tr {
     @apply border-b border-black
-  }
+  } */
 
   th, td {
     @apply border-black font-light text-black px-2 py-2
