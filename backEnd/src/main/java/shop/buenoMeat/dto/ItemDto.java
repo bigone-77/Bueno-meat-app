@@ -3,6 +3,9 @@ package shop.buenoMeat.dto;
 import lombok.*;
 import shop.buenoMeat.domain.CategoryName;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -81,5 +84,43 @@ public class ItemDto {
         private String itemOption;
         private int stock;
         private String image;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class reviewItemInfo {
+        private Long itemId;
+        private String itemName;
+        private String itemImage;
+        private int starRating;
+        private String comment;
+        private String reviewImage;
+        private LocalDateTime reviewTime;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class reviewUserInfo {
+        private String username;
+        private int recommend;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class getReviewFormPage {
+        private List<reviewItemInfo> itemInfos;
+        private reviewUserInfo reviewUserInfo;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class enrollReviewDto {
+        private int starRating;
+        private String comment;
+        private String reviewImage;
     }
 }

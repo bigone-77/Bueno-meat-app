@@ -48,6 +48,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<ItemReview> itemReviews = new ArrayList<>();
+
 
     public static Member createMember(MemberDto memberDto) {
         Member member = new Member();

@@ -21,12 +21,38 @@ public class ItemReview {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Column(name = "rev_comment", length = 500)
     private String comment; // 리뷰 내용
 
-    @Column(name = "rev_writer")
-    private String writer;
-
     @Column(name = "rev_date")
-    private LocalDateTime reviewTime;
+    private LocalDateTime reviewTime; //작성 시간
+
+    @Column(name = "rev_star")
+    private int starRating; //별점
+
+    @Column(name = "rev_recommend")
+    private int recommend; // 추천 수
+
+    @Column(name = "rev_image")
+    private String image;
+
+    public ItemReview(Item item, Member member, String comment, int starRating, String image) {
+        this.item = item;
+        this.member = member;
+        this.comment = comment;
+        this.reviewTime = LocalDateTime.now();
+        this.starRating = starRating;
+        this.recommend = 0;
+        this.image = image;
+    }
+
+    public static ItemReview createReview(Item item, Member member, String comment, int starRating, String image) {
+        ItemReview itemReview = new ItemReview(item, member, comment, starRating, image);
+        member.addPoint(500); // 리뷰 적립금 500원
+        return itemReview;
+    }
 }

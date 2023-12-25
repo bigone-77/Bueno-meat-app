@@ -83,4 +83,16 @@ public class ConvertToDto {
         );
     }
 
+
+    public static ItemDto.reviewItemInfo convertToReviewItemInfo(ItemReview itemReview) {
+        return new ItemDto.reviewItemInfo(
+                itemReview.getId(),
+                itemReview.getItem().getName(),
+                itemReview.getItem().getImage(),
+                itemReview.getStarRating(),
+                itemReview.getComment(),
+                itemReview.getImage(),
+                itemReview.getReviewTime()
+        );
+    }
 }

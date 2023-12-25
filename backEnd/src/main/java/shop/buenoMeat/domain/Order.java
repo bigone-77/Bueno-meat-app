@@ -79,7 +79,6 @@ public class Order {
                                     String detailAddress, String memo, int totalPrice, List<OrderItem> orderItems, String orderNum) {
         Order order = new Order(member, recipient, phone, email, address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE, orderNum);
         order.orderItems.addAll(orderItems);
-
         return order;
     }
 

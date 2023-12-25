@@ -47,6 +47,7 @@ public class OrderService {
         Map<Long, Integer> itemAndPoint = orderRequestDto.getItemAndPoint(); // Key: 상품 ID, Value: 사용한 포인트
         List<OrderItem> orderItems = new ArrayList<>(); // 주문된 상품 리스트
         int earnPoint = 0;
+
         for (Long itemId : itemAndPoint.keySet()) {
             Item findItem = itemRepository.findOne(itemId);
             CartItem findCartItem = cartItemRepository.findByItemId(itemId);
