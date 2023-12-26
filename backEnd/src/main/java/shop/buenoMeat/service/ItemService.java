@@ -6,11 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.CategoryName;
 import shop.buenoMeat.domain.Item;
+import shop.buenoMeat.domain.ItemReview;
 import shop.buenoMeat.dto.ConvertToDto;
 import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.repository.ItemRepository;
+import shop.buenoMeat.repository.ItemReviewRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,17 +21,15 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-
-    public List<Item> findCategoryItems() {
-        return itemRepository.findAll();
-    }
+    private final ItemReviewRepository itemReviewRepository;
 
     //--상품 상세페이지 정보--//
     @Transactional
-    public ResponseEntity<ItemDto.itemDetailDto> findItemDetail(Long id) {
-        Item findItem = itemRepository.findOne(id);
+    public ResponseEntity<ItemDto.itemDetailDto> findItemDetail(Long itemId) {
+        Item findItem = itemRepository.findOne(itemId);
+        List<ItemReview> findAllReviewsByItemId = itemReviewRepository.findAllByItemId(itemId);
         CategoryName categoryName = findItem.getCategory().getCategoryName();
-        ItemDto.itemDetailDto itemDto = new ItemDto.itemDetailDto(categoryName,
+        ItemDto.itemDetailInfo itemDetailInfo= new ItemDto.itemDetailInfo(categoryName,
                 findItem.getName(),
                 findItem.getInfo(),
                 findItem.getImage(),
@@ -38,7 +37,11 @@ public class ItemService {
                 findItem.getWeight(),
                 findItem.getWeightUnit()
         );
-        return ResponseEntity.ok(itemDto);
+        List<ItemDto.itemReviewInfo> itemReviewInfos = findAllReviewsByItemId.stream()
+                .map(ConvertToDto::convertToItemReviewInfo)
+                .collect(Collectors.toList());
+        ItemDto.itemDetailDto itemDetailDto = new ItemDto.itemDetailDto(itemDetailInfo, itemReviewInfos);
+        return ResponseEntity.ok(itemDetailDto);
     }
 
     //-- 카테고리별 상품 조회 --//
@@ -52,7 +55,7 @@ public class ItemService {
     //-- hot(판매량순) 상품 조회 --//
     public List<ItemDto.itemHotAndCategoryDto> findHotItems() {
         List<Item> findItems = itemRepository.findAll();
-        Collections.sort(findItems, (o1, o2) -> o2.getSoldQuantity() - o1.getSoldQuantity());
+        findItems.sort((o1, o2) -> o2.getSoldQuantity() - o1.getSoldQuantity());
         return findItems.stream()
                 .limit(6)
                 .map(ConvertToDto::convertToItemCategoryDto)

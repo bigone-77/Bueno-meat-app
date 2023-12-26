@@ -50,9 +50,25 @@ public class ItemReview {
         this.image = image;
     }
 
+    //-- 생성 메서드 --//
     public static ItemReview createReview(Item item, Member member, String comment, int starRating, String image) {
         ItemReview itemReview = new ItemReview(item, member, comment, starRating, image);
         member.addPoint(500); // 리뷰 적립금 500원
         return itemReview;
     }
+
+    //-- 추천 수 증가 메서드 --//
+    public void addRecommend() {
+        this.recommend += 1;
+    }
+
+    //-- 추천 수 감소 메서드 --//
+    public void cancelRecommend() { this.recommend -= 1; }
+
+    //-- 업데이트 메서드 --//
+    public void changeStarRating(int starRating){ this.starRating = starRating; }
+
+    public void changeComment(String comment){ this.comment = comment; }
+
+    public void changeImage(String image){ this.image = image; }
 }
