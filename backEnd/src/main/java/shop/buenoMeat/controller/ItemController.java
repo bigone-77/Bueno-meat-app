@@ -17,9 +17,9 @@ public class ItemController {
     private final ItemService itemService;
 
     //-- 상품 상세 페이지 --//
-    @GetMapping("/{id}/detail")
-    public ResponseEntity<ItemDto.itemDetailDto> itemDetail(@PathVariable Long id) {
-        return itemService.findItemDetail(id);
+    @GetMapping("/{itemId}/detail")
+    public ResponseEntity<ItemDto.itemDetailDto> itemDetail(@PathVariable Long itemId) {
+        return itemService.findItemDetail(itemId);
     }
 
     //-- 카테고리 별 상품 조회 --//

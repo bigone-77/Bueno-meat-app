@@ -2,6 +2,7 @@ package shop.buenoMeat.dto;
 
 import lombok.*;
 import shop.buenoMeat.domain.CategoryName;
+import shop.buenoMeat.domain.ItemReview;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +15,7 @@ public class ItemDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class itemDetailDto {
+    public static class itemDetailInfo {
         private CategoryName category;
         private String name;
         private String info;
@@ -22,6 +23,26 @@ public class ItemDto {
         private int price;
         private String weight;
         private String weightUnit;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class itemReviewInfo { // 상품 상세페이지 누르면 상품에 해당하는 리뷰
+        private Long id;
+        private String username;
+        private int starRating;
+        private LocalDateTime reviewTime;
+        private String reviewImage;
+        private String comment;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class itemDetailDto {
+        private itemDetailInfo itemDetailInfo;
+        private List<itemReviewInfo> itemReviewInfos;
     }
 
     @Data
@@ -89,7 +110,8 @@ public class ItemDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class reviewItemInfo {
+    public static class reviewItemInfo { //리뷰를 작성할 상품
+        private Long reviewId;
         private Long itemId;
         private String itemName;
         private String itemImage;
@@ -123,4 +145,14 @@ public class ItemDto {
         private String comment;
         private String reviewImage;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class updateReviewDto {
+        private int starRating;
+        private String comment;
+        private String reviewImage;
+    }
+
 }

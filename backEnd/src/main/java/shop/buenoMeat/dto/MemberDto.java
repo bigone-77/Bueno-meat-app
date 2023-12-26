@@ -1,8 +1,6 @@
 package shop.buenoMeat.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import shop.buenoMeat.domain.Member;
 
 @Getter @Setter
@@ -25,4 +23,13 @@ public class MemberDto {
         member.changeDetailAddress(detailAddress);
         return member;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class reviewRecommendDto {
+        private String msg;
+        private int recommend;
+    }
+
 }

@@ -8,6 +8,8 @@ import shop.buenoMeat.domain.ItemReview;
 import shop.buenoMeat.domain.Member;
 import shop.buenoMeat.dto.ConvertToDto;
 import shop.buenoMeat.dto.ItemDto;
+import shop.buenoMeat.dto.MemberDto;
+import shop.buenoMeat.exception.SelfRecommendationException;
 import shop.buenoMeat.repository.ItemRepository;
 import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.repository.ItemReviewRepository;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ItemReviewService {
 
@@ -24,11 +26,12 @@ public class ItemReviewService {
     private final MemberRepository memberRepository;
     private final ItemReviewRepository itemReviewRepository;
 
-    //-- 리뷰(마이페이지) 불러오기 --//
+    //-- 리뷰내역(마이페이지) 불러오기 --//
     public ItemDto.getReviewFormPage getReviewFormPage(Long memberId) {
         Member findMember = memberRepository.findOne(memberId);
         List<ItemReview> findAllReviews = itemReviewRepository.findAllByMemberId(memberId);
         int totalRecommend = 0;
+        // 회원이 쓴 리뷰의 추천개수 총합 계산
         for (ItemReview findReview : findAllReviews) {
             totalRecommend += findReview.getRecommend();
         }
@@ -36,8 +39,7 @@ public class ItemReviewService {
         List<ItemDto.reviewItemInfo> reviewItemInfos = findAllReviews.stream()
                 .map(ConvertToDto::convertToReviewItemInfo)
                 .collect(Collectors.toList());
-        ItemDto.getReviewFormPage getReviewFormPage = new ItemDto.getReviewFormPage(reviewItemInfos, reviewUserInfo);
-        return getReviewFormPage;
+        return new ItemDto.getReviewFormPage(reviewItemInfos, reviewUserInfo);
     }
 
     //-- 리뷰 작성하기 --//
@@ -47,5 +49,40 @@ public class ItemReviewService {
         ItemReview itemReview = ItemReview.createReview(findItem, findMember, enrollReviewDto.getComment(),
                 enrollReviewDto.getStarRating(), enrollReviewDto.getReviewImage());
         itemReviewRepository.save(itemReview);
+    }
+
+    //-- 리뷰 추천 하기 --//
+    public MemberDto.reviewRecommendDto addReviewRecommend(Long memberId, Long reviewId) {
+        ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
+        if (findReview.getMember().getId().equals(memberId)) { // 자신이 쓴 글 추천 방지
+            throw new SelfRecommendationException("자신의 리뷰글에는 추천할 수 없습니다.");
+
+        } else { // 추천을 누를 경우 추천 수 증가
+            findReview.addRecommend();
+        }
+        return new MemberDto.reviewRecommendDto(
+                "추천이 성공적으로 완료되었습니다.", findReview.getRecommend());
+    }
+
+    //-- 리뷰 추천 취소하기 --//
+    public MemberDto.reviewRecommendDto cancelReviewRecommend(Long memberId, Long reviewId) {
+        ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
+        findReview.cancelRecommend(); // 추천 수 감소
+        return new MemberDto.reviewRecommendDto(
+                "추천을 취소했습니다.", findReview.getRecommend());
+    }
+
+    //-- 리뷰 수정하기 --//
+    public void updateReview(Long reviewId, ItemDto.updateReviewDto updateReviewDto) {
+        ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
+        findReview.changeComment(updateReviewDto.getComment());
+        findReview.changeImage(updateReviewDto.getReviewImage());
+        findReview.changeStarRating(updateReviewDto.getStarRating());
+    }
+
+    //-- 리뷰 삭제하기 --//
+    public void deleteReview(Long reviewId) {
+        ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
+        itemReviewRepository.delete(findReview);
     }
 }

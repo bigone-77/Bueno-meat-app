@@ -84,15 +84,27 @@ public class ConvertToDto {
     }
 
 
-    public static ItemDto.reviewItemInfo convertToReviewItemInfo(ItemReview itemReview) {
+    public static ItemDto.reviewItemInfo convertToReviewItemInfo(ItemReview itemReview) { //마이페이지 해당 회원 리뷰내역
         return new ItemDto.reviewItemInfo(
                 itemReview.getId(),
+                itemReview.getItem().getId(),
                 itemReview.getItem().getName(),
                 itemReview.getItem().getImage(),
                 itemReview.getStarRating(),
                 itemReview.getComment(),
                 itemReview.getImage(),
                 itemReview.getReviewTime()
+        );
+    }
+
+    public static ItemDto.itemReviewInfo convertToItemReviewInfo(ItemReview itemReview) { // 상세페이지 해당 상품 리뷰내용
+        return new ItemDto.itemReviewInfo(
+                itemReview.getId(),
+                itemReview.getMember().getUsername(),
+                itemReview.getStarRating(),
+                itemReview.getReviewTime(),
+                itemReview.getImage(),
+                itemReview.getComment()
         );
     }
 }

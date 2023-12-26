@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.buenoMeat.dto.ItemDto;
+import shop.buenoMeat.dto.MemberDto;
 import shop.buenoMeat.service.ItemReviewService;
 
 @RestController
@@ -26,4 +27,29 @@ public class ItemReviewController {
         return ResponseEntity.ok("상품리뷰등록이 완료되었습니다.");
     }
 
+    //-- 리뷰 추천 하기 --//
+    @PostMapping("/{memberId}/{reviewId}")
+    public ResponseEntity<MemberDto.reviewRecommendDto> addReviewRecommend(@PathVariable Long memberId, @PathVariable Long reviewId) {
+        return ResponseEntity.ok(itemReviewService.addReviewRecommend(memberId, reviewId));
+    }
+
+    //-- 리뷰 추천 취소하기 --//
+    @PatchMapping("/{memberId}/{reviewId}")
+    public ResponseEntity<MemberDto.reviewRecommendDto> cancelReviewRecommend(@PathVariable Long memberId, @PathVariable Long reviewId) {
+        return ResponseEntity.ok(itemReviewService.cancelReviewRecommend(memberId, reviewId));
+    }
+
+    //-- 리뷰 수정하기 --//
+    @PatchMapping("/{reviewId}")
+    public ResponseEntity<String> updateReview(@PathVariable Long reviewId, @RequestBody ItemDto.updateReviewDto updateReviewDto) {
+        itemReviewService.updateReview(reviewId, updateReviewDto);
+        return ResponseEntity.ok("리뷰 수정이 완료되었습니다");
+    }
+
+    //-- 리뷰 삭제하기 --//
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
+        itemReviewService.deleteReview(reviewId);
+        return ResponseEntity.ok("리뷰 삭제가 완료되었습니다.");
+    }
 }
