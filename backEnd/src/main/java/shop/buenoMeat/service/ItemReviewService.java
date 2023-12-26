@@ -42,6 +42,7 @@ public class ItemReviewService {
         return new ItemDto.getReviewFormPage(reviewItemInfos, reviewUserInfo);
     }
 
+    @Transactional
     //-- 리뷰 작성하기 --//
     public void enrollReview(Long memberId, Long itemId, ItemDto.enrollReviewDto enrollReviewDto) {
         Item findItem = itemRepository.findOne(itemId);
@@ -51,6 +52,7 @@ public class ItemReviewService {
         itemReviewRepository.save(itemReview);
     }
 
+    @Transactional
     //-- 리뷰 추천 하기 --//
     public MemberDto.reviewRecommendDto addReviewRecommend(Long memberId, Long reviewId) {
         ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
@@ -64,6 +66,7 @@ public class ItemReviewService {
                 "추천이 성공적으로 완료되었습니다.", findReview.getRecommend());
     }
 
+    @Transactional
     //-- 리뷰 추천 취소하기 --//
     public MemberDto.reviewRecommendDto cancelReviewRecommend(Long memberId, Long reviewId) {
         ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
@@ -72,6 +75,7 @@ public class ItemReviewService {
                 "추천을 취소했습니다.", findReview.getRecommend());
     }
 
+    @Transactional
     //-- 리뷰 수정하기 --//
     public void updateReview(Long reviewId, ItemDto.updateReviewDto updateReviewDto) {
         ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
@@ -80,9 +84,11 @@ public class ItemReviewService {
         findReview.changeStarRating(updateReviewDto.getStarRating());
     }
 
+    @Transactional
     //-- 리뷰 삭제하기 --//
     public void deleteReview(Long reviewId) {
         ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
         itemReviewRepository.delete(findReview);
+        itemReviewRepository.flush();
     }
 }
