@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Posting from "../Review/Posting";
 
 interface OrderItemProps {
     id: number;
@@ -25,11 +27,14 @@ const OrderItem = ({
     status,
     deleteHandler
 }: OrderItemProps) => {
+    // 리뷰 쓰기 가능한 아이템들에 대한 (status === RELEASE) 리뷰 폼 보여주기 boolean
+    const [showReviewForm, setShowReviewForm] = useState(false);
 
     const navigate = useNavigate();
 
     return (
         <>
+        {!showReviewForm?
             <tr>
                 <td className="flex items-center justify-start gap-2 text-center hover:cursor-pointer" onClick={() => navigate(`/products/${id}`)}>
                     <span className="items-center">
@@ -70,12 +75,22 @@ const OrderItem = ({
                             ${status === "RELEASE" ? 'block' : 'hidden'}
                             ${status === "RELEASE" ? 'mt-2' : 'mt-0'}
                             `}
-                        onClick={() => navigate('/member/mypage/review')}
+                        onClick={() => setShowReviewForm(true)}
                     >
                         리뷰 작성하기
                     </button>
                 </td>
             </tr>
+            : <>
+                <Posting 
+                    id={id}
+                    img={image}
+                    name={name}
+                    option={option}
+                    date={date.slice(0,10)}
+                    setShowReviewForm={setShowReviewForm}
+                />
+                </>}
             <hr className="w-screen"/>
         </>
     )

@@ -6,6 +6,7 @@ import WishList from '../../../components/Member/WishList'
 import Cart from '../../../components/Member/CartList/Cart'
 import OrderList from '../../../components/Member/orderList/OrderList'
 import Review from '../../../components/Member/Review/Review'
+import Qna from '../../../components/Member/Counsel/Qna'
 
 
 const MyPage = () => {
@@ -21,7 +22,7 @@ const MyPage = () => {
             />
             {path === 'orderlist' && <OrderList />}
             {path === "review" && <Review />}
-            {path === "counsel" && <div>문의페이지입니다!</div>}
+            {path === "counsel" && <Qna />}
             {path === "wishlist" && <WishList />}
             {path === "cart" && <Cart />}
             {path === "edit" && <Edit />}

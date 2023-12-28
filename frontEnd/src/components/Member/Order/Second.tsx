@@ -13,8 +13,7 @@ interface SecondProps {
     maxPoint: number;
     point: number;
     setPoint: (usePoint: any) => number
-    // pointValue: string;
-    // setPointValue: React.Dispatch<React.SetStateAction<string>>;
+    
 }
 
 const SecondCard = ({
@@ -28,8 +27,7 @@ const SecondCard = ({
     maxPoint,
     point,
     setPoint
-    // pointValue,
-    // setPointValue
+    
 }: SecondProps) => {
 
     const navigate = useNavigate();
@@ -49,13 +47,6 @@ const SecondCard = ({
             }
         }
     }
-    
-    // useEffect(() => {
-    //     if (!pointValue) {
-    //         setPointValue('0');
-    //     }
-    //     setFinalPrice(priceSum - Number(pointValue));
-    // }, [pointValue])
 
     return (
         <tr>

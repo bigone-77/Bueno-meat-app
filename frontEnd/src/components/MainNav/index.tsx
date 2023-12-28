@@ -18,7 +18,7 @@ const MainNavbar = () => {
     const [showModal, setShowModal] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
-    const show = useScroll();
+    const show = useScroll(80);
     const { logout } = useLogout();
 
     const currentUserData = useSelector((state: RootState) => state.currentUser);

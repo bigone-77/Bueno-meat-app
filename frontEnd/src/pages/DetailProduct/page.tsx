@@ -5,16 +5,28 @@ import SubDiv from '../../components/utils/SubDiv';
 import ProductWeightOption from '../../components/ProductWeightOption';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import useGetFetchedData from '../../hooks/useGetFetchedData';
 import { ProductProps } from '../../types/ProductProps';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import { removeCartData } from '../../redux/slices/cartSlice';
+import { ProductReviewProps } from '../../types/DetailProduct/ProductReviewProps';
+import Reviews from '../../components/DetailProduct/Reviews';
+import Qna from '../../components/DetailProduct/Qna';
+
+const dummyQnaData = [{
+    "qnaId": 1,
+    "itemOption": "300g",
+    "comment": "어르신들 드실 갈비탕 준비하려는데 탕으로도 괜찮을까요",
+    "qnaDate": "2023-12-28",
+}]
 
 const ProductDetailPage = () => {
     const [detailProductData, setDetailProductData] = useState<ProductProps>();
+    const [productReviewData, setProductReviewData] = useState<ProductReviewProps[]>([]);
     const [disabled, setDisabled] = useState(true);
+
+    const [showReviews, setShowReviews] = useState(true);
 
     const memberId = useSelector((state: RootState) => state.currentUser.id);
     const cartData = useSelector((state: RootState) => state.cart);
@@ -23,15 +35,23 @@ const ProductDetailPage = () => {
     
     const params = useParams();
     const navigate = useNavigate();
-    
-    const { response } = useGetFetchedData({
-        method: "get",
-        url: `/products/${params.productId}/detail`
-    });
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`/products/${params.productId}/detail`);
+            console.log(response.data);
+            
+            setDetailProductData(response.data.itemDetailInfo);
+            setProductReviewData(response.data.itemReviewInfos);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     useEffect(() => {
-        setDetailProductData(response?.data);
-    }, [response])
+        fetchData();
+    }, [])
 
     const { itemCount, totalPrice, itemOption } = cartData;
 
@@ -66,7 +86,7 @@ const ProductDetailPage = () => {
         
         return (
             <Container>
-                <div className='grid grid-cols-1 gap-5 my-40 sm:grid-cols-2'>
+                <div className='grid grid-cols-1 gap-5 px-10 my-40 sm:grid-cols-2'>
                     <img src={image} alt='product-img' className='w-[480px] h-[580px]' />
                     <div>
                         <hr className='w-full h-1 mb-10 bg-black' />
@@ -102,6 +122,35 @@ const ProductDetailPage = () => {
                             </span>
                         </section>
                     </div>
+                </div>
+    
+                <div className="px-10">
+                    <table className="w-full border rounded-[20px] overflow-hidden">
+                        <thead>
+                            <tr className="bg-[rgba(0,0,0,0.1)] font-bold">
+                                <th
+                                    className={`${showReviews && 'bg-white'} cursor-pointer`}
+                                    onClick={() => setShowReviews(true)}
+                                >
+                                    구매 후기
+                                </th>
+                                <th 
+                                    className={`${!showReviews && 'bg-white'} cursor-pointer`}
+                                    onClick={() => setShowReviews(false)}
+                                >
+                                    상품 문의
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    {showReviews ? 
+                        <Reviews
+                            data={productReviewData || []}
+                        /> : 
+                        <Qna 
+                            qnaData={dummyQnaData || []}
+                            productId={Number(params.productId)}
+                        />}
                 </div>
         </Container>
         )
