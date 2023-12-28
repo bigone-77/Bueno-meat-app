@@ -3,8 +3,6 @@ package shop.buenoMeat.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shop.buenoMeat.domain.ItemReview;
-import shop.buenoMeat.domain.Member;
-import shop.buenoMeat.domain.WishList;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -20,13 +18,13 @@ public class ItemReviewRepository {
     public ItemReview findByReviewId(Long id){ return em.find(ItemReview.class,id); }
 
     public List<ItemReview> findAllByMemberId(Long memberId) {
-        return em.createQuery("select i from ItemReview i where i.memberId = :memberId", ItemReview.class)
-                .setParameter("memberId", memberId).getResultList();
+        return em.createQuery("select i from ItemReview i where i.member.id = :member_id", ItemReview.class)
+                .setParameter("member_id", memberId).getResultList();
     }
 
-    public List<ItemReview> findAllByItemId(Long ItemId) {
-        return em.createQuery("select i from ItemReview i where i.ItemId = :ItemId", ItemReview.class)
-                .setParameter("ItemId", ItemId).getResultList();
+    public List<ItemReview> findAllByItemId(Long itemId) {
+        return em.createQuery("select i from ItemReview i where i.item.id = :item_id", ItemReview.class)
+                .setParameter("item_id", itemId).getResultList();
     }
 
     public void delete(ItemReview itemReview){em.remove(itemReview);}

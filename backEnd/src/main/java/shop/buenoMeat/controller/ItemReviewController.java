@@ -28,7 +28,7 @@ public class ItemReviewController {
     }
 
     //-- 리뷰 추천 하기 --//
-    @PostMapping("/{memberId}/{reviewId}")
+    @PostMapping("/recommend/{memberId}/{reviewId}")
     public ResponseEntity<MemberDto.reviewRecommendDto> addReviewRecommend(@PathVariable Long memberId, @PathVariable Long reviewId) {
         return ResponseEntity.ok(itemReviewService.addReviewRecommend(memberId, reviewId));
     }
@@ -47,9 +47,9 @@ public class ItemReviewController {
     }
 
     //-- 리뷰 삭제하기 --//
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
-        itemReviewService.deleteReview(reviewId);
+    @DeleteMapping("/{reviewId}/{memberId}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId, @PathVariable Long memberId) {
+        itemReviewService.deleteReview(reviewId, memberId);
         return ResponseEntity.ok("리뷰 삭제가 완료되었습니다.");
     }
 }
