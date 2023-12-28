@@ -3,10 +3,12 @@ import { IconType } from "react-icons"
 
 interface SelectedStarsProps {
     fillStar: IconType;
+    setStarNum:  React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SelectedStars = ({
     fillStar: Icon,
+    setStarNum
 }: SelectedStarsProps) => {
     let initialStarColors: Array<string> = ["orange", "orange", "orange", "orange", "orange"];
     const [starStatus, setStarStatus] = useState<string[]>(initialStarColors);
@@ -23,6 +25,7 @@ const SelectedStars = ({
             }
         }
         setStarStatus(newStarColors);
+        setStarNum(newStarColors.filter((star) => star === "orange").length);
     }
 
     useEffect(() => {

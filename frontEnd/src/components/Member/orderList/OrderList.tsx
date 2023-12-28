@@ -41,7 +41,8 @@ const OrderList = () => {
         <div className="my-10 ml-52">
             <p className="text-5xl font-bold text-start">주문내역 조회</p>
             <hr className="h-1 my-5 bg-black" />
-            <table className="table-fixed w-full border-separate rounded-[20px] overflow-hidden">
+            {orderListData.length > 0 && 
+                <table className="table-fixed w-full border-separate rounded-[20px] overflow-hidden">
                 <thead>
                     <tr className="bg-[rgba(0,0,0,0.1)]">
                         <th
@@ -97,7 +98,11 @@ const OrderList = () => {
                     ))}
                 </tbody>
             </table>
+}   
+        <div>
+            <p className="text-lg text-center text-gray-400 mt-28">구매하신 상품이 없습니다.</p>
         </div>
+    </div>
     )
 }
 

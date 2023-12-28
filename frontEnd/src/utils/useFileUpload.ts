@@ -33,6 +33,11 @@ export function useFileUpload (options?: FileUploadOptions) {
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
+        const fileExt = file?.name.split('.').pop();
+        if(file?.type !== 'image/jpeg' || fileExt !=='jpg'){
+            toast.warn('jpg 파일만 Upload 가능합니다.');
+            return;
+        }
 
         if (file) {
 
@@ -53,6 +58,7 @@ export function useFileUpload (options?: FileUploadOptions) {
                     myBucket.getSignedUrlPromise('getObject', urlParams)
                         .then(url => {
                             console.log("File URL:", url);
+                            
                             // 여기서 얻은 URL을 사용하거나 상태로 저장할 수 있습니다.
                             options?.onFileUrlChange(url);
                         })
