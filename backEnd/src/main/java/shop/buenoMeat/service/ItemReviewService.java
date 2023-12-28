@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.Item;
+import shop.buenoMeat.domain.ItemQna;
 import shop.buenoMeat.domain.ItemReview;
 import shop.buenoMeat.domain.Member;
 import shop.buenoMeat.dto.ConvertToDto;
@@ -15,6 +16,7 @@ import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.repository.ItemReviewRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,9 +88,17 @@ public class ItemReviewService {
 
     @Transactional
     //-- 리뷰 삭제하기 --//
-    public void deleteReview(Long reviewId) {
+    public void deleteReview(Long reviewId, Long memberId) {
         ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
-        itemReviewRepository.delete(findReview);
-        itemReviewRepository.flush();
+
+        if (findReview == null) { // 해당 리뷰가 존재하지 않는 경우
+            throw new RuntimeException("해당 리뷰가 존재하지 않습니다.");
+        } else { // 문의글을 찾은 경우
+            if (findReview.getMember().getId().equals(memberId)) { // 자신이 작성한 리뷰가 맞는 경우
+                itemReviewRepository.delete(findReview);
+            } else { // 자신이 작성한 리뷰가 아닌 경우
+                throw new RuntimeException("자신이 작성한 리뷰만 삭제할 수 있습니다");
+            }
+        }
     }
 }

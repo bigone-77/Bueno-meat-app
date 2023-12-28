@@ -3,6 +3,7 @@ package shop.buenoMeat.dto;
 import lombok.*;
 import shop.buenoMeat.domain.CategoryName;
 import shop.buenoMeat.domain.ItemReview;
+import shop.buenoMeat.domain.QnaStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +36,19 @@ public class ItemDto {
         private LocalDateTime reviewTime;
         private String reviewImage;
         private String comment;
+        private int recommend;
     }
+
+    /*@Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class itemQnaInfo { //상품 상세페이지 누르면 상품에 해당하는 QnA
+        private Long id;
+        private String title;
+        private String comment;
+        private LocalDateTime qnaTime;
+        private QnaStatus qnaStatus;
+    }*/
 
     @Data
     @AllArgsConstructor

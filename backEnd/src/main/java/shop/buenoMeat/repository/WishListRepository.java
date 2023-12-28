@@ -40,7 +40,7 @@ public class WishListRepository {
     public Long findAlreadyExist(Long memberId, Long itemId) {
         List<WishList> findByMemberId = findAllByMemberId(memberId);
         for (WishList wishList : findByMemberId) {
-            if (wishList.getItem().getId() == itemId) {
+            if (wishList.getItem().getId().equals(itemId)) {
                 return wishList.getId();
             }
         }

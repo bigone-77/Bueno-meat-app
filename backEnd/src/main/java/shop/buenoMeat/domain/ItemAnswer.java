@@ -22,8 +22,19 @@ public class ItemAnswer {
     private ItemQna itemQna;
 
     @Column(nullable = false)
-    private String itemAnswer; // 답변내용
+    private String answer; // 답변내용
 
     @Column(nullable = false)
     private LocalDateTime answerTime; // 작성시간
+
+    public ItemAnswer(ItemQna itemQna, String answer) {
+        this.itemQna = itemQna;
+        this.answer = answer;
+        this.answerTime = LocalDateTime.now();
+    }
+
+    //-- 생성 메서드 --//
+    public static ItemAnswer createItemAnswer(ItemQna itemQna, String answer) {
+        return new ItemAnswer(itemQna, answer);
+    }
 }

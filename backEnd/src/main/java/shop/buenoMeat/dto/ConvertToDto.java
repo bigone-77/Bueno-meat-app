@@ -104,7 +104,18 @@ public class ConvertToDto {
                 itemReview.getStarRating(),
                 itemReview.getReviewTime(),
                 itemReview.getImage(),
-                itemReview.getComment()
+                itemReview.getComment(),
+                itemReview.getRecommend()
+        );
+    }
+
+    public static QnaDto.qnaInfo convertToQnaInfo(ItemQna itemQna) { // 상세페이지 해당 상품 QnA
+        return new QnaDto.qnaInfo(
+                itemQna.getId(),
+                itemQna.getItem().getImage(),
+                itemQna.getItem().getName(),
+                itemQna.getQTime(),
+                itemQna.getQnaStatus()
         );
     }
 }
