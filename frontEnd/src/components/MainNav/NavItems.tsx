@@ -16,14 +16,12 @@ const NavItems = [
         label: 'SHOPPING CART',
         icon: AiOutlineShoppingCart,
         path: 'cart',
-        type: 'shoppingCart'
     },
     {
         id: 3,
         label: 'WISHLIST',
         icon: BsFillBagHeartFill,
         path: 'wishlist',
-        type: 'heart'
     },
 ]
 
@@ -35,7 +33,6 @@ export const ShowNavItems = () => {
                     key={item.id}
                     label={item.label}
                     icon={item.icon}
-                    type={item.type}
                     path={item.path}
                 />
             ))}

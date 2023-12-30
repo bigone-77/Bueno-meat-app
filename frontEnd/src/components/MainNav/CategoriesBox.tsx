@@ -30,7 +30,7 @@ const CategoriesBox = () => {
                         `}
                         key={c.id}
                     >
-                        <Link to={`category/${c.path}`}>{c.label}</Link>
+                        <Link to={`/category/${c.path}`}>{c.label}</Link>
                     </span>
                 ))}
             </div>

@@ -33,8 +33,6 @@ const MainNavbar = () => {
         navigate(`/search?q=${searchValue}`);
     }, [searchValue]);
     
-
-    
     return (
         <Container>
             <div className={`fixed h-52 top-0 left-0 right-0 z-20 ${show ? 'bg-zinc-50' : 'bg-transparent'} px-10`}>

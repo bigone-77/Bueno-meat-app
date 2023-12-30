@@ -46,9 +46,10 @@ const Qna = ({
                 <QnaList 
                     key={data.qnaId}
                     qnaId={data.qnaId}
-                    itemOption={data.itemOption}
+                    title={data.title}
                     comment={data.comment}
                     qnaDate={data.qnaDate}
+                    qnaStatus={data.qnaStatus}
                 />
             ))}
         </div>

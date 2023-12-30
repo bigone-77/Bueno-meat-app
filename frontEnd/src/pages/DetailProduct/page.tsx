@@ -16,9 +16,10 @@ import Qna from '../../components/DetailProduct/Qna';
 
 const dummyQnaData = [{
     "qnaId": 1,
-    "itemOption": "300g",
+    "title": "이거 맛있어요?",
     "comment": "어르신들 드실 갈비탕 준비하려는데 탕으로도 괜찮을까요",
     "qnaDate": "2023-12-28",
+    "qnaStatus": "WAITING",
 }]
 
 const ProductDetailPage = () => {
