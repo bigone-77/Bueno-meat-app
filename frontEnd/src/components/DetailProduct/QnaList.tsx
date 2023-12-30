@@ -2,16 +2,23 @@ import { QnaDataProps } from "../../types/DetailProduct/QnaDataProps"
 
 const QnaList = ({
     qnaId,
-    itemOption,
+    title,
     comment,
-    qnaDate
+    qnaDate,
+    qnaStatus
 }: QnaDataProps) => {
     return (
         <div>
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 mb-5">
-                    <label className="px-5 py-2 text-white rounded-md bg-slate-500">질문</label>
-                    <p className="text-sm font-semibold text-slate-300">{itemOption}</p>
+                <span className={`px-2 py-1 ${qnaStatus === "WAITING" ? 'bg-gray-200' : 'bg-blue-200'} rounded-md`}>
+                    {qnaStatus === "WAITING" ? 
+                        <p className="text-sm font-bold">답변준비중</p>
+                        :
+                        <p className="text-sm font-bold">답변완료</p>
+                    }
+                </span>
+                    <p className="text-sm font-semibold ">{title}</p>
                 </div>
                 <p className="text-sm">{qnaDate}</p>
             </div>

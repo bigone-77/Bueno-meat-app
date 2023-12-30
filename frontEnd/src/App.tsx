@@ -13,6 +13,15 @@ import MemberNav from "./components/MemberNav";
 import SearchPage from "./pages/SearchPage/page";
 import ToastProvider from "./components/utils/ToastProvider";
 import OrderPage from "./pages/OrderPage/page";
+import { useState } from "react";
+import AdminMainPage from "./pages/AdminPage/MainPage/page";
+import AdminLoginPage from "./pages/AdminPage/LoginPage/page";
+import AdminQnaPage from "./pages/AdminPage/QnaPage/page";
+import AdminProductPage from "./pages/AdminPage/ProductManagePage/page";
+import PlusProductPage from "./pages/AdminPage/ProductManagePage/PlusProduct/page";
+import EditProductPage from "./pages/AdminPage/ProductManagePage/EditProduct/page";
+import CategoryProducts from "./pages/AdminPage/ProductManagePage/EditProduct/CategoryProducts";
+
 
 
 function App() {
@@ -36,11 +45,31 @@ function App() {
   }
 
   const currentUser = useSelector((state: RootState) => state.currentUser.id);
+
+  const [admin, setAdmin] = useState(true);
   
   return (
     <div>
       <ToastProvider />
       <Routes>
+
+        {admin && 
+          <Route path='/admin'>
+            <Route index element={<AdminMainPage />} />
+            <Route path='product'>
+              <Route index element={<AdminProductPage />} />
+              <Route path='plus' element={<PlusProductPage />} />
+              {/* <Route path='edit' element={<EditProductPage />} /> */}
+              <Route path="edit">
+                <Route index element={<EditProductPage />} />
+                <Route path='category/:path' element={<CategoryProducts />} />
+              </Route>
+              
+            </Route>
+            <Route path='qna' element={<AdminQnaPage />} />
+            <Route path='auth/login' element={<AdminLoginPage />} />
+          </Route>
+        }
         
         <Route path='/auth'>
           <Route path='join' element={<JoinPage />} />
