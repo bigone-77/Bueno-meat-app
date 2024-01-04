@@ -2,6 +2,11 @@ import Container from '../../../components/utils/Container'
 import { useParams } from 'react-router-dom'
 import Header from '../../../components/utils/Header'
 import Edit from '../../../components/Member/Edit/Edit'
+import WishList from '../../../components/Member/WishList'
+import Cart from '../../../components/Member/CartList/Cart'
+import OrderList from '../../../components/Member/orderList/OrderList'
+import Review from '../../../components/Member/Review/Review'
+import Qna from '../../../components/Member/Counsel/Qna'
 
 
 const MyPage = () => {
@@ -15,8 +20,11 @@ const MyPage = () => {
                 pageType="mypage"
                 pageName={path} 
             />
-            {path === "cart" && <div>카트페이지입니다!</div>}
-            {path === "wishlist" && <div>관심목록페이지입니다!</div>}
+            {path === 'orderlist' && <OrderList />}
+            {path === "review" && <Review />}
+            {path === "counsel" && <Qna />}
+            {path === "wishlist" && <WishList />}
+            {path === "cart" && <Cart />}
             {path === "edit" && <Edit />}
         </Container>
     )

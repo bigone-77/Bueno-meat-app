@@ -11,23 +11,20 @@ export const useLogin = () => {
     const navigate = useNavigate();
 
     const login = async (data: FieldValues) => {
-        axios.post(requests.login, data)
+        await axios.post(requests.login, data)
             .then(response => {
-                console.log(response.data.message);
-                
+                console.log(response);
                 dispatch(setCurrentUser({
                     id: response.data.id,
                     nickname: response.data.nickname,
                 }));
-                console.log(response);
-                
                 navigate('/');
 
             })
             .catch(error => {
                 console.log(error);
             });
-        
+                    
     };
     return { login };
 }

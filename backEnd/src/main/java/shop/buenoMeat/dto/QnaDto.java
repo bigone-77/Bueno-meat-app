@@ -37,10 +37,11 @@ public class QnaDto {
         List<qnaInfo> qnaInfos;
     }
 
+    /*
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class getQnaInfoToMyPage {
 
-    }
+    }*/
 }

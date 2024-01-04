@@ -6,5 +6,5 @@ export interface ProductProps {
     weightUnit?: string;
     info?: string;
     price: number;
-    image: string;
+    image?: string;
 }

@@ -3,7 +3,6 @@ package shop.buenoMeat.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import shop.buenoMeat.dto.MemberDto;
 import shop.buenoMeat.exception.NotEnoughPointExist;
 
@@ -40,10 +39,16 @@ public class Member {
 
     private String detailAddress;
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'NORMAL'")
-    private MemberRole role; //ADMIN, NORMAL  ( default = Normal )
+    private MemberRole role; //ADMIN, USER  ( default = USER )
 
     private int point;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType; // KAKAO , GOOGLE
+
+    private String socialId; // 로그인한 소셜 타입의 식별값 ( 일반 로그인인 경우 = null )
+
+    private String refreshToken;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
@@ -61,12 +66,23 @@ public class Member {
         member.nickname = memberDto.getNickname();
         member.address = memberDto.getAddress();
         member.detailAddress = memberDto.getDetailAddress();
-        member.role = MemberRole.NORMAL;
+        member.role = MemberRole.USER;
         member.point = 1000;
         return member;
     }
 
-    public void changeUserName(String username) {
+    public static Member createSocialMember(SocialType socialType, String socialId, String email, String nickname, MemberRole memberRole) {
+        Member member = new Member();
+        member.socialType = socialType;
+        member.socialId = socialId;
+        member.email = email;
+        member.nickname = nickname;
+        member.role = memberRole;
+        member.point = 1000;
+        return member;
+    }
+
+    public void changeUsername(String username) {
         this.username = username;
     }
 
@@ -90,8 +106,16 @@ public class Member {
 
     public void changeDetailAddress(String detailAddress){this.detailAddress = detailAddress;}
 
-    public void changeMemberRole(MemberRole memberRole) {
-        this.role = memberRole;
+    // 유저 권한 설정 메소드
+    public void authorizeUser() { this.role = MemberRole.USER; }
+
+    public void updateRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
+
+    public void changeMemberRole(MemberRole memberRole) { this.role = memberRole; }
+
+    public void changeUsernameAndEmail(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
 
     //-- 포인트 사용  --//

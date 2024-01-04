@@ -25,6 +25,7 @@ const Edit = () => {
             address: response?.data.address,
             detailAddress: response?.data.detailAddress
         }));
+        
     }, [response])
     
 
