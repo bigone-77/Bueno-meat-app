@@ -21,7 +21,7 @@ import AdminProductPage from "./pages/AdminPage/ProductManagePage/page";
 import PlusProductPage from "./pages/AdminPage/ProductManagePage/PlusProduct/page";
 import EditProductPage from "./pages/AdminPage/ProductManagePage/EditProduct/page";
 import CategoryProducts from "./pages/AdminPage/ProductManagePage/EditProduct/CategoryProducts";
-import KakaoRedirection from './pages/Auth/SocialCallback/KakaoRedirection';
+import SocialJoinPage from './pages/Auth/SocialJoinPage/page';
 
 
 
@@ -75,8 +75,9 @@ function App() {
         <Route path='/auth'>
           <Route path='join' element={<JoinPage />} />
           <Route path='login' element={<LoginPage />} />
+          <Route path='socialJoin' element={<SocialJoinPage />} />
         </Route>
-        {/* <Route path='/login/oauth2/code/kakao' element={<KakaoRedirection />} /> */}
+        
 
         <Route path='/' element={<MainLayout />}>
           <Route index element={<MainPage />} />
