@@ -32,6 +32,16 @@ const LoginPage = () => {
             
         setIsLoading(false);
     }
+
+    const kakao_REST_API_KEY = process.env.REACT_APP_PUBLIC_KAKAO_REST_API_KEY;
+    
+    const kakao_REDIRECT_URI = process.env.REACT_APP_PUBLIC_KAKAO_REDIRECT_URI;
+    
+    const kakao_link = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_REST_API_KEY}&redirect_uri=${kakao_REDIRECT_URI}&response_type=code`;
+
+    const KakaoLoginHandler = () => {
+        window.location.href = kakao_link;
+    }
     
     return (
         <Container>
@@ -40,6 +50,7 @@ const LoginPage = () => {
                 <div className="flex flex-col gap-5 w-[350px]">
                     <div 
                         className='flex items-center justify-center gap-3 px-10 py-3 border-2 border-black rounded-md cursor-pointer hover:bg-opacity-50 bg-zinc-300'
+                        
                     >
                         <AiOutlineGoogle size={25} />
                         <p className='font-bold text-md'>
@@ -48,6 +59,7 @@ const LoginPage = () => {
                     </div>
                     <div 
                         className='flex items-center justify-center gap-3 px-10 py-3 border-2 border-black rounded-md cursor-pointer hover:bg-opacity-50 bg-zinc-300'
+                        onClick={KakaoLoginHandler}
                     >
                         <RiKakaoTalkFill size={25} />
                         <p className='font-bold text-md'>
