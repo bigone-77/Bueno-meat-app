@@ -1,7 +1,12 @@
 package shop.buenoMeat.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.Member;
@@ -18,9 +23,10 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService{
     private final MemberRepository memberRepository;
     private final WishListRepository wishListRepository;
+    private final PasswordEncoder passwordEncoder;
 
     //-- 회원가입 --//
     @Transactional
@@ -37,11 +43,11 @@ public class MemberService {
         List<Member> findMembers = memberRepository.findByEmail(email);
         Member findMember = findMembers.get(0);
         List<WishList> findWishLists = wishListRepository.findAllByMemberId(findMember.getId());
-        if (findMember.getPw().equals(pw)) {
+        if (passwordEncoder.matches(pw, findMember.getPw())) { // 비밀번호가 올바른 경우
             LoginDto.loginResponseDto loginResponseDto= new LoginDto.loginResponseDto("로그인이 성공하였습니다.",
                     findMember.getNickname(),findMember.getId(),findWishLists);
             return ResponseEntity.ok(loginResponseDto);
-        } else {
+        } else { // 비밀번호가 틀린 경우
             return ResponseEntity.notFound().build();
         }
     }
@@ -62,7 +68,7 @@ public class MemberService {
     @Transactional
     public ResponseEntity<String> updateUsername(Long id, UpdateDto.updateUsernameDto updateUsernameDto) {
         Member findMember = memberRepository.findOne(id);
-        findMember.changeUserName(updateUsernameDto.getUsername());
+        findMember.changeUsername(updateUsernameDto.getUsername());
         return ResponseEntity.ok("회원이름 변경이 완료되었습니다.");
     }
 

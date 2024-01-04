@@ -1,7 +1,7 @@
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { BsFillBagHeartFill } from 'react-icons/bs'
 import { CgProfile } from 'react-icons/cg'
-import IconCard from '../IconCard'
+import IconCard from '../utils/IconCard'
 
 
 const NavItems = [
@@ -16,14 +16,12 @@ const NavItems = [
         label: 'SHOPPING CART',
         icon: AiOutlineShoppingCart,
         path: 'cart',
-        type: 'shoppingCart'
     },
     {
         id: 3,
         label: 'WISHLIST',
         icon: BsFillBagHeartFill,
         path: 'wishlist',
-        type: 'heart'
     },
 ]
 
@@ -35,7 +33,6 @@ export const ShowNavItems = () => {
                     key={item.id}
                     label={item.label}
                     icon={item.icon}
-                    type={item.type}
                     path={item.path}
                 />
             ))}

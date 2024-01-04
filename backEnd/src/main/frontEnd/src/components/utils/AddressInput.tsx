@@ -1,12 +1,11 @@
-// AddressInput.tsx
 import React, { useState } from 'react';
 import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import DaumPostcode, { Address } from "react-daum-postcode";
 
 interface AddressInputProps {
     label?: string;
-    register: UseFormRegister<FieldValues>;
-    setValue: UseFormSetValue<FieldValues>;
+    register?: UseFormRegister<FieldValues>;
+    setValue?: UseFormSetValue<FieldValues>;
     message?: string;
     required?: boolean;
 }
@@ -37,9 +36,13 @@ const AddressInput:React.FC<AddressInputProps> = ({
             fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
         }
         
-        setValue('address', fullAddress);
-        
-        register('address', { required });
+        if (setValue) {
+            setValue('address', fullAddress);
+        }
+
+        if (register) {
+            register('address', { required });
+        }
     }
 
     return (
@@ -55,7 +58,7 @@ const AddressInput:React.FC<AddressInputProps> = ({
                         rounded-md
                     `}
                     type="text"
-                    {...register('address', { required })}
+                    {...(register ? register('address', { required }) : {})}
                 />
                 <label 
                     className={`

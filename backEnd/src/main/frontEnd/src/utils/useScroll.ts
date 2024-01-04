@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 
-const useScroll = (): boolean => {
+const useScroll = (height: number): boolean => {
     const [show, setShow] = useState(false);
 
-    const handleScroll = () => {
-        if (window.scrollY > 100) {
+    const handleScroll = (height: number) => {
+        if (window.scrollY > height) {
             setShow(true);
         }   else {
             setShow(false);
@@ -12,7 +12,7 @@ const useScroll = (): boolean => {
     };
 
     useEffect(() => {
-        const scrollHandler = () => handleScroll();
+        const scrollHandler = () => handleScroll(height);
 
         window.addEventListener('scroll', scrollHandler);
 

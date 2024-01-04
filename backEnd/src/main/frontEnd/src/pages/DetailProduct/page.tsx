@@ -1,50 +1,94 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Container from '../../components/utils/Container'
-import { useSelector } from 'react-redux';
+import EmptyState from '../../components/utils/EmptyState';
+import SubDiv from '../../components/utils/SubDiv';
+import ProductWeightOption from '../../components/ProductWeightOption';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { ProductProps } from '../../types/ProductProps';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import EmptyState from '../../components/EmptyState';
-import SubDiv from '../../components/SubDiv';
-import ProductLabel from '../../components/ProductLabel';
-import CountButton from '../../components/utils/CountButton';
-import React, { useState } from 'react';
+import { removeCartData } from '../../redux/slices/cartSlice';
+import { ProductReviewProps } from '../../types/DetailProduct/ProductReviewProps';
+import Reviews from '../../components/DetailProduct/Reviews';
+import Qna from '../../components/DetailProduct/Qna';
 
-import { IoIosArrowForward } from "react-icons/io";
-import SelectedBox from '../../components/utils/SelectedBox';
-import useExtractedNumber from '../../utils/useExtractedNumber';
+const dummyQnaData = [{
+    "qnaId": 1,
+    "title": "이거 맛있어요?",
+    "comment": "어르신들 드실 갈비탕 준비하려는데 탕으로도 괜찮을까요",
+    "qnaDate": "2023-12-28",
+    "qnaStatus": "WAITING",
+}]
 
 const ProductDetailPage = () => {
-    const [showTable, setShowTable] = useState(false);
-    const [selectedPlusPrice, setSelectedPlusPrice] = useState('');
-    const [count, setCount] = useState(1);
+    const [detailProductData, setDetailProductData] = useState<ProductProps>();
+    const [productReviewData, setProductReviewData] = useState<ProductReviewProps[]>([]);
+    const [disabled, setDisabled] = useState(true);
 
+    const [showReviews, setShowReviews] = useState(true);
 
-    const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedPlusPrice(e.target.value);
-        setShowTable(true);
+    const memberId = useSelector((state: RootState) => state.currentUser.id);
+    const cartData = useSelector((state: RootState) => state.cart);
+    const dispatch = useDispatch();
+
+    
+    const params = useParams();
+    const navigate = useNavigate();
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`/products/${params.productId}/detail`);
+            console.log(response.data);
+            
+            setDetailProductData(response.data.itemDetailInfo);
+            setProductReviewData(response.data.itemReviewInfos);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    let extractedPrice = 0;
-    extractedPrice = useExtractedNumber(selectedPlusPrice);
 
+    useEffect(() => {
+        fetchData();
+    }, [])
 
-    const params = useParams();
-    const productData = useSelector((state: RootState) => state.product);
+    const { itemCount, totalPrice, itemOption } = cartData;
 
-    const detailProductData = productData.find((product) => product.id === parseInt(params.productId!)); 
+    const putCartHandler = async () => {
+        if (disabled) {
+            toast.warn("옵션을 선택해주세요")
+        } else {
+            try {
+                const response = await axios.post(`/products/putCart/${memberId}/${params.productId}`,{
+                    memberId,
+                    itemId: params.productId,
+                    itemCount,
+                    totalPrice,
+                    itemOption
+                });
+                toast.success('해당 상품이 장바구니에 담겼습니다!')
+                console.log(response.data);
+                dispatch(removeCartData());
+            }   catch (error) {
+                toast.error(String("이미 장바구니에 있는 상품입니다."));
+            }
+        }
+    }
 
+    const gotoOrderHandler = () => {
+        putCartHandler();
+        navigate('/member/mypage/cart');
+    }
+    
     if (detailProductData) {
         let { name, info, price, weight, weightUnit, image } = detailProductData;
-
-        // 최종상품금액
-        let resultPrice = extractedPrice === 0 ? price*count : (extractedPrice + price)*count;
         
         return (
             <Container>
-                <div className='grid grid-cols-1 gap-5 mt-56 sm:grid-cols-2'>
-
+                <div className='grid grid-cols-1 gap-5 px-10 my-40 sm:grid-cols-2'>
                     <img src={image} alt='product-img' className='w-[480px] h-[580px]' />
-
-                    
                     <div>
                         <hr className='w-full h-1 mb-10 bg-black' />
                         <section className='flex flex-col items-start justify-center gap-5'>
@@ -61,63 +105,53 @@ const ProductDetailPage = () => {
                                 subTitle='1%'
                             />
                             <hr />
-                            <span className='flex items-center justify-center'>
-                                <IoIosArrowForward />
-                                <p>중량 선택</p>
-                                <SelectedBox 
-                                    price={price}
-                                    weightCount={weight || 0} 
-                                    weightUnit={weightUnit || ''}
-                                    selectedPlusPrice={selectedPlusPrice}
-                                    handleSelect={handleSelect}
-                                />
-                            </span>
-                            <hr />
-                            <p className='text-sm font-semibold text-gray-500'>최소주문수량 1개 이상</p>
-                            {showTable && <table className='w-full border-2 border-b-0 border-collapse border-black rounded-md'>
-                                <thead>
-                                    <tr>
-                                        <td>상품명</td>
-                                        <td>상품수</td>
-                                        <td>가격</td>
-                                    </tr>
-                                </thead>
-                                <tbody className='border-transparent border-none'>
-                                    <tr>
-                                        <td>
-                                            <ProductLabel
-                                                selectedOption={selectedPlusPrice}
-                                            />
-                                        </td>
-                                        <td>
-                                            <CountButton
-                                                count={count}
-                                                setCount={setCount}
-                                            />
-                                        </td>
-                                        <td className='flex items-center gap-2 text-xl font-Cafe24Shiningstar'>
-                                            <p>{resultPrice}원</p>
-                                            <p>({resultPrice/100} Point)</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>}
-                            <hr />
-                            {showTable && <>
-                                <span className='flex items-center justify-end w-full'>TOTAL: 
-                                    <p className='pl-2 text-lg font-bold'>{resultPrice}</p>
-                                    원 ({count}개)
-                                </span>
-                                <hr />
-                            </>}
+                            
+                            <ProductWeightOption 
+                                price={price}
+                                weight={weight}
+                                weightUnit={weightUnit}
+                                setDisabled={setDisabled}
+                            />
                             
                             <span className='grid w-full grid-cols-3 gap-3'>
-                                <button className='bg-blue-500'>바로구매</button>
-                                <button>장바구니</button>
+                                <button 
+                                    className='bg-blue-500'
+                                    onClick={gotoOrderHandler}
+                                >바로구매</button>
+                                <button onClick={putCartHandler}>장바구니</button>
                                 <button>관심상품</button>
                             </span>
                         </section>
                     </div>
+                </div>
+    
+                <div className="px-10">
+                    <table className="w-full border rounded-[20px] overflow-hidden">
+                        <thead>
+                            <tr className="bg-[rgba(0,0,0,0.1)] font-bold">
+                                <th
+                                    className={`${showReviews && 'bg-white'} cursor-pointer`}
+                                    onClick={() => setShowReviews(true)}
+                                >
+                                    구매 후기
+                                </th>
+                                <th 
+                                    className={`${!showReviews && 'bg-white'} cursor-pointer`}
+                                    onClick={() => setShowReviews(false)}
+                                >
+                                    상품 문의
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    {showReviews ? 
+                        <Reviews
+                            data={productReviewData || []}
+                        /> : 
+                        <Qna 
+                            qnaData={dummyQnaData || []}
+                            productId={Number(params.productId)}
+                        />}
                 </div>
         </Container>
         )
