@@ -34,7 +34,7 @@ public class Order {
     @Column(name = "rcp_phone", length = 11, nullable = false)
     private String phone;
 
-    @Column(name = "rcp_email", nullable = false, unique = true)
+    @Column(name = "rcp_email", nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -47,36 +47,39 @@ public class Order {
     private String detailAddress;
 
     @Column(length = 100)
-    private String memo;
+    private String memo; // 주문 요청 사항
 
     @Column(nullable = false)
-    private int totalPrice;
+    private int totalPrice; // 해당 주문 상품들 총 가격
+
+    @Column(nullable = false, unique = true)
+    private String orderNum; //주문 번호
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; // COMPLETE, CANCEL
 
-    public Order(Member member, String recipient, String phone, String email, LocalDateTime orderDate, String address,String detailAddress, String memo, int totalPrice, OrderStatus orderStatus) {
+    public Order(Member member, String recipient, String phone, String email, String address, String detailAddress,
+                 String memo, int totalPrice, OrderStatus orderStatus, String orderNum) {
         this.member = member;
         this.recipient = recipient;
         this.phone = phone;
         this.email = email;
-        this.orderDate = orderDate;
+        this.orderDate = LocalDateTime.now();
         this.address = address;
         this.detailAddress = detailAddress;
         this.memo = memo;
         this.totalPrice = totalPrice;
         this.orderStatus = orderStatus;
+        this.orderNum = orderNum;
     }
 
     //--생성 메서드--//
-    public static Order createOrder(Member member, String recipient, String phone, String email, String address, String detailAddress, String memo, int totalPrice, OrderItem... orderItems) {
-        Order order = new Order(member, recipient, phone, email, LocalDateTime.now(), address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE);
-        for (OrderItem orderItem : orderItems) {
-            order.orderItems.add(orderItem);
-        }
+    public static Order createOrder(Member member, String recipient, String phone, String email, String address,
+                                    String detailAddress, String memo, int totalPrice, List<OrderItem> orderItems, String orderNum) {
+        Order order = new Order(member, recipient, phone, email, address, detailAddress, memo, totalPrice, OrderStatus.COMPLETE, orderNum);
+        order.orderItems.addAll(orderItems);
         return order;
     }
 
-    //
 }

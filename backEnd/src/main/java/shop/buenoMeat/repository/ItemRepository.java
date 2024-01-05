@@ -6,8 +6,6 @@ import shop.buenoMeat.domain.CategoryName;
 import shop.buenoMeat.domain.Item;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.validation.constraints.Null;
 import java.util.List;
 
 @Repository
@@ -16,17 +14,23 @@ public class ItemRepository {
 
     private final EntityManager em;
 
-    public Item findOne(Long id){return em.find(Item.class,id);}
+    public Item findOne(Long id){return em.find(Item.class,id);} // 아이디로 상품 조회
+
+    public List<Item> findByItemName(String name) {
+        return em.createQuery("SELECT i FROM Item i WHERE i.name LIKE :itemName", Item.class)
+                .setParameter("itemName", "%" + name + "%")
+                .getResultList();
+    } // 검색어가 이름에 포함된 상품 조회
 
     public List<Item> findAll() {
         return em.createQuery("select i from Item i", Item.class)
                 .getResultList();
-    }
+    } // 상품 전체 조회
 
     public List<Item> findAllByCategory(CategoryName categoryName) {
         String jpql = "select i from Item i join i.category c where c.categoryName = :categoryName";
         return em.createQuery(jpql, Item.class)
                 .setParameter("categoryName", categoryName)
                 .getResultList();
-    }
+    } // 카테고리명으로 상품 조회
 }

@@ -1,7 +1,7 @@
 package shop.buenoMeat.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import shop.buenoMeat.domain.Member;
 
 @Getter @Setter
@@ -13,10 +13,10 @@ public class MemberDto {
     private String nickname;
     private String address;
     private String detailAddress;
-    public Member toEntity() {
+    public Member toEntity(PasswordEncoder passwordEncoder) {
         Member member = Member.createMember(this);
-        member.changeUserName(username);
-        member.changePw(pw);
+        member.changeUsername(username);
+        member.changePw(passwordEncoder.encode(pw));
         member.changeEmail(email);
         member.changePhone(phone);
         member.changeNickname(nickname);
@@ -24,4 +24,13 @@ public class MemberDto {
         member.changeDetailAddress(detailAddress);
         return member;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class reviewRecommendDto {
+        private String msg;
+        private int recommend;
+    }
+
 }

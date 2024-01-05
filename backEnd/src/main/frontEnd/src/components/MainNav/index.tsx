@@ -4,29 +4,34 @@ import Container from '../utils/Container';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShowNavItems } from './NavItems';
 import CategoryModal from './CategoryModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useScroll from '../../utils/useScroll';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 
 import CategoriesBox from './CategoriesBox';
-import { removeCurrentUser } from '../../redux/slices/currentUserSlice';
+import { useLogout } from '../../hooks/auth/useLogout';
 
 
 
 const MainNavbar = () => {
     const [showModal, setShowModal] = useState(false);
-    const show = useScroll();
-    const dispatch = useDispatch();
+    const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
+    const show = useScroll(80);
+    const { logout } = useLogout();
 
     const currentUserData = useSelector((state: RootState) => state.currentUser);
     const nickName = currentUserData.nickname;
 
-    const logoutHandler = () => {
-        dispatch(removeCurrentUser());
-        navigate('/');
+    const searchHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setSearchValue(e.target.value);
     }
+
+    useEffect(() => {
+        navigate(`/search?q=${searchValue}`);
+    }, [searchValue]);
     
     return (
         <Container>
@@ -37,7 +42,7 @@ const MainNavbar = () => {
                     </span>}
                     <ul className='flex items-center gap-4 text-sm font-light'>
                         {nickName ? <Link to='/member/mypage/edit'><li>내정보수정</li></Link> : <Link to="/auth/join"><li>회원가입</li></Link>}
-                        {nickName ? <li onClick={logoutHandler}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
+                        {nickName ? <li onClick={logout}>로그아웃</li> : <Link to="/auth/login"><li>로그인</li></Link>}
                         <li>고객센터</li>
                     </ul>
                 </div>
@@ -52,6 +57,8 @@ const MainNavbar = () => {
                         <input 
                             type='text'
                             className='w-auto px-2 py-1 outline-none'
+                            value={searchValue}
+                            onChange={searchHandler}
                         />
                         <span className='flex items-center justify-center h-[32px] w-[32px] bg-zinc-800'>
                             <AiOutlineSearch size={25} className='text-white' />

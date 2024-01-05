@@ -1,6 +1,6 @@
 import { FaCow, FaPiggyBank, FaFish } from "react-icons/fa6"
 import { GiChicken, GiKnifeFork, GiSheep } from "react-icons/gi"
-import IconCard from "../IconCard"
+import IconCard from "../utils/IconCard"
 
 export const Categories = [
     {

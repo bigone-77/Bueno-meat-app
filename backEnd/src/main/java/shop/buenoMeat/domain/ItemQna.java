@@ -23,8 +23,9 @@ public class ItemQna {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @OneToMany(mappedBy = "itemQna", cascade = CascadeType.ALL)
-    private List<ItemAnswer> itemAnswers = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column(nullable = false)
     private String title;
@@ -32,10 +33,24 @@ public class ItemQna {
     @Column(name = "QnA_comment", nullable = false)
     private String comment;// 문의 내용
 
-    @Column(name = "QnA_writer", nullable = false)
-    private String writer;// 작성자
-
-    @Column(nullable = false)
+    @Column(name = "enroll_time", nullable = false)
     private LocalDateTime qTime; // 문의 날짜
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private QnaStatus qnaStatus; // [COMPLETE, WAITING]
+
+    public ItemQna(Item item, Member member, String title, String comment) {
+        this.item = item;
+        this.member = member;
+        this.title = title;
+        this.comment = comment;
+        this.qTime = LocalDateTime.now();
+        this.qnaStatus = QnaStatus.WAITING;
+    }
+
+    //-- 생성 메서드 --//
+    public static ItemQna createItemQna(Item item, Member member, String title, String comment) {
+        return new ItemQna(item, member, title, comment);
+    }
 }

@@ -44,7 +44,7 @@ public class Item {
     @Column(nullable = false)
     private String weightUnit;
 
-    private int quantity;
+    private int stock;
 
     @Column(nullable = false)
     private LocalDateTime enrolled;
@@ -59,10 +59,18 @@ public class Item {
      * 재고 감소
      */
     public void removeStock(int quantity) {
-        int remainStock = this.quantity - quantity;
+        int remainStock = this.stock - quantity;
         if (remainStock < 0) {
             throw new NotEnoughStockException("남아있는 재고가 없습니다.");
         }
-        this.quantity = remainStock;
+        this.stock = remainStock;
     }
+
+    /*
+     * 재고 증가
+     */
+    public void addStock(int quantity) {
+        this.stock += quantity;
+    }
+
 }

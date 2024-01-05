@@ -2,10 +2,7 @@ package shop.buenoMeat.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import shop.buenoMeat.domain.CategoryName;
 import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.service.ItemService;
@@ -20,9 +17,9 @@ public class ItemController {
     private final ItemService itemService;
 
     //-- 상품 상세 페이지 --//
-    @GetMapping("/{id}/detail")
-    public ResponseEntity<ItemDto.itemDetailDto> itemDetail(@PathVariable Long id) {
-        return itemService.findItemDetail(id);
+    @GetMapping("/{itemId}/detail")
+    public ResponseEntity<ItemDto.itemDetailDto> itemDetail(@PathVariable Long itemId) {
+        return itemService.findItemDetail(itemId);
     }
 
     //-- 카테고리 별 상품 조회 --//
@@ -38,8 +35,16 @@ public class ItemController {
 
 
     //-- hot(판매량순) 상품 조회 --//
-    @GetMapping("/products/hot")
+    @GetMapping("/hot")
     public ResponseEntity<List<ItemDto.itemHotAndCategoryDto>> findHotItem() {
         return ResponseEntity.ok(itemService.findHotItems());
     }
+
+
+    //-- 검색어로 상품 조회 --//
+    @GetMapping("/search/{itemName}")
+    public ResponseEntity<Object> searchItem(@PathVariable("itemName") String name) {
+        return ResponseEntity.ok(itemService.searchItemByName(name));
+    }
+
 }
