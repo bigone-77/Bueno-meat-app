@@ -27,8 +27,8 @@ public class AuthController {
         return memberService.login(loginRequestDto);
     }
 
-    @GetMapping("/jwt-test")
-    public String jwtTest() {
-        return "jwtTest 요청 성공";
+    @PostMapping("/socialLogin")
+    public ResponseEntity<LoginDto.socialLoginResponseDto> socialLogin(@RequestBody LoginDto.socialLoginRequestDto socialLoginRequestDto) {
+        return ResponseEntity.ok(memberService.socialLogin(socialLoginRequestDto));
     }
 }

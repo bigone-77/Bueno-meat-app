@@ -27,4 +27,25 @@ public class LoginDto {
         private Long id;
         private List<WishList> wishListItems;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class socialLoginRequestDto {
+        private String email;
+        private String username;
+        private String phone;
+        private String address;
+        private String detailAddress;
+    }
+
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class socialLoginResponseDto {
+        private String msg;
+        private Long id;
+        private String nickname;
+    }
 }
