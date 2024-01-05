@@ -44,7 +44,7 @@ const SocialJoin = () => {
             .catch(error => {
                 console.log(error);
             })
-        navigate('/');
+        navigate('/auth/login');
         
         setIsLoading(false);
     }
