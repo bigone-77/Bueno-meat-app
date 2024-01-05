@@ -21,7 +21,7 @@ import AdminProductPage from "./pages/AdminPage/ProductManagePage/page";
 import PlusProductPage from "./pages/AdminPage/ProductManagePage/PlusProduct/page";
 import EditProductPage from "./pages/AdminPage/ProductManagePage/EditProduct/page";
 import CategoryProducts from "./pages/AdminPage/ProductManagePage/EditProduct/CategoryProducts";
-import SocialJoinPage from './pages/Auth/SocialJoinPage/page';
+import SocialJoin from './pages/Auth/SocialJoin/page';
 
 
 
@@ -75,7 +75,7 @@ function App() {
         <Route path='/auth'>
           <Route path='join' element={<JoinPage />} />
           <Route path='login' element={<LoginPage />} />
-          <Route path='socialJoin' element={<SocialJoinPage />} />
+          <Route path='socialJoin' element={<SocialJoin />} />
         </Route>
         
 
