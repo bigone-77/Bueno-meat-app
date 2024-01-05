@@ -1,11 +1,7 @@
 package shop.buenoMeat.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +15,7 @@ import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.repository.WishListRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -44,8 +41,8 @@ public class MemberService{
         Member findMember = findMembers.get(0);
         List<WishList> findWishLists = wishListRepository.findAllByMemberId(findMember.getId());
         if (passwordEncoder.matches(pw, findMember.getPw())) { // 비밀번호가 올바른 경우
-            LoginDto.loginResponseDto loginResponseDto= new LoginDto.loginResponseDto("로그인이 성공하였습니다.",
-                    findMember.getNickname(),findMember.getId(),findWishLists);
+            LoginDto.loginResponseDto loginResponseDto= new LoginDto.loginResponseDto(
+                    "로그인이 성공하였습니다.", findMember.getNickname(),findMember.getId(),findWishLists);
             return ResponseEntity.ok(loginResponseDto);
         } else { // 비밀번호가 틀린 경우
             return ResponseEntity.notFound().build();
@@ -109,5 +106,19 @@ public class MemberService{
     public MemberDto findById(Long id) {
         Member findMember = memberRepository.findOne(id);
         return new ConvertToDto().convertToMemberDto(findMember);
+    }
+
+    //-- 소셜 로그인 추가정보 기입 --//
+    @Transactional
+    public LoginDto.socialLoginResponseDto socialLogin(LoginDto.socialLoginRequestDto socialLoginRequestDto) {
+        Member findMember = memberRepository.findByEmail(socialLoginRequestDto.getEmail()).get(0);
+        findMember.changeUsername(socialLoginRequestDto.getUsername());
+        findMember.changeAddress(socialLoginRequestDto.getAddress());
+        findMember.changeDetailAddress(socialLoginRequestDto.getDetailAddress());
+        findMember.changePhone(socialLoginRequestDto.getPhone());
+        LoginDto.socialLoginResponseDto socialLoginResponseDto = new LoginDto.socialLoginResponseDto(
+                "추가 정보 입력을 완료하였습니다.", findMember.getId(), findMember.getNickname()
+        );
+        return socialLoginResponseDto;
     }
 }

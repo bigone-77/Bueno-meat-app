@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.config.jwt.JwtService;
 import shop.buenoMeat.domain.Member;
 import shop.buenoMeat.domain.MemberRole;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
@@ -30,17 +32,18 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-            // User의 Role이 GUEST일 경우 처음 요청한 회원이므로 회원가입 페이지로 리다이렉트
+            // Member의 Role이 GUEST일 경우 처음 요청한 회원이므로 추가 회원가입 페이지로 리다이렉트
             if(oAuth2User.getRole() == MemberRole.GUEST) {
                 String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
-                response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-                response.sendRedirect("http://localhost:3000/auth/socialJoin"); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
+                String redirectUrl = "http://localhost:3000/auth/socialJoin?accessToken=" + accessToken;
+                response.sendRedirect(redirectUrl); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
                 log.info("추가 정보 입력으로 리다이렉트");
 
                 jwtService.sendAccessAndRefreshToken(response, accessToken, null);
                 Member findMember = Optional.ofNullable(memberRepository.findByEmail(oAuth2User.getEmail()).get(0))
                         .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
                 findMember.authorizeUser(); // GUEST -> USER
+                log.info("멤버 권한 수정 완료");
             } else {
                 loginSuccess(response, oAuth2User); // 로그인에 성공한 경우 access, refresh 토큰 생성
             }
@@ -52,12 +55,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
         String refreshToken = jwtService.createRefreshToken();
-        response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-        log.info(" 헤더에 accessToken 담기 성공");
-        response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
-        log.info(" 헤더에 refreshToken 담기 성공");
+        String redirectUrl = "http://localhost:3000/some/path?accessToken=" + accessToken + "&refreshToken=" + refreshToken;
+        response.sendRedirect(redirectUrl);
+        log.info("토큰을 쿼리 스트링으로 전달하여 리다이렉트");
 
-        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
     }
 }
