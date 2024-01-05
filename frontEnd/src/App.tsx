@@ -22,6 +22,7 @@ import PlusProductPage from "./pages/AdminPage/ProductManagePage/PlusProduct/pag
 import EditProductPage from "./pages/AdminPage/ProductManagePage/EditProduct/page";
 import CategoryProducts from "./pages/AdminPage/ProductManagePage/EditProduct/CategoryProducts";
 import SocialJoin from './pages/Auth/SocialJoin/page';
+import SocialAuthPage from './pages/Auth/SocialJoin/SocialAuthPage';
 
 
 
@@ -77,6 +78,8 @@ function App() {
           <Route path='login' element={<LoginPage />} />
           <Route path='socialJoin' element={<SocialJoin />} />
         </Route>
+
+        <Route path='/some/path' element={<SocialAuthPage />} /> 
         
 
         <Route path='/' element={<MainLayout />}>
