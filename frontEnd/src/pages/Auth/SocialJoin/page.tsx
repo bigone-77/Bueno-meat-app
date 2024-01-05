@@ -26,7 +26,6 @@ const SocialJoin = () => {
         errors
     }} = useForm<FieldValues>({
         defaultValues: {
-            pw: '',
             username: '',
             phone: '',
             address: '',
@@ -55,17 +54,6 @@ const SocialJoin = () => {
             <section className="grid mt-10 overflow-y-scroll place-items-center">
                 <h1 className="mb-4 text-3xl font-bold">Join</h1>
                 <form className="flex flex-col justify-center gap-10 min-w-[350px]" onSubmit={handleSubmit(onSubmit)}>
-                    <Input 
-                        id="pw"
-                        label='Password'
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        minLength={8}
-                        type='password'
-                        message="Passward must be at least 8 characters"
-                        required
-                    />
                     <Input 
                         id="username"
                         label="Name"
