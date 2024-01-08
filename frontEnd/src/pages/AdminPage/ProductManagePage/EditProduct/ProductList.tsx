@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { ProductProps } from "../../../../types/ProductProps"
 import ModifyProduct from "./ModifyProduct";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 interface ProductListProps extends ProductProps{
     index: number;
@@ -18,6 +20,14 @@ const ProductList = ({
 }: ProductListProps) => {
     const [showModify, setShowModify] = useState(false);
 
+    const deleteHandler = async (id: number) => {
+        await axios.delete(`/admin/product/${id}`)
+            .then(response => {
+                toast.success("상품 삭제에 성공하였습니다!");
+                
+            })
+    }
+
     if (!showModify){
 
         return (
@@ -34,7 +44,7 @@ const ProductList = ({
                         >
                             수정
                         </button>
-                        <button>삭제</button>
+                        <button onClick={() => deleteHandler(id!)}>삭제</button>
                     </span>
                 </div>
             </div>

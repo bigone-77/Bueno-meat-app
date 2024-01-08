@@ -10,27 +10,26 @@ const SocialAuthPage = () => {
   const refreshToken = searchParams.get('refreshToken');
 
   const postHandler = async () => {
-    axios.post("/auth/socialLogin/token", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    .then ((response) => {
+    try {
+      const response = await axios.post("/auth/socialLogin/token", {}, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log(response);
-    })
-    .catch((error) => {
-      console.log(error.message);
-      
-    })
-  }
-
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   useEffect(() => {
-    if (accessToken && refreshToken){
+    if (accessToken && refreshToken) {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       postHandler();
     }
-  }, []); 
+  }, []);
+  
 
   return (
     <Container>

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import QuestionList from "./QuestionList"
+import QuestionList from "./\bQuestionList"
 import QnaList from "./QnaList"
 
 const dummyQnaData = [{
