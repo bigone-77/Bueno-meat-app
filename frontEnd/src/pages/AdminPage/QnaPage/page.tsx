@@ -1,29 +1,16 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AdminQnaList from "../../../components/utils/AdminQnaList";
 import axios from 'axios';
-
-const QnaData = [
-    {
-        "qnaId": 12,
-        "title": "질문 있습니다!",
-        "comment": "어르신들 드실 갈비탕 준비하려는데 탕으로도 괜찮을까요",
-        "qnaDate": "2023-12-28",
-        "qnaStatus": "WAITING"
-    },
-    {
-        "qnaId": 3,
-        "title": "니똥꼬파란색",
-        "comment": "뻐큐를 드셔주세연 ㅎㅎ",
-        "qnaDate": "2023-12-30",
-        "qnaStatus": "WAITING"
-    }
-]
+import { AdminQnaDataProps } from '../../../types/AdminQnaDataProps';
 
 const AdminQnaPage = () => {
+    const [qnaData, setQnaData] = useState<AdminQnaDataProps[]>([]);
     const fetchData = useCallback(async () => {
         try {
             const response = await axios.get('/admin/qna');
             console.log(response.data);
+            
+            setQnaData(response.data);
             
         } catch (error) {
             console.log(error);
@@ -43,16 +30,16 @@ const AdminQnaPage = () => {
             <hr className="h-1 my-5 bg-black" />
             
             <div className="p-2 border">
-                {QnaData.length > 0 ? 
+                {qnaData.length > 0 ? 
                     <>
-                        {QnaData.map((data) => (
+                        {qnaData.map((data, index) => (
                             <AdminQnaList 
-                                key={data.qnaId}
+                                key={index}
                                 id={data.qnaId}
                                 qnaStatus={data.qnaStatus}
-                                title={data.title}
-                                comment={data.comment}
-                                qnaDate={data.qnaDate}
+                                title={data.itemName}
+                                comment={data.image}
+                                qnaDate={data.qnaTime}
                             />
                         ))}
                     </>

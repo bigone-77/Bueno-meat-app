@@ -2,6 +2,8 @@ import Modal from "react-modal";
 
 import { useEffect, useState } from "react";
 import { FcAnswers } from "react-icons/fc";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 interface AdminQnaListProps {
     id: number;
@@ -20,6 +22,16 @@ const AdminQnaList = ({
 }: AdminQnaListProps) => {
     const [openAnswerModal, setOpenAnswerModal] = useState(false);
     const [enteredAnswer, setEnteredAnswer] = useState('');
+
+    const postHandler = async () => {
+        await axios.post(`/admin/qna/answer/${id}`, enteredAnswer)
+            .then((res) => {
+                toast.success(res.data.message);
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            })
+    }
 
     useEffect(() => {
         const appElement = document.getElementById('root'); // 실제로는 애플리케이션의 최상위 요소로 설정해야 합니다.
@@ -43,7 +55,7 @@ const AdminQnaList = ({
                 </span>
                     <p className="text-sm font-semibold ">{title}</p>
                 </div>
-                <p className="text-sm">{qnaDate}</p>
+                <p className="text-sm">{qnaDate.slice(0, 10)}</p>
             </div>
             <p>{comment}</p>
             <hr className="my-5"/>
@@ -84,8 +96,13 @@ const AdminQnaList = ({
                         />
                     </span>
                     <span className="flex items-center gap-2 mt-20">
-                        <button className="text-white bg-blue-300">확인</button>
-                        <button>취소</button>
+                        <button 
+                            className="text-white bg-blue-300"
+                            onClick={() => postHandler()}
+                        >
+                            확인
+                        </button>
+                        <button onClick={() => setOpenAnswerModal(false)}>취소</button>
                     </span>
                 </div>
             </Modal>

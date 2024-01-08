@@ -1,6 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import QuestionList from "./QuestionList"
 import QnaList from "./QnaList"
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux'
 
 const dummyQnaData = [{
     "qnaId": 1,
@@ -13,7 +16,23 @@ const dummyQnaData = [{
 }]
 
 const Qna = () => {
+    const memberId = useSelector((state: RootState) => state.currentUser.id);
     const [isClicked, setIsClicked] = useState(false);
+
+    const fetchData = async () => {
+        await axios.get(`/qna/${memberId}`)
+            .then((response) => {
+                console.log(response.data);
+                
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <div className="my-10 ml-52">

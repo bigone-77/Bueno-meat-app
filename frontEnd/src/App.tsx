@@ -13,7 +13,6 @@ import MemberNav from "./components/MemberNav";
 import SearchPage from "./pages/SearchPage/page";
 import ToastProvider from "./components/utils/ToastProvider";
 import OrderPage from "./pages/OrderPage/page";
-import { useState } from "react";
 import AdminMainPage from "./pages/AdminPage/MainPage/page";
 import AdminLoginPage from "./pages/AdminPage/LoginPage/page";
 import AdminQnaPage from "./pages/AdminPage/QnaPage/page";
@@ -48,12 +47,15 @@ function App() {
 
   const currentUser = useSelector((state: RootState) => state.currentUser.id);
 
-  const [admin, setAdmin] = useState(true);
+  const admin = useSelector((state: RootState) => state.currentUser.nickname);
+
+  
   
   return (
     <div>
       <ToastProvider />
       <Routes>
+        <Route path='/admin/auth/login' element={<AdminLoginPage />} />
 
         {admin && 
           <Route path='/admin'>
@@ -69,7 +71,6 @@ function App() {
               
             </Route>
             <Route path='qna' element={<AdminQnaPage />} />
-            <Route path='auth/login' element={<AdminLoginPage />} />
           </Route>
         }
         
