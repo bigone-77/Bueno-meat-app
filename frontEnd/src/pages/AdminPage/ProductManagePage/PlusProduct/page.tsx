@@ -9,10 +9,12 @@ import Input from "../../../../components/utils/Input";
 import Button from "../../../../components/utils/Button";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const PlusProductPage = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
     const { 
@@ -49,6 +51,7 @@ const PlusProductPage = () => {
             .then(response => {
                 console.log(response);
                 toast.success("상품 등록이 완료되었습니다");
+                navigate('/admin/product');
             })
             .catch(error => {
                 console.log(error);
@@ -91,10 +94,10 @@ const PlusProductPage = () => {
                             <CategoryBox 
                                 key={c.id}
                                 id={c.id}
-                                label={c.label}
+                                path={c.path}
                                 icon={c.icon}
                                 onClick={(category: string) => setCustomValue('category_name', category)}
-                                selected={category_name === c.label.toUpperCase()} 
+                                selected={category_name === c.path.toUpperCase()} 
                             />
                         ))}
                     </div>
