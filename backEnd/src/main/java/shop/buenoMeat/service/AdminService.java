@@ -36,7 +36,7 @@ public class AdminService {
             if (findMember.getRole().equals(MemberRole.ADMIN)) { // 관리자인 경우
                 if (findMember.getPw().equals(adminLoginRequestDto.getPw())) {
                     AdminDto.adminLoginResponseDto adminLoginResponseDto = new AdminDto.adminLoginResponseDto(
-                            "로그인에 성공하였습니다.", findMember.getId()
+                            "로그인에 성공하였습니다.", findMember.getId(), findMember.getNickname()
                     );
                     return ResponseEntity.ok(adminLoginResponseDto);
                 } else {
@@ -121,8 +121,8 @@ public class AdminService {
                 return CategoryName.CHICKEN;
 
 
-            case "FISHERY":
-                return CategoryName.FISHERY;
+            case "FISH":
+                return CategoryName.FISH;
 
 
             case "MEAL_KIT":

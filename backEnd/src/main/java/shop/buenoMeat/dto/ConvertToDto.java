@@ -109,7 +109,17 @@ public class ConvertToDto {
         );
     }
 
-    public static QnaDto.qnaInfo convertToQnaInfo(ItemQna itemQna) { // 상세페이지 해당 상품 QnA
+    public static QnaDto.qnaInfo convertToQnaInfo(ItemQna itemQna) { // 마이페이지 문의 기록 불러오기
+        return new QnaDto.qnaInfo(
+                itemQna.getId(),
+                itemQna.getComment(),
+                itemQna.getItem().getName(),
+                itemQna.getQTime(),
+                itemQna.getQnaStatus()
+        );
+    }
+
+    public static QnaDto.qnaInfo convertToMyPageQnaHistory(ItemQna itemQna) {
         return new QnaDto.qnaInfo(
                 itemQna.getId(),
                 itemQna.getItem().getImage(),
