@@ -13,6 +13,7 @@ import shop.buenoMeat.repository.ItemRepository;
 import shop.buenoMeat.repository.MemberRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -54,10 +55,19 @@ public class ItemQnaService {
 
     //-- 문의 기록 불러오기 ( 마이페이지 ) --//
     public QnaDto.getQnaListToMyPage getQnaListToMyPage(Long memberId) {
-        List<ItemQna> findAllByMemberId = itemQnaRepository.findByMemberId(memberId);
+        List<ItemQna> findAllByMemberId = itemQnaRepository.findAllByMemberId(memberId);
         List<QnaDto.qnaInfo> qnaInfos = findAllByMemberId.stream()
                 .map(ConvertToDto::convertToQnaInfo)
                 .collect(Collectors.toList());
         return new QnaDto.getQnaListToMyPage(qnaInfos);
+    }
+
+    //-- 문의 기록 클릭한 경우 ( 마이페이지 ) --//
+    public QnaDto.getQnaDetailDto getQnaDetailToMyPage(Long qnaId) {
+        ItemQna findQna = itemQnaRepository.findById(qnaId).orElseThrow(NoSuchElementException::new);
+        return new QnaDto.getQnaDetailDto(
+                findQna.getTitle(), findQna.getItem().getImage(), findQna.getItem().getName(), findQna.getComment(),
+                findQna.getQTime(), findQna.getQnaStatus(), findQna.getItemAnswer().getAnswer(), findQna.getItemAnswer().getAnswerTime()
+        );
     }
 }

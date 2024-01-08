@@ -24,7 +24,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
-    private static final String NO_CHECK_URL = "/auth/login"; // "/login"으로 들어오는 요청은 Filter 작동 X
+    private static final String NO_CHECK_URL = "/socialLogin/token"; // "/login"으로 들어오는 요청은 Filter 작동 X
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -76,7 +76,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                     jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member.getEmail()),
                             reIssuedRefreshToken);
                 });
-    }
+
+        }
 
     /**
      * [리프레시 토큰 재발급 & DB에 리프레시 토큰 업데이트 메소드]

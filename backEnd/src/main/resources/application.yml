@@ -2,7 +2,7 @@ jwt:
   secretKey: 1351GNCLPQMmmvlknq5164vasd51v12w21g59z451sdfg
 
   access:
-    expiration: 3000  #1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))  -> 테스트를 위해 30초로 설정
+    expiration: 30000  #1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))  -> 테스트를 위해 30초로 설정
     header: Authorization
 
   refresh:

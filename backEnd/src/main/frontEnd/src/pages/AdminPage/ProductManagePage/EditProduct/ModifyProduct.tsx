@@ -8,6 +8,8 @@ import Container from "../../../../components/utils/Container";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import { ProductProps } from "../../../../types/ProductProps";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 interface ModifyProductProps extends ProductProps {
     setShowModify:  React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,7 +42,7 @@ const ModifyProduct = ({
             name: name,
             info: info,
             price: price,
-            category_id: 0,
+            category_name: "",
             stock: 0,
             weight: weight,
             weightUnit: weightUnit,
@@ -48,14 +50,23 @@ const ModifyProduct = ({
     });
 
     const image = watch('image');
-    const category_id = watch('category_id');
+    const category_name = watch('category_name');
     
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-
         setIsLoading(true);
 
-        console.log(data);
+        console.log(data);  // 수정하려는 상품 정보 로그로 확인
+        axios.put(`/admin/product/modify/${id}`, data)
+            .then(response => {
+                console.log(response);
+                toast.success('상품 수정에 성공하였습니다');
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error('상품 수정에 실패하였습니다');
+            });
+        setIsLoading(false);
         setShowModify(false);
     }
     
@@ -95,8 +106,8 @@ const ModifyProduct = ({
                                 id={c.id}
                                 label={c.label}
                                 icon={c.icon}
-                                onClick={(category: number) => setCustomValue('category_id', category)}
-                                selected={category_id === c.id} 
+                                onClick={(category: string) => setCustomValue('category_name', category)}
+                                selected={category_name === c.label.toUpperCase()} 
                             />
                         ))}
                     </div>

@@ -37,11 +37,17 @@ public class QnaDto {
         List<qnaInfo> qnaInfos;
     }
 
-    /*
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class getQnaInfoToMyPage {
-
-    }*/
+    public static class getQnaDetailDto {
+        private String title;
+        private String image;
+        private String itemName;
+        private String comment;
+        private LocalDateTime qTime;
+        private QnaStatus qnaStatus;
+        private String answer;
+        private LocalDateTime answerTime;
+    }
 }

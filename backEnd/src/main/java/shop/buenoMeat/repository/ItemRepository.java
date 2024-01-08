@@ -16,6 +16,8 @@ public class ItemRepository {
 
     public Item findOne(Long id){return em.find(Item.class,id);} // 아이디로 상품 조회
 
+    public void save(Item item){em.persist(item);} // 상품 저장
+
     public List<Item> findByItemName(String name) {
         return em.createQuery("SELECT i FROM Item i WHERE i.name LIKE :itemName", Item.class)
                 .setParameter("itemName", "%" + name + "%")

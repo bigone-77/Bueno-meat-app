@@ -7,6 +7,8 @@ import { Categories } from "../../../../components/MainNav/CategoryItems";
 import CategoryBox from "../CategoryBox";
 import Input from "../../../../components/utils/Input";
 import Button from "../../../../components/utils/Button";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 
@@ -28,7 +30,7 @@ const PlusProductPage = () => {
             name: '',
             info: '',
             price: 0,
-            category_id: 0,
+            category_name: '',
             stock: 0,
             weight: 0,
             weightUnit: '',
@@ -36,15 +38,23 @@ const PlusProductPage = () => {
     });
 
     const image = watch('image');
-    const category_id = watch('category_id');
-    
+    const category_name = watch('category_name');
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
 
         setIsLoading(true);
-
-        console.log(data);
+        console.log(data);  // data 변수명 checking
         
+        axios.post('/admin/product/upload', data)
+            .then(response => {
+                console.log(response);
+                toast.success("상품 등록이 완료되었습니다");
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error("상품 등록에 실패하였습니다");
+            });
+            setIsLoading(false);
     }
     
 
@@ -83,8 +93,8 @@ const PlusProductPage = () => {
                                 id={c.id}
                                 label={c.label}
                                 icon={c.icon}
-                                onClick={(category: number) => setCustomValue('category_id', category)}
-                                selected={category_id === c.id} 
+                                onClick={(category: string) => setCustomValue('category_name', category)}
+                                selected={category_name === c.label.toUpperCase()} 
                             />
                         ))}
                     </div>

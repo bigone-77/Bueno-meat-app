@@ -39,7 +39,7 @@ public class ItemDto {
         private int recommend;
     }
 
-    /*@Data
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class itemQnaInfo { //상품 상세페이지 누르면 상품에 해당하는 QnA
@@ -48,7 +48,9 @@ public class ItemDto {
         private String comment;
         private LocalDateTime qnaTime;
         private QnaStatus qnaStatus;
-    }*/
+        private String answer;
+        private LocalDateTime answerTime;
+    }
 
     @Data
     @AllArgsConstructor
@@ -56,6 +58,7 @@ public class ItemDto {
     public static class itemDetailDto {
         private itemDetailInfo itemDetailInfo;
         private List<itemReviewInfo> itemReviewInfos;
+        private List<itemQnaInfo> itemQnaInfos;
     }
 
     @Data

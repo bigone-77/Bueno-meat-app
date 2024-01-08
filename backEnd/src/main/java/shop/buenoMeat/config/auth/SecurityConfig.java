@@ -2,6 +2,7 @@ package shop.buenoMeat.config.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -17,11 +18,13 @@ import shop.buenoMeat.config.OAuth.CustomOAuth2UserService;
 import shop.buenoMeat.config.OAuth.OAuth2LoginFailureHandler;
 import shop.buenoMeat.config.OAuth.OAuth2LoginSuccessHandler;
 import shop.buenoMeat.config.jwt.*;
+import shop.buenoMeat.domain.MemberRole;
 import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.service.SocialLoginService;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private final SocialLoginService socialLoginService;
@@ -58,6 +61,7 @@ public class SecurityConfig {
 
                 .antMatchers("/","/css/**","/images/**","/js/**","/favicon.ico").permitAll()
                 .antMatchers("/auth/**").permitAll() // 회원가입 접근 가능
+                //.antMatchers("/admin/**").hasRole("ADMIN")//관리자만 접근 가능
                 //.anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
                 //== 소셜 로그인 설정 ==//
@@ -116,6 +120,7 @@ public class SecurityConfig {
      */
     @Bean
     public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
+        log.info("자격 증명 체크");
         CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordLoginFilter
                 = new CustomJsonUsernamePasswordAuthenticationFilter(objectMapper);
         customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());

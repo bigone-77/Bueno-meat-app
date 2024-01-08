@@ -118,4 +118,16 @@ public class ConvertToDto {
                 itemQna.getQnaStatus()
         );
     }
+
+    public static ItemDto.itemQnaInfo convertToItemQnaInfo(ItemQna itemQna) {
+        return new ItemDto.itemQnaInfo(
+                itemQna.getId(),
+                itemQna.getTitle(),
+                itemQna.getComment(),
+                itemQna.getQTime(),
+                itemQna.getQnaStatus(),
+                itemQna.getComment(),
+                itemQna.getItemAnswer().getAnswerTime()
+        );
+    }
 }

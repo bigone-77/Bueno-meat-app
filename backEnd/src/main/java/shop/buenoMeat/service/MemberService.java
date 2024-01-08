@@ -15,7 +15,6 @@ import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.repository.WishListRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -110,15 +109,20 @@ public class MemberService{
 
     //-- 소셜 로그인 추가정보 기입 --//
     @Transactional
-    public LoginDto.socialLoginResponseDto socialLogin(LoginDto.socialLoginRequestDto socialLoginRequestDto) {
+    public void socialLogin(LoginDto.socialLoginRequestDto socialLoginRequestDto) {
         Member findMember = memberRepository.findByEmail(socialLoginRequestDto.getEmail()).get(0);
         findMember.changeUsername(socialLoginRequestDto.getUsername());
         findMember.changeAddress(socialLoginRequestDto.getAddress());
         findMember.changeDetailAddress(socialLoginRequestDto.getDetailAddress());
         findMember.changePhone(socialLoginRequestDto.getPhone());
-        LoginDto.socialLoginResponseDto socialLoginResponseDto = new LoginDto.socialLoginResponseDto(
-                "추가 정보 입력을 완료하였습니다.", findMember.getId(), findMember.getNickname()
+    }
+
+    //-- 토큰 유효성 확인 및 데이터 전달 --//
+    public LoginDto.socialLoginResponse checkTokenSocialLogin(String email) {
+        Member member = memberRepository.findByEmail(email).get(0);
+        LoginDto.socialLoginResponse socialLoginResponse = new LoginDto.socialLoginResponse(
+                "로그인에 성공하였습니다", member.getId(), member.getNickname()
         );
-        return socialLoginResponseDto;
+        return socialLoginResponse;
     }
 }
