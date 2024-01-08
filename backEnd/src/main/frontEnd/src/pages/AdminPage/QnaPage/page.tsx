@@ -1,4 +1,6 @@
+import { useCallback, useEffect } from 'react';
 import AdminQnaList from "../../../components/utils/AdminQnaList";
+import axios from 'axios';
 
 const QnaData = [
     {
@@ -18,6 +20,21 @@ const QnaData = [
 ]
 
 const AdminQnaPage = () => {
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await axios.get('/admin/qna');
+            console.log(response.data);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+    
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
     return (
         <div className="px-10 my-10">
             <div className="flex items-center">

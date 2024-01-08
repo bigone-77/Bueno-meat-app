@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ItemQnaRepository extends JpaRepository<ItemQna, Long> {
 
-    List<ItemQna> findByMemberId(Long memberId);
+    List<ItemQna> findAllByMemberId(Long memberId);
+
+    List<ItemQna> findAllByItemId(Long itemId);
 }

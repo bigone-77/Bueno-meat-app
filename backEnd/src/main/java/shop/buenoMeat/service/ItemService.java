@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.CategoryName;
 import shop.buenoMeat.domain.Item;
+import shop.buenoMeat.domain.ItemQna;
 import shop.buenoMeat.domain.ItemReview;
 import shop.buenoMeat.dto.ConvertToDto;
 import shop.buenoMeat.dto.ItemDto;
+import shop.buenoMeat.repository.ItemQnaRepository;
 import shop.buenoMeat.repository.ItemRepository;
 import shop.buenoMeat.repository.ItemReviewRepository;
 
@@ -22,12 +24,15 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemReviewRepository itemReviewRepository;
+    private final ItemQnaRepository itemQnaRepository;
+
 
     //--상품 상세페이지 정보--//
     @Transactional
     public ResponseEntity<ItemDto.itemDetailDto> findItemDetail(Long itemId) {
         Item findItem = itemRepository.findOne(itemId);
         List<ItemReview> findAllReviewsByItemId = itemReviewRepository.findAllByItemId(itemId);
+        List<ItemQna> findAllQnasByItemId = itemQnaRepository.findAllByItemId(itemId);
         CategoryName categoryName = findItem.getCategory().getCategoryName();
         ItemDto.itemDetailInfo itemDetailInfo= new ItemDto.itemDetailInfo(categoryName,
                 findItem.getName(),
@@ -40,7 +45,12 @@ public class ItemService {
         List<ItemDto.itemReviewInfo> itemReviewInfos = findAllReviewsByItemId.stream()
                 .map(ConvertToDto::convertToItemReviewInfo)
                 .collect(Collectors.toList());
-        ItemDto.itemDetailDto itemDetailDto = new ItemDto.itemDetailDto(itemDetailInfo, itemReviewInfos);
+
+        List<ItemDto.itemQnaInfo> itemQnaInfos = findAllQnasByItemId.stream()
+                .map(ConvertToDto::convertToItemQnaInfo)
+                .collect(Collectors.toList());
+
+        ItemDto.itemDetailDto itemDetailDto = new ItemDto.itemDetailDto(itemDetailInfo, itemReviewInfos, itemQnaInfos);
         return ResponseEntity.ok(itemDetailDto);
     }
 

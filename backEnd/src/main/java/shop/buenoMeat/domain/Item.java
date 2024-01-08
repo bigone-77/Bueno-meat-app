@@ -49,10 +49,35 @@ public class Item {
     @Column(nullable = false)
     private LocalDateTime enrolled;
 
-    @Column(nullable = false, length = 1000)
+    @Column(length = 1000)
     private String image;
 
     private Integer soldQuantity; // 판매수량, 판매량이 없는경우 0
+
+    public Item(Category category, String info, String name, int price, int stock, String weight, String weightUnit) {
+        this.category = category;
+        this.info = info;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.weight = weight;
+        this.weightUnit = weightUnit;
+        this.enrolled = LocalDateTime.now();
+    }
+
+    //-- 생성 메서드 --//
+    public static Item createItem(Category category, String info, String name, int price, int stock, String weight, String weightUnit) {
+        return new Item(category, info, name, price, stock, weight, weightUnit);
+    }
+
+    //-- 수정 메서드 --//
+    public void changeCategory(Category category){ this.category = category; }
+    public void changeInfo(String info){ this.info = info; }
+    public void changeName(String name){ this.name = name; }
+    public void changePrice(int price){ this.price = price; }
+    public void changeStock(int stock){ this.stock = stock; }
+    public void changeWeight(String weight){ this.weight = weight; }
+    public void changeWeightUnit(String weightUnit){ this.weightUnit = weightUnit; }
 
 
     /***

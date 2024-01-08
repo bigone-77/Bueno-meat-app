@@ -39,11 +39,10 @@ public class LoginDto {
         private String detailAddress;
     }
 
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class socialLoginResponseDto {
+    public static class socialLoginResponse {
         private String msg;
         private Long id;
         private String nickname;

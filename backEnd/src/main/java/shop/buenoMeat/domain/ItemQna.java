@@ -27,6 +27,10 @@ public class ItemQna {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemAnswer_id")
+    private ItemAnswer itemAnswer;
+
     @Column(nullable = false)
     private String title;
 
@@ -52,5 +56,10 @@ public class ItemQna {
     //-- 생성 메서드 --//
     public static ItemQna createItemQna(Item item, Member member, String title, String comment) {
         return new ItemQna(item, member, title, comment);
+    }
+
+    //-- 질문 상태 수정 --//
+    public void changeQnaStatus() {
+        this.qnaStatus = QnaStatus.COMPLETE;
     }
 }
