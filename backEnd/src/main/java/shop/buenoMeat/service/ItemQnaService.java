@@ -57,7 +57,7 @@ public class ItemQnaService {
     public QnaDto.getQnaListToMyPage getQnaListToMyPage(Long memberId) {
         List<ItemQna> findAllByMemberId = itemQnaRepository.findAllByMemberId(memberId);
         List<QnaDto.qnaInfo> qnaInfos = findAllByMemberId.stream()
-                .map(ConvertToDto::convertToQnaInfo)
+                .map(ConvertToDto::convertToMyPageQnaHistory)
                 .collect(Collectors.toList());
         return new QnaDto.getQnaListToMyPage(qnaInfos);
     }

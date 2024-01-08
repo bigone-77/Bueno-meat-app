@@ -27,6 +27,7 @@ public class AdminDto {
     public static class adminLoginResponseDto {
         private String msg;
         private Long adminId;
+        private String nickname;
     }
 
     @Data
