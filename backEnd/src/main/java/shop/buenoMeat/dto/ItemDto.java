@@ -48,8 +48,6 @@ public class ItemDto {
         private String comment;
         private LocalDateTime qnaTime;
         private QnaStatus qnaStatus;
-        private String answer;
-        private LocalDateTime answerTime;
     }
 
     @Data
@@ -58,7 +56,6 @@ public class ItemDto {
     public static class itemDetailDto {
         private itemDetailInfo itemDetailInfo;
         private List<itemReviewInfo> itemReviewInfos;
-        private List<itemQnaInfo> itemQnaInfos;
     }
 
     @Data

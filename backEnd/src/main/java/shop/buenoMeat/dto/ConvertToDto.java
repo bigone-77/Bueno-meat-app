@@ -112,16 +112,6 @@ public class ConvertToDto {
     public static QnaDto.qnaInfo convertToQnaInfo(ItemQna itemQna) { // 마이페이지 문의 기록 불러오기
         return new QnaDto.qnaInfo(
                 itemQna.getId(),
-                itemQna.getComment(),
-                itemQna.getItem().getName(),
-                itemQna.getQTime(),
-                itemQna.getQnaStatus()
-        );
-    }
-
-    public static QnaDto.qnaInfo convertToMyPageQnaHistory(ItemQna itemQna) {
-        return new QnaDto.qnaInfo(
-                itemQna.getId(),
                 itemQna.getItem().getImage(),
                 itemQna.getItem().getName(),
                 itemQna.getQTime(),
@@ -129,15 +119,15 @@ public class ConvertToDto {
         );
     }
 
-    public static ItemDto.itemQnaInfo convertToItemQnaInfo(ItemQna itemQna) {
-        return new ItemDto.itemQnaInfo(
+    public static QnaDto.getAdminQnaInfo convertToGetAdminQnaInfo(ItemQna itemQna) {
+        return new QnaDto.getAdminQnaInfo(
                 itemQna.getId(),
                 itemQna.getTitle(),
                 itemQna.getComment(),
                 itemQna.getQTime(),
-                itemQna.getQnaStatus(),
-                itemQna.getComment(),
-                itemQna.getItemAnswer().getAnswerTime()
+                itemQna.getQnaStatus()
         );
     }
+
+
 }

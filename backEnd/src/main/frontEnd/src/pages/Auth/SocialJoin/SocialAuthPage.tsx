@@ -1,13 +1,18 @@
 import { useEffect } from 'react'
 import Container from '../../../components/utils/Container'
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../../redux/slices/currentUserSlice';
 
 const SocialAuthPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const accessToken = searchParams.get('accessToken');
   const refreshToken = searchParams.get('refreshToken');
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const postHandler = async () => {
     try {
@@ -16,6 +21,11 @@ const SocialAuthPage = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      dispatch(setCurrentUser({
+        id: response.data.id,
+        nickname: response.data.nickname
+      }));
+      navigate('/');
       console.log(response);
     } catch (error) {
       console.log(error);

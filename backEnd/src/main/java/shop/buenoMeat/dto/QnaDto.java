@@ -33,6 +33,16 @@ public class QnaDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class getAdminQnaInfo {
+        private Long id;
+        private String title;
+        private String comment;
+        private LocalDateTime qnaTime;
+        private QnaStatus qnaStatus;
+    }
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class getQnaListToMyPage {
         List<qnaInfo> qnaInfos;
     }

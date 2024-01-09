@@ -25,6 +25,7 @@ const dummyQnaData = [{
 const ProductDetailPage = () => {
     const [detailProductData, setDetailProductData] = useState<ProductProps>();
     const [productReviewData, setProductReviewData] = useState<ProductReviewProps[]>([]);
+    // const [productQnaData, setProductQnaData] = useState<>
     const [disabled, setDisabled] = useState(true);
 
     const [showReviews, setShowReviews] = useState(true);
