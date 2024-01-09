@@ -104,7 +104,7 @@ const ModifyProduct = ({
                             <CategoryBox 
                                 key={c.id}
                                 id={c.id}
-                                label={c.label}
+                                path={c.path}
                                 icon={c.icon}
                                 onClick={(category: string) => setCustomValue('category_name', category)}
                                 selected={category_name === c.label.toUpperCase()} 

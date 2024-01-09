@@ -52,7 +52,7 @@ public class Item {
     @Column(length = 1000)
     private String image;
 
-    private Integer soldQuantity; // 판매수량, 판매량이 없는경우 0
+    private Integer soldQuantity; // 판매수량, 판매량이 없는경우 0 or null
 
     public Item(Category category, String info, String name, int price, int stock, String weight, String weightUnit) {
         this.category = category;

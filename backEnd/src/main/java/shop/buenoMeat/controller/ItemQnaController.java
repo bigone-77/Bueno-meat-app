@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import shop.buenoMeat.dto.QnaDto;
 import shop.buenoMeat.service.ItemQnaService;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/qna")
@@ -30,9 +28,9 @@ public class ItemQnaController {
     }
 
     //-- 문의 기록 불러오기 ( 마이페이지 ) --//
-    @GetMapping("{memberId}")
-    public ResponseEntity<QnaDto.getQnaListToMyPage> getQnaListToMyPage(@PathVariable Long memberId) {
-        return ResponseEntity.ok(itemQnaService.getQnaListToMyPage(memberId));
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<QnaDto.getQnaListToMyPage> getAllQnaToMyPage(@PathVariable Long memberId) {
+        return ResponseEntity.ok(itemQnaService.getAllQnaToMyPage(memberId));
     }
 
     //-- 문의 기록 클릭한 경우 ( 마이페이지 ) --//

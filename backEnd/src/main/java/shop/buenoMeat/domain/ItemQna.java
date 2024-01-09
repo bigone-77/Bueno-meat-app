@@ -27,10 +27,6 @@ public class ItemQna {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "itemAnswer_id")
-    private ItemAnswer itemAnswer;
-
     @Column(nullable = false)
     private String title;
 

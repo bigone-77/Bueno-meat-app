@@ -49,9 +49,9 @@ public class AdminService {
     }
 
     //-- 상품 문의 리스트 불러오기 --//
-    public List<QnaDto.qnaInfo> getAllQnaList() {
+    public List<QnaDto.getAdminQnaInfo> getAllQnaList() {
         List<ItemQna> getAllQna = itemQnaRepository.findAll();
-        return getAllQna.stream().map(ConvertToDto::convertToQnaInfo)
+        return getAllQna.stream().map(ConvertToDto::convertToGetAdminQnaInfo)
                 .collect(Collectors.toList());
     }
 

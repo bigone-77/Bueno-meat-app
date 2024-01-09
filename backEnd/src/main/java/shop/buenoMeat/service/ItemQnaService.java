@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.buenoMeat.domain.Item;
+import shop.buenoMeat.domain.ItemAnswer;
 import shop.buenoMeat.domain.ItemQna;
 import shop.buenoMeat.domain.Member;
 import shop.buenoMeat.dto.ConvertToDto;
 import shop.buenoMeat.dto.QnaDto;
+import shop.buenoMeat.repository.ItemAnswerRepository;
 import shop.buenoMeat.repository.ItemQnaRepository;
 import shop.buenoMeat.repository.ItemRepository;
 import shop.buenoMeat.repository.MemberRepository;
@@ -24,6 +26,8 @@ public class ItemQnaService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     private final ItemQnaRepository itemQnaRepository;
+
+    private final ItemAnswerRepository itemAnswerRepository;
 
 
     //-- 문의 글 작성하기 --//
@@ -54,10 +58,10 @@ public class ItemQnaService {
 
 
     //-- 문의 기록 불러오기 ( 마이페이지 ) --//
-    public QnaDto.getQnaListToMyPage getQnaListToMyPage(Long memberId) {
+    public QnaDto.getQnaListToMyPage getAllQnaToMyPage(Long memberId) {
         List<ItemQna> findAllByMemberId = itemQnaRepository.findAllByMemberId(memberId);
         List<QnaDto.qnaInfo> qnaInfos = findAllByMemberId.stream()
-                .map(ConvertToDto::convertToMyPageQnaHistory)
+                .map(ConvertToDto::convertToQnaInfo)
                 .collect(Collectors.toList());
         return new QnaDto.getQnaListToMyPage(qnaInfos);
     }
@@ -65,9 +69,10 @@ public class ItemQnaService {
     //-- 문의 기록 클릭한 경우 ( 마이페이지 ) --//
     public QnaDto.getQnaDetailDto getQnaDetailToMyPage(Long qnaId) {
         ItemQna findQna = itemQnaRepository.findById(qnaId).orElseThrow(NoSuchElementException::new);
+        ItemAnswer findQnaAnswer = itemAnswerRepository.findByItemQnaId(findQna.getId());
         return new QnaDto.getQnaDetailDto(
                 findQna.getTitle(), findQna.getItem().getImage(), findQna.getItem().getName(), findQna.getComment(),
-                findQna.getQTime(), findQna.getQnaStatus(), findQna.getItemAnswer().getAnswer(), findQna.getItemAnswer().getAnswerTime()
+                findQna.getQTime(), findQna.getQnaStatus(), findQnaAnswer.getAnswer(), findQnaAnswer.getAnswerTime()
         );
     }
 }

@@ -113,11 +113,6 @@ public class Member {
 
     public void changeMemberRole(MemberRole memberRole) { this.role = memberRole; }
 
-    public void changeUsernameAndEmail(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
-
     //-- 포인트 사용  --//
     public void usePoint(int point) {
         if (this.point - point < 0) {

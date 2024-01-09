@@ -46,11 +46,7 @@ public class ItemService {
                 .map(ConvertToDto::convertToItemReviewInfo)
                 .collect(Collectors.toList());
 
-        List<ItemDto.itemQnaInfo> itemQnaInfos = findAllQnasByItemId.stream()
-                .map(ConvertToDto::convertToItemQnaInfo)
-                .collect(Collectors.toList());
-
-        ItemDto.itemDetailDto itemDetailDto = new ItemDto.itemDetailDto(itemDetailInfo, itemReviewInfos, itemQnaInfos);
+        ItemDto.itemDetailDto itemDetailDto = new ItemDto.itemDetailDto(itemDetailInfo, itemReviewInfos);
         return ResponseEntity.ok(itemDetailDto);
     }
 

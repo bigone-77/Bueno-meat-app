@@ -24,7 +24,7 @@ public class AdminController {
 
     //-- 문의글 모두 불러오기 --//
     @GetMapping("/qna")
-    public ResponseEntity<List<QnaDto.qnaInfo>> getAllQnaList() {
+    public ResponseEntity<List<QnaDto.getAdminQnaInfo>> getAllQnaList() {
         return ResponseEntity.ok(adminService.getAllQnaList());
     }
 
