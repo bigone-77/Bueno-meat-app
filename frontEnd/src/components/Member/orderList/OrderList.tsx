@@ -14,6 +14,8 @@ const OrderList = () => {
         await axios.get(`/mypage/order/${memberId}`)
             .then((response) => {
                 setOrderListData(response?.data);
+                console.log(response.data);
+                
             })
             .catch(error => {
                 console.log(error);

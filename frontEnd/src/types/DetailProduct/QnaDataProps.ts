@@ -1,7 +1,7 @@
 export interface QnaDataProps {
-    qnaId: number;
-    title: string;
-    comment: string;
-    qnaDate: string;
+    id: number;
+    image: string;
+    itemName: string;
+    qnaTime: string;
     qnaStatus: string;
 }

@@ -37,6 +37,7 @@ const Row = ({
     return (
         <div className="px-10">
             <p className="mb-10 text-5xl font-Cafe24Shiningstar">{title}</p>
+            {productData.length > 0 ?
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
                 {productData.map(product => (
                     <span key={product.id}>
@@ -49,7 +50,8 @@ const Row = ({
                         />
                     </span>
                 ))}
-            </div>
+            </div> : <div>찾으시려는 상품이 없습니다.
+                </div>}
         </div>
     )
 

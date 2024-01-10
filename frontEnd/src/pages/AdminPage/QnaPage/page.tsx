@@ -35,11 +35,12 @@ const AdminQnaPage = () => {
                         {qnaData.map((data, index) => (
                             <AdminQnaList 
                                 key={index}
-                                id={data.qnaId}
+                                qnaId={data.id}
                                 qnaStatus={data.qnaStatus}
-                                title={data.itemName}
-                                comment={data.image}
+                                title={data.title}
+                                comment={data.comment}
                                 qnaDate={data.qnaTime}
+                                fetchData={fetchData}
                             />
                         ))}
                     </>
