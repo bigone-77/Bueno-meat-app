@@ -6,30 +6,35 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 interface AdminQnaListProps {
-    id: number;
+    qnaId: number;
     qnaStatus: string;
     title: string;
     comment: string;
     qnaDate: string;
+    fetchData: () => Promise<void>;
 }
 
 const AdminQnaList = ({
-    id,
+    qnaId,
     qnaStatus,
     title,
     comment,
-    qnaDate
+    qnaDate,
+    fetchData,
 }: AdminQnaListProps) => {
     const [openAnswerModal, setOpenAnswerModal] = useState(false);
     const [enteredAnswer, setEnteredAnswer] = useState('');
 
     const postHandler = async () => {
-        await axios.post(`/admin/qna/answer/${id}`, enteredAnswer)
+        await axios.post(`/admin/qna/answer/${qnaId}`, { "answer": enteredAnswer })
             .then((res) => {
-                toast.success(res.data.message);
+                fetchData();
+                toast.success("답변이 성공적으로 달렸습니다");
+                setOpenAnswerModal(false);
             })
             .catch((err) => {
-                toast.error(err.message);
+                fetchData();
+                toast.error("답변이 실패했습니다");
             })
     }
 
@@ -60,11 +65,18 @@ const AdminQnaList = ({
             <p>{comment}</p>
             <hr className="my-5"/>
             <span 
-                className="w-40 flex items-center gap-[3px] border rounded-md px-4 py-2 cursor-pointer bg-blue-300 hover:opacity-50"
-                onClick={() => setOpenAnswerModal(true)}
+                className="w-52 flex items-center gap-[3px] border rounded-md px-4 py-2 cursor-pointer bg-blue-300 hover:opacity-50"
             >
-                <FcAnswers size={32} />
-                <p className="text-lg font-bold">답변 달기</p>
+                {qnaStatus === "WAITING" ? <>
+                    <FcAnswers size={32} />
+                    <p 
+                        className="text-lg font-bold"
+                        onClick={() => setOpenAnswerModal(true)}
+                    >
+                        답변 달기
+                    </p>
+                    </> : <p>답변완료한 문의글입니다.
+                        </p>}
             </span>
             <Modal
                 className="absolute top-[100px] left-[400px] w-[450px] h-[550px] bg-blue-200 z-40"

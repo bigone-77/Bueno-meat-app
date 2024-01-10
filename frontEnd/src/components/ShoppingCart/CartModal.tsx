@@ -46,6 +46,7 @@ const CartModal = ({ setShowModal, productId }: Props) => {
                             price={currentProductData.price}
                             weight={currentProductData.weight}
                             weightUnit={currentProductData.weightUnit}
+                            
                         />
                         
                     </div>

@@ -36,7 +36,7 @@ const OrderPage = () => {
             setUserData(response.data.orderMemberInfo);
 
             const plusProductList = response.data.orderItemList.map((item:OrderItemListProps[]) => {
-                return { ...item, itemUsePoint: 0 }
+                return { ...item, itemUsePoint: '0' }
             });
 
             setProductData(plusProductList);
@@ -44,8 +44,7 @@ const OrderPage = () => {
             console.log(error);
         }
     }
-
-
+    
     useEffect(() => {
         fetchData();
     }, [])
@@ -54,12 +53,11 @@ const OrderPage = () => {
     if (userData && productData) {
         const priceSum = productData.map((data) => data.totalPrice).reduce((a,b) => a + b);
 
-        
         const postHandler = async () => {
             const itemAndPoint: Map<number, number> = new Map();
             productData.forEach(item => {
                 const { itemId, itemUsePoint } = item;
-                itemAndPoint.set(itemId, 100);
+                itemAndPoint.set(itemId, Number(itemUsePoint));
             });
         
                 const data = {
@@ -75,9 +73,6 @@ const OrderPage = () => {
                 };
 
             console.log(data);
-            
-            
-            
             await axios.post(`/order/${memberId}`,data)
                 .then(response => {
                     console.log(response.data);
@@ -106,6 +101,7 @@ const OrderPage = () => {
                         setMemo={setMemo}
                         email={memberEmail}
                         setEmail={setMemberEmail}
+                        updateZipcode={fetchData}
                     />
                     
                     <div className="mb-16" />
@@ -157,8 +153,8 @@ const OrderPage = () => {
                                     itemOption={product.itemOption}
                                     stock={product.stock}
                                     maxPoint={userData.point}
-                                    point={product.itemUsePoint}  // 각 아이템에서 사용할 usePoint
-                                    setPoint={(point: any) => product.itemUsePoint = point}
+                                    pointValue={product.itemUsePoint}  // 각 아이템에서 사용할 usePoint, default로는 숫자 0
+                                    setPointValue={(point: any) => product.itemUsePoint = point}
                                 />
                             ))}
                         </tbody>

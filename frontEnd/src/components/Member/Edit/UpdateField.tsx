@@ -13,6 +13,7 @@ export interface UpdateFieldProps {
     prevValue?: string;
     fieldName: string;
     setShowEdit: Dispatch<SetStateAction<boolean>>
+    updateZipcode?: () => Promise<void>
 }
 
 const UpdateField = ({

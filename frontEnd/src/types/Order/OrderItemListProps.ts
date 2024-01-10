@@ -6,5 +6,5 @@ export interface OrderItemListProps {
     itemOption: string;
     stock: number;
     totalPrice: number;
-    itemUsePoint: number;
+    itemUsePoint: string;
 }

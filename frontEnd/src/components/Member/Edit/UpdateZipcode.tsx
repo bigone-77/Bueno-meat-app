@@ -13,6 +13,7 @@ const UpdateZipcode = ({
     prevValue,
     fieldName,
     setShowEdit,
+    updateZipcode
 }: UpdateFieldProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,7 @@ const UpdateZipcode = ({
             .then((response) => {
                 console.log(response);
                 dispatch(updateField(data));
+                updateZipcode!()
             })
             .catch((error) => {
                 console.log(error);
