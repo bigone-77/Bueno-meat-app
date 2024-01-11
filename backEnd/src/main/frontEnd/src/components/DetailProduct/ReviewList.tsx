@@ -16,6 +16,7 @@ interface ReviewListProps {
     comment: string;
     img?: string;
     recommend: number;
+    fetchData: () => Promise<void>;
 }
 
 const ReviewList = ({
@@ -26,7 +27,8 @@ const ReviewList = ({
     date,
     comment,
     img,
-    recommend
+    recommend,
+    fetchData
 }: ReviewListProps) => {
 
     const memberId = useSelector((state: RootState) => state.currentUser.id);
@@ -35,9 +37,12 @@ const ReviewList = ({
         await axios.post(`/review/recommend/${memberId}/${reviewId}`)
             .then(resposne => {
                 console.log(resposne.data);
+                toast.success('따봉을 눌렀어요!');
+                fetchData();
             })
             .catch(error => {
                 toast.error(error.response.data.message);
+                fetchData();
             })
     }
     
@@ -67,6 +72,7 @@ const ReviewList = ({
                     onClick={() => recommendHandler()}
                     size={25} 
                     color={"blue"}
+                    className='cursor-pointer'
                 />
             </span>
         </div>

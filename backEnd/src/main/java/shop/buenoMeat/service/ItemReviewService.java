@@ -3,10 +3,7 @@ package shop.buenoMeat.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.buenoMeat.domain.Item;
-import shop.buenoMeat.domain.ItemQna;
-import shop.buenoMeat.domain.ItemReview;
-import shop.buenoMeat.domain.Member;
+import shop.buenoMeat.domain.*;
 import shop.buenoMeat.dto.ConvertToDto;
 import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.dto.MemberDto;
@@ -14,6 +11,7 @@ import shop.buenoMeat.exception.SelfRecommendationException;
 import shop.buenoMeat.repository.ItemRepository;
 import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.repository.ItemReviewRepository;
+import shop.buenoMeat.repository.OrderItemRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +25,7 @@ public class ItemReviewService {
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
     private final ItemReviewRepository itemReviewRepository;
-
+    private final OrderItemRepository orderItemRepository;
     //-- 리뷰내역(마이페이지) 불러오기 --//
     public ItemDto.getReviewFormPage getReviewFormPage(Long memberId) {
         Member findMember = memberRepository.findOne(memberId);
@@ -52,6 +50,9 @@ public class ItemReviewService {
         ItemReview itemReview = ItemReview.createReview(findItem, findMember, enrollReviewDto.getComment(),
                 enrollReviewDto.getStarRating(), enrollReviewDto.getReviewImage());
         itemReviewRepository.save(itemReview);
+
+        //작성 완료 상태로 바꾸어주기
+        orderItemRepository.findByItemId(itemId).changeOrderStatus(OrderItemStatus.REV_COMP);
     }
 
     @Transactional

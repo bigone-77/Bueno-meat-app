@@ -63,6 +63,7 @@ public class Item {
         this.weight = weight;
         this.weightUnit = weightUnit;
         this.enrolled = LocalDateTime.now();
+        this.soldQuantity = 0;
     }
 
     //-- 생성 메서드 --//

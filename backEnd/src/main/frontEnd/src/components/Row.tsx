@@ -41,7 +41,7 @@ const Row = ({
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
                 {productData.map(product => (
                     <span key={product.id}>
-                        <ProductCard
+                        <ProductCard 
                             id={product.id}
                             name={product.name}
                             price={product.price}

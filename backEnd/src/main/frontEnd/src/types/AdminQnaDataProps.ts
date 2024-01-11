@@ -1,7 +1,7 @@
 export interface AdminQnaDataProps {
-  qnaId: number;
-  image: string;
-  itemName: string;
+  id: number;
+  title: string;
+  comment: string;
   qnaStatus: string;
   qnaTime: string;
 }

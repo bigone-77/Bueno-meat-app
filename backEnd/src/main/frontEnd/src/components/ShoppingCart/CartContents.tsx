@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import { removeCartData } from '../../redux/slices/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const CartContents = ({
     id,
@@ -14,29 +15,41 @@ const CartContents = ({
     price,
     weight,
     weightUnit,
+
 }: ProductProps) => {
     const [showConfirmCart, setShowConfirmCart] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const memberId = useSelector((state: RootState) => state.currentUser.id);
     const cartData = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { itemCount, totalPrice, itemOption } = cartData;
     const putCartHandler = async () => {
         if (disabled) {
-            toast.warn("옵션을 선택해주세요")
+            toast.warn("옵션을 선택해주세요");
             setShowConfirmCart(false);
         } else {
-            const response = await axios.post(`/products/putCart/${memberId}/${id}`,{
+            await axios.post(`/products/putCart/${memberId}/${id}`,{
                 memberId,
                 itemId: id,
                 itemCount,
                 totalPrice,
                 itemOption
-            });
-            console.log(response.data);
-            dispatch(removeCartData());
-            setShowConfirmCart(true);
+            })
+            .then(response => {
+                console.log(response.data);
+                dispatch(removeCartData());
+                setShowConfirmCart(true);
+            })
+            .catch(err => {
+                if (err.response.data) {
+                    if (window.confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하시겠습니까?")) {
+                        navigate('/member/mypage/cart');
+                    }
+
+                }
+            })
         }
     }
     
@@ -58,7 +71,7 @@ const CartContents = ({
                 >
                     Put Cart
                 </button>
-                <button>Buy Now</button>
+                <button onClick={putCartHandler}>Buy Now</button>
             </section>
             </>}
             {showConfirmCart && <ConfirmCart

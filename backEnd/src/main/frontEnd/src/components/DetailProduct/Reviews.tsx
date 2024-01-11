@@ -6,10 +6,12 @@ import ReviewList from "./ReviewList";
 
 interface ReviewsProps {
     data: ProductReviewProps[];
+    fetchData: () => Promise<void>;
 }
 
 const Reviews = ({
     data,
+    fetchData,
 }: ReviewsProps) => {
     console.log(data.length);
     
@@ -56,6 +58,7 @@ const Reviews = ({
                         comment={d.comment}
                         img={d.reviewImage}
                         recommend={d.recommend}
+                        fetchData={fetchData}
                     />
                 ))}
                 
