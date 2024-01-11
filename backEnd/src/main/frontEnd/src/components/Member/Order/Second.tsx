@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -11,9 +12,8 @@ interface SecondProps {
     itemOption: string;
     stock: number;
     maxPoint: number;
-    point: number;
-    setPoint: (usePoint: any) => number
-    
+    pointValue: string;
+    setPointValue: (usePoint: any) => string;
 }
 
 const SecondCard = ({
@@ -25,25 +25,29 @@ const SecondCard = ({
     itemOption,
     stock,
     maxPoint,
-    point,
-    setPoint
-    
+    pointValue,
+    setPointValue,
 }: SecondProps) => {
-
+    const [realUsePoint, setRealUsePoint] = useState(pointValue);
     const navigate = useNavigate();
 
     let showStock = '';
     showStock = (stock >= 5) ? '재고 5개 이상' : `재고 ${stock} 남음`;
 
     const pointHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (String(point) === '0') {
-            setPoint(e.target.value.replace(/(^0+)/, ""));
+        console.log(e.target.value);
+        setRealUsePoint(e.target.value);
+        
+        if (realUsePoint === '0') {
+            setPointValue(e.target.value.replace(/(^0+)/, ""));
+            console.log("눈치가 빠른 꼬맹이구나");
+            
         } else {
             if (Number(e.target.value) > maxPoint) {
                 toast.error('보유한 포인트를 초과하였습니다!')
-                setPoint(String(maxPoint));
+                setPointValue(String(maxPoint));
             } else {
-                setPoint(e.target.value);
+                setPointValue(e.target.value);
             }
         }
     }
@@ -68,7 +72,7 @@ const SecondCard = ({
                         <input 
                             className="w-40 px-8 py-1 text-right border"
                             type="number" 
-                            value={point}
+                            value={realUsePoint}
                             onChange={pointHandler}
                         />
                         <label className="absolute top-[5px] right-2">원</label>

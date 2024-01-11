@@ -12,23 +12,11 @@ import { RootState } from '../../redux';
 import { removeCartData } from '../../redux/slices/cartSlice';
 import { ProductReviewProps } from '../../types/DetailProduct/ProductReviewProps';
 import Reviews from '../../components/DetailProduct/Reviews';
-import Qna from '../../components/DetailProduct/Qna';
-
-const dummyQnaData = [{
-    "qnaId": 1,
-    "title": "이거 맛있어요?",
-    "comment": "어르신들 드실 갈비탕 준비하려는데 탕으로도 괜찮을까요",
-    "qnaDate": "2023-12-28",
-    "qnaStatus": "WAITING",
-}]
 
 const ProductDetailPage = () => {
     const [detailProductData, setDetailProductData] = useState<ProductProps>();
     const [productReviewData, setProductReviewData] = useState<ProductReviewProps[]>([]);
-    // const [productQnaData, setProductQnaData] = useState<>
     const [disabled, setDisabled] = useState(true);
-
-    const [showReviews, setShowReviews] = useState(true);
 
     const memberId = useSelector((state: RootState) => state.currentUser.id);
     const cartData = useSelector((state: RootState) => state.cart);
@@ -72,17 +60,13 @@ const ProductDetailPage = () => {
                 toast.success('해당 상품이 장바구니에 담겼습니다!')
                 console.log(response.data);
                 dispatch(removeCartData());
+                navigate('/member/mypage/cart');
             }   catch (error) {
                 toast.error(String("이미 장바구니에 있는 상품입니다."));
             }
         }
     }
 
-    const gotoOrderHandler = () => {
-        putCartHandler();
-        navigate('/member/mypage/cart');
-    }
-    
     if (detailProductData) {
         let { name, info, price, weight, weightUnit, image } = detailProductData;
         
@@ -114,13 +98,13 @@ const ProductDetailPage = () => {
                                 setDisabled={setDisabled}
                             />
                             
-                            <span className='grid w-full grid-cols-3 gap-3'>
+                            <span className='grid w-full grid-cols-2 gap-3'>
                                 <button 
                                     className='bg-blue-500'
-                                    onClick={gotoOrderHandler}
+                                    onClick={putCartHandler}
                                 >바로구매</button>
                                 <button onClick={putCartHandler}>장바구니</button>
-                                <button>관심상품</button>
+                                
                             </span>
                         </section>
                     </div>
@@ -131,28 +115,17 @@ const ProductDetailPage = () => {
                         <thead>
                             <tr className="bg-[rgba(0,0,0,0.1)] font-bold">
                                 <th
-                                    className={`${showReviews && 'bg-white'} cursor-pointer`}
-                                    onClick={() => setShowReviews(true)}
+                                    className="bg-amber-300"
                                 >
                                     구매 후기
-                                </th>
-                                <th 
-                                    className={`${!showReviews && 'bg-white'} cursor-pointer`}
-                                    onClick={() => setShowReviews(false)}
-                                >
-                                    상품 문의
                                 </th>
                             </tr>
                         </thead>
                     </table>
-                    {showReviews ? 
                         <Reviews
                             data={productReviewData || []}
-                        /> : 
-                        <Qna 
-                            qnaData={dummyQnaData || []}
-                            productId={Number(params.productId)}
-                        />}
+                            fetchData={fetchData}
+                        /> 
                 </div>
         </Container>
         )

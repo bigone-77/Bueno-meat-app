@@ -1,29 +1,20 @@
 import { useEffect, useState } from "react"
 import QuestionList from "./QuestionList"
-import QnaList from "./QnaList"
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux'
-
-const dummyQnaData = [{
-    "qnaId": 1,
-    "itemImg": "https://mybueno2023.s3.ap-northeast-2.amazonaws.com/upload/IMG_4332.jpg",
-    "itemName": "손흥양",
-    "itemOption": "300g",
-    "comment": "어르신들 드실 갈비탕 준비하려는데 탕으로도 괜찮을까요",
-    "qnaDate": "2023-12-28",
-    "answer": ""    // qnaId가 1인 문의글에 대한 답변(admin)
-}]
+import { QnaDataProps } from '../../../types/DetailProduct/QnaDataProps'
 
 const Qna = () => {
     const memberId = useSelector((state: RootState) => state.currentUser.id);
-    const [isClicked, setIsClicked] = useState(false);
+    const [qnaData, setQnaData] = useState<QnaDataProps[]>([]);
+    
 
     const fetchData = async () => {
-        await axios.get(`/qna/${memberId}`)
+        await axios.get(`/qna/member/${memberId}`)
             .then((response) => {
                 console.log(response.data);
-                
+                setQnaData(response.data.qnaInfos);
             })
             .catch(error => {
                 console.log(error);
@@ -39,20 +30,19 @@ const Qna = () => {
             <p className="text-5xl font-bold text-start">문의내역 확인</p>
             <hr className="h-1 my-5 bg-black" />
             
-            <div className="grid grid-cols-3 p-2 border">
-                <div className="col-span-1 border-r-2">
-                    {dummyQnaData.length > 0 ? 
+            <div className="p-2">
+                <div className="border-r-2">
+                    <p className='pt-2 pl-40 font-bold text-blue-500 cursor-pointer text-start'>편집</p>
+                    {qnaData.length > 0 ? 
                         <>
-                            {dummyQnaData.map((data, index) => (
+                            {qnaData.map((data, index) => (
                                 <QuestionList 
                                     key={index}
-                                    id={data.qnaId}
-                                    img={data.itemImg}
+                                    id={data.id}
+                                    img={data.image}
                                     itemName={data.itemName}
-                                    date={data.qnaDate}
-                                    answer={data.answer}
-                                    isClicked={isClicked}
-                                    setIsClicked={setIsClicked}
+                                    date={data.qnaTime}
+                                    status={data.qnaStatus}
                                 />
                             ))}
                         </>
@@ -61,19 +51,6 @@ const Qna = () => {
                             <p className="text-lg text-center text-gray-400 mt-28">최근 문의내역이 없습니다.</p>
                         </div>
                     }
-                </div>
-                <div className="col-span-2 pl-2">
-                    {isClicked ? 
-                        <QnaList /> 
-                        :
-                        <div>
-                            <div className="flex items-center p-2">
-                                <p className="text-2xl font-semibold text-slate-200">고객센터 문의</p>
-                            </div>
-                            <hr className="mt-[28px]"/>
-                        </div>
-                    }
-                    
                 </div>
             </div>
         </div>

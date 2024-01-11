@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { GrRadialSelected } from 'react-icons/gr'
+import UpdateZipcode from '../Edit/UpdateZipcode';
 
 interface FirstProps {
     name: string;
@@ -9,6 +11,7 @@ interface FirstProps {
     setMemo: React.Dispatch<React.SetStateAction<string>>
     email: string;
     setEmail: React.Dispatch<React.SetStateAction<string>>;
+    updateZipcode: () => Promise<void>
 }
 
 const First = ({
@@ -19,7 +22,8 @@ const First = ({
     memo,
     setMemo,
     email,
-    setEmail
+    setEmail,
+    updateZipcode,
 }: FirstProps) => {
 
     const selectedMemo = [
@@ -40,16 +44,30 @@ const First = ({
             value: "배송 전 연락 바랍니다"
         },
     ]
+    const [showModifyAddress, setShowModifyAddress] = useState(false);
 
     return (
         <div className="mt-10 border border-black">
             <div className="flex items-center px-3 py-2">
-                <p className="w-24 font-bold">배송지</p>
-                <GrRadialSelected size={30} className="pr-2"/>
-                <p className="w-1/4 text-sm font-semibold">{name}님 배송지</p>
-                <button className="w-24 px-2 py-2">
-                    배송지 변경
-                </button>
+                {!showModifyAddress ? 
+                    <>
+                        <p className="w-24 font-bold">배송지</p>
+                        <GrRadialSelected size={30} className="pr-2"/>
+                        <p className="w-1/4 text-sm font-semibold">{name}님 배송지</p>
+                        <button 
+                            className="w-24 px-2 py-2"
+                            onClick={() => setShowModifyAddress(true)}
+                        >
+                            배송지 변경
+                        </button>
+                    </> : 
+                    <UpdateZipcode 
+                        prevValue={address + detailAddress}
+                        fieldName='주소지'
+                        setShowEdit={setShowModifyAddress}
+                        updateZipcode={updateZipcode}
+                    />
+                }
             </div>
 
             <hr />
