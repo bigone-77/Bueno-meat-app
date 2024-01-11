@@ -12,6 +12,7 @@ import { RootState } from '../../redux';
 import { removeCartData } from '../../redux/slices/cartSlice';
 import { ProductReviewProps } from '../../types/DetailProduct/ProductReviewProps';
 import Reviews from '../../components/DetailProduct/Reviews';
+import Qna from '../../components/DetailProduct/Qna';
 
 const ProductDetailPage = () => {
     const [detailProductData, setDetailProductData] = useState<ProductProps>();
@@ -109,6 +110,8 @@ const ProductDetailPage = () => {
                         </section>
                     </div>
                 </div>
+
+                <Qna productId={params.productId}/>
     
                 <div className="px-10">
                     <table className="w-full border rounded-[20px] overflow-hidden">

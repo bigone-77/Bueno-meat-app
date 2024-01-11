@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useState } from 'react';
 
 interface ReviewListProps {
     profileIcon: IconType;
@@ -33,17 +34,33 @@ const ReviewList = ({
 
     const memberId = useSelector((state: RootState) => state.currentUser.id);
 
+    const [isRecommended, setIsRecommended] = useState(false);
+
     const recommendHandler = async () => {
-        await axios.post(`/review/recommend/${memberId}/${reviewId}`)
-            .then(resposne => {
-                console.log(resposne.data);
-                toast.success('따봉을 눌렀어요!');
-                fetchData();
-            })
-            .catch(error => {
-                toast.error(error.response.data.message);
-                fetchData();
-            })
+        setIsRecommended(!isRecommended);
+        if (isRecommended) {
+            await axios.patch(`/review/${memberId}/${reviewId}`)
+                .then(response => {
+                    toast.success('따봉을 취소했습니다.');
+                    fetchData();
+                })
+                .catch(error => {
+                    toast.error(error.response.data.message);
+                    fetchData();
+                })
+        } else 
+        {
+            await axios.post(`/review/recommend/${memberId}/${reviewId}`)
+                .then(resposne => {
+                    console.log(resposne.data);
+                    toast.success('따봉을 눌렀어요!');
+                    fetchData();
+                })
+                .catch(error => {
+                    toast.error(error.response.data.message);
+                    fetchData();
+                })
+        }
     }
     
     return (
@@ -71,7 +88,7 @@ const ReviewList = ({
                 <FaThumbsUp 
                     onClick={() => recommendHandler()}
                     size={25} 
-                    color={"blue"}
+                    color={isRecommended ? 'blue' : ''}
                     className='cursor-pointer'
                 />
             </span>

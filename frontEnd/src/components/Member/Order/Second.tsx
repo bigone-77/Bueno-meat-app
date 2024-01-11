@@ -1,5 +1,5 @@
 // import { useEffect } from "react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,8 +12,8 @@ interface SecondProps {
     itemOption: string;
     stock: number;
     maxPoint: number;
-    pointValue: string;
-    setPointValue: (usePoint: any) => string;
+    itemUsePoint: string;
+    setItemUsePoint: (usePoint: any) => string;
 }
 
 const SecondCard = ({
@@ -25,10 +25,10 @@ const SecondCard = ({
     itemOption,
     stock,
     maxPoint,
-    pointValue,
-    setPointValue,
+    itemUsePoint,
+    setItemUsePoint,
 }: SecondProps) => {
-    const [realUsePoint, setRealUsePoint] = useState(pointValue);
+    const [realUsePoint, setRealUsePoint] = useState(itemUsePoint);
     const navigate = useNavigate();
 
     let showStock = '';
@@ -39,22 +39,22 @@ const SecondCard = ({
         setRealUsePoint(e.target.value);
         
         if (realUsePoint === '0') {
-            setPointValue(e.target.value.replace(/(^0+)/, ""));
+            setItemUsePoint(e.target.value.replace(/(^0+)/, ""));
             console.log("눈치가 빠른 꼬맹이구나");
             
         } else {
             if (Number(e.target.value) > maxPoint) {
                 toast.error('보유한 포인트를 초과하였습니다!')
-                setPointValue(String(maxPoint));
+                setItemUsePoint(String(maxPoint));
             } else {
-                setPointValue(e.target.value);
+                setItemUsePoint(e.target.value);
             }
         }
     }
 
     return (
         <tr>
-            <td className="grid grid-flow-col grid-rows-3">
+            <td className="grid grid-flow-col grid-rows-3 pl-4">
                 <span 
                     className="flex items-center justify-center row-span-3 hover:cursor-pointer"
                     onClick={() => navigate(`/products/${itemId}`)}
@@ -73,7 +73,7 @@ const SecondCard = ({
                             className="w-40 px-8 py-1 text-right border"
                             type="number" 
                             value={realUsePoint}
-                            onChange={pointHandler}
+                            onChange={pointHandler} // 실제로 넘어가는 데이터 관련해서는 onChange만 작동 안하게 하면된다
                         />
                         <label className="absolute top-[5px] right-2">원</label>
                     </div>
@@ -83,9 +83,11 @@ const SecondCard = ({
                         <span className="text-blue-400">{maxPoint}</span>원)
                     </div>
                 </div>
+                <p className='font-light text-rose-200'>구매하시려는 상품이 5000원부터 적립 가능합니다</p>
             </td>
             <td className="text-center">{itemCount}</td>
-            <td className="text-center">{(totalPrice/20)}</td>
+            {/* <td className="text-center">{(totalPrice/100)}</td> */}
+            <td className='text-center'>{totalPrice > 5000 ? totalPrice/100 : 0}</td>
             <td className="text-center">{totalPrice}</td>
         </tr>
     )

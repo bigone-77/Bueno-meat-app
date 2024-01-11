@@ -1,42 +1,33 @@
-import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { OrderItemListProps } from '../../../types/Order/OrderItemListProps';
 
 interface ThirdProps {
     point: number;
-    priceSum: number;
-    setFinalPrice: React.Dispatch<React.SetStateAction<number>>;
-    pointValue: string;
-    setPointValue:  React.Dispatch<React.SetStateAction<string>>;
+    productData: OrderItemListProps[];
 }
 
 const Third = ({
     point,
-    priceSum,
-    setFinalPrice,
-    pointValue,
-    setPointValue
+    productData,
 }: ThirdProps) => {
     
-    const pointHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (pointValue === '0') {
-            setPointValue(e.target.value.replace(/(^0+)/, ""));
-        } else {
-            if (Number(e.target.value) > point) {
-                toast.error('보유한 포인트를 초과하였습니다!')
-                setPointValue(String(point));
-            } else {
-                
-                setPointValue(e.target.value);
-            }
+    
+    const pointHandler = (e: React.ChangeEvent<HTMLInputElement>) => {        
+        if (Number(e.target.value) > point) {
+            toast.error('보유한 포인트를 초과하였습니다!')
         }
     }
-    
-    useEffect(() => {
-        if (!pointValue) {
-            setPointValue('0');
-        }
-        setFinalPrice(priceSum - Number(pointValue));
-    }, [pointValue])
+
+    const priceSum = productData.map((data) => data.totalPrice).reduce((a,b) => a + b);
+    const pointSum = productData.map((product) => Number(product.itemUsePoint)).reduce((a, b) => a + b);
+
+    const finalStoreSum = 
+        productData.map((product) => product.totalPrice)
+        .filter((p) => p > 5000)
+        .reduce((a, b) => a + b, 0);
+
+    const finalStore = (finalStoreSum) / 100;
+
     
 
     return (
@@ -54,7 +45,7 @@ const Third = ({
                     <input 
                         className="w-40 px-8 py-1 text-right border"
                         type="number" 
-                        value={pointValue}
+                        value={pointSum}
                         onChange={pointHandler}
                     />
                     <label className="absolute top-[5px] right-2">원</label>
@@ -77,14 +68,14 @@ const Third = ({
 
             <div className="flex items-center px-3 py-2">
                 <p className="w-32 font-bold">최종 결제 금액</p>
-                <p>{priceSum - Number(pointValue)} 원</p>
+                <p>{priceSum - pointSum}원</p>
             </div>
 
             <hr />
 
             <div className="flex items-center px-3 py-2">
                 <p className="w-32 font-bold">최종 적립금</p>
-                <p>{(priceSum - Number(pointValue))/20} 원</p>
+                <p>{finalStore}원</p>
             </div>
         </div>
     )
