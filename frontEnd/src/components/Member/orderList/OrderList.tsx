@@ -96,6 +96,7 @@ const OrderList = () => {
                             count={data.itemCount}
                             status={data.orderItemStatus}
                             deleteHandler={deleteHandler}
+                            fetchData={fetchData}
                         />
                     ))}
                 </tbody>

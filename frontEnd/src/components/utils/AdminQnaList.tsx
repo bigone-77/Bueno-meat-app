@@ -26,8 +26,10 @@ const AdminQnaList = ({
     const [enteredAnswer, setEnteredAnswer] = useState('');
 
     const postHandler = async () => {
-        await axios.post(`/admin/qna/answer/${qnaId}`, { "answer": enteredAnswer })
+        await axios.post(`/admin/qna/answer/${qnaId}`, enteredAnswer)
             .then((res) => {
+                console.log(enteredAnswer);
+                
                 fetchData();
                 toast.success("답변이 성공적으로 달렸습니다");
                 setOpenAnswerModal(false);
@@ -63,7 +65,7 @@ const AdminQnaList = ({
                 <p className="text-sm">{qnaDate.slice(0, 10)}</p>
             </div>
             <p>{comment}</p>
-            <hr className="my-5"/>
+            <div className="my-5"/>
             <span 
                 className="w-52 flex items-center gap-[3px] border rounded-md px-4 py-2 cursor-pointer bg-blue-300 hover:opacity-50"
             >
@@ -118,6 +120,7 @@ const AdminQnaList = ({
                     </span>
                 </div>
             </Modal>
+            <hr className='my-5' />
         </div>
     )
 }

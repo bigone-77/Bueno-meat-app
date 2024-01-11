@@ -17,6 +17,7 @@ interface PostingProps {
     option?: string;
     date?: string;
     setShowReviewForm: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData: () => Promise<void>;
 }
 
 const Posting = ({
@@ -26,6 +27,7 @@ const Posting = ({
     option,
     date,
     setShowReviewForm,
+    fetchData,
 }: PostingProps) => {
     const memberId = useSelector((state: RootState) => state.currentUser.id);
 
@@ -48,10 +50,13 @@ const Posting = ({
             "reviewImage": uploadedFileUrl
         }
 
+        console.log(data);
         await axios.post(`/review/${memberId}/${id}`, data)
             .then(response => {
+                
                 toast.success("리뷰 등록이 완료되었습니다!");
                 setShowReviewForm(false);
+                fetchData();
             })
             .catch(error => {
                 console.log(error);

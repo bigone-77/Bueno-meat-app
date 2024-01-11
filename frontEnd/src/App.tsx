@@ -57,21 +57,21 @@ function App() {
       <Routes>
         <Route path='/admin/auth/login' element={<AdminLoginPage />} />
 
-        {admin && 
+        {admin ? 
           <Route path='/admin'>
-            <Route index element={<AdminMainPage />} />
-            <Route path='product'>
-              <Route index element={<AdminProductPage />} />
-              <Route path='plus' element={<PlusProductPage />} />
-        
-              <Route path="edit">
-                <Route index element={<EditProductPage />} />
-                <Route path='category/:path' element={<CategoryProducts />} />
-              </Route>
-              
+          <Route index element={<AdminMainPage />} />
+          <Route path='product'>
+            <Route index element={<AdminProductPage />} />
+            <Route path='plus' element={<PlusProductPage />} />
+      
+            <Route path="edit">
+              <Route index element={<EditProductPage />} />
+              <Route path='category/:path' element={<CategoryProducts />} />
             </Route>
-            <Route path='qna' element={<AdminQnaPage />} />
+            
           </Route>
+          <Route path='qna' element={<AdminQnaPage />} />
+        </Route> : <Route path='/admin/:path' element={<Navigate to="/" />} />
         }
         
         <Route path='/auth'>
