@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../../components/utils/Input";
 import Button from "../../../components/utils/Button";
 import { DevTool } from "@hookform/devtools";
 
 import { AiOutlineGoogle } from "react-icons/ai";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import { IoIosArrowForward } from "react-icons/io";
 import Container from "../../../components/utils/Container";
 import { useLogin } from "../../../hooks/auth/useLogin";
 
@@ -14,6 +15,7 @@ import { useLogin } from "../../../hooks/auth/useLogin";
 
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useLogin();
     
@@ -66,7 +68,7 @@ const LoginPage = () => {
                         </p>
                     </div>
                 </div>
-                <p className='my-10 font-light text-gray-400'>
+                <p className='my-5 font-light text-gray-400'>
                     or
                 </p>
                 <form className="flex flex-col justify-center gap-10 min-w-[350px]" onSubmit={handleSubmit(onSubmit)}>
@@ -91,7 +93,13 @@ const LoginPage = () => {
                         message="Passward must be at least 8 characters"
                         required
                     />
-
+                    <span 
+                        className='flex items-center justify-end cursor-pointer'
+                        onClick={() => navigate("/auth/find")}
+                    >
+                        <p className='text-blue-600 text-end'>Find Your ID · Password </p>
+                        <IoIosArrowForward size={20} color="blue"/>
+                    </span>
                     <Button label="Login" />
                 </form>
                 

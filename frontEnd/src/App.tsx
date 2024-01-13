@@ -22,6 +22,8 @@ import EditProductPage from "./pages/AdminPage/ProductManagePage/EditProduct/pag
 import CategoryProducts from "./pages/AdminPage/ProductManagePage/EditProduct/CategoryProducts";
 import SocialJoin from './pages/Auth/SocialJoin/page';
 import SocialAuthPage from './pages/Auth/SocialJoin/SocialAuthPage';
+import FindPage from './pages/Auth/FindPage/page';
+import SetNewPw from './pages/Auth/FindPage/SetNewPw';
 
 
 
@@ -77,6 +79,8 @@ function App() {
         <Route path='/auth'>
           <Route path='join' element={<JoinPage />} />
           <Route path='login' element={<LoginPage />} />
+          <Route path='find' element={<FindPage />} />
+          <Route path='newPw' element={<SetNewPw />} />
           <Route path='socialJoin' element={<SocialJoin />} />
         </Route>
 
