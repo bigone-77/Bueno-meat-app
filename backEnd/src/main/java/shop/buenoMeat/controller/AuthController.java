@@ -18,6 +18,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@CrossOrigin
 public class AuthController {
 
     private final MemberService memberService;

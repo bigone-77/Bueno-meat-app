@@ -3,7 +3,11 @@ package shop.buenoMeat.config.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.filters.CorsFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,17 +18,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import shop.buenoMeat.config.OAuth.CustomOAuth2UserService;
 import shop.buenoMeat.config.OAuth.OAuth2LoginFailureHandler;
 import shop.buenoMeat.config.OAuth.OAuth2LoginSuccessHandler;
 import shop.buenoMeat.config.jwt.*;
-import shop.buenoMeat.domain.MemberRole;
 import shop.buenoMeat.repository.MemberRepository;
 import shop.buenoMeat.service.SocialLoginService;
+
+import java.util.Arrays;
+import java.util.List;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Slf4j
+@Configuration
 public class SecurityConfig {
 
     private final SocialLoginService socialLoginService;
@@ -45,6 +58,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(httpSecurityCorsConfigurer ->
+                        httpSecurityCorsConfigurer
+                                .configurationSource(corsConfigurationSource())
+                )
                 .formLogin().disable() // FormLogin 사용 X
                 .httpBasic().disable() // httpBasic 사용 X
                 .csrf().disable() // csrf 보안 사용 X
@@ -61,6 +78,8 @@ public class SecurityConfig {
 
                 .antMatchers("/","/css/**","/images/**","/js/**","/favicon.ico").permitAll()
                 .antMatchers("/auth/**").permitAll() // 회원가입 접근 가능
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+
                 //.antMatchers("/admin/**").hasRole("ADMIN")//관리자만 접근 가능
                 //.anyRequest().authenticated() // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .and()
@@ -134,4 +153,26 @@ public class SecurityConfig {
         JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, memberRepository);
         return jwtAuthenticationFilter;
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.addAllowedOrigin("http://bueno-meat.s3-website.ap-northeast-2.amazonaws.com/"); // 프론트 IPv4 주소
+        config.addAllowedMethod("*"); // 모든 메소드 허용.
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
+    }
+
 }

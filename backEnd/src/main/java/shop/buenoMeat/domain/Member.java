@@ -3,6 +3,7 @@ package shop.buenoMeat.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import shop.buenoMeat.dto.MemberDto;
 import shop.buenoMeat.exception.NotEnoughPointExist;
 
@@ -14,7 +15,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-
     @Id
     @GeneratedValue
     @Column(name = "member_id", nullable = false)
@@ -29,7 +29,7 @@ public class Member {
     @Column(unique = true)
     private String email;
 
-    @Column(name = "phoneNumber", length = 11)
+    @Column(length = 11)
     private String phone;
 
     @Column(length = 16, unique = true)
@@ -86,8 +86,8 @@ public class Member {
         this.username = username;
     }
 
-    public void changePw(String pw) {
-        this.pw = pw;
+    public void changePw(String pw, PasswordEncoder passwordEncoder) {
+        this.pw = passwordEncoder.encode(pw);
     }
 
     public void changeEmail(String email) {

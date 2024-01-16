@@ -16,7 +16,7 @@ public class MemberDto {
     public Member toEntity(PasswordEncoder passwordEncoder) {
         Member member = Member.createMember(this);
         member.changeUsername(username);
-        member.changePw(passwordEncoder.encode(pw));
+        member.changePw(pw,passwordEncoder);
         member.changeEmail(email);
         member.changePhone(phone);
         member.changeNickname(nickname);

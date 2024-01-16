@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Table(name = "orders")
+@Table(name = "Orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 

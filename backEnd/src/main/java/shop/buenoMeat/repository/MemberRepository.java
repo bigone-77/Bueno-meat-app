@@ -48,4 +48,9 @@ public class MemberRepository {
                 .setParameter("socialId", socialId)
                 .setParameter("socialType", socialType).getResultList();
     } //추가 정보를 입력받아 회원 가입을 진행할 때 소셜 타입, 식별자로 해당 회원을 찾기 위한 메소드
+
+    public Member findByPhone(String phone) {
+        return em.createQuery("select m from Member m where m.phone = :phone", Member.class)
+                .setParameter("phone", phone).getSingleResult();
+    }
 }

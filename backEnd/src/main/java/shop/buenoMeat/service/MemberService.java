@@ -53,7 +53,7 @@ public class MemberService{
     public ResponseEntity<String> updatePw(Long id, UpdateDto.updatePwDto updatePwDto) {
         Member findMember = memberRepository.findOne(id);
         if (findMember.getPw().equals(updatePwDto.getPw())) {
-            findMember.changePw(updatePwDto.getNewPw());
+            findMember.changePw(updatePwDto.getNewPw(), passwordEncoder);
             return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
         } else {
             return ResponseEntity.ok("현재 비밀번호가 일치하지 않습니다.");
