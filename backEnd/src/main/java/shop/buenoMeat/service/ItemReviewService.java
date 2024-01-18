@@ -61,7 +61,6 @@ public class ItemReviewService {
         ItemReview findReview = itemReviewRepository.findByReviewId(reviewId);
         if (findReview.getMember().getId().equals(memberId)) { // 자신이 쓴 글 추천 방지
             throw new SelfRecommendationException("자신의 리뷰글에는 추천할 수 없습니다.");
-
         } else { // 추천을 누를 경우 추천 수 증가
             findReview.addRecommend();
         }

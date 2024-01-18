@@ -3,13 +3,6 @@ package shop.buenoMeat.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import shop.buenoMeat.domain.Category;
-import shop.buenoMeat.domain.CategoryName;
-import shop.buenoMeat.domain.QnaStatus;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
 
 public class AdminDto {
 
