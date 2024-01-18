@@ -40,8 +40,8 @@ public class AdminController {
 
     //-- 관리자 페이지에서 상품 등록하기 --//
     @PostMapping(value = "/product/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String enrollItem(@RequestParam("file") MultipartFile file,
-                             @RequestBody AdminDto.enrollItemDto enrollItemDto) throws IOException {
+    public String enrollItem(@RequestPart("image") MultipartFile file,
+                             @RequestPart("data") AdminDto.enrollItemDto enrollItemDto) throws IOException {
         adminService.enrollItem(enrollItemDto, file);
         return "상품 등록이 완료되었습니다.";
     }
