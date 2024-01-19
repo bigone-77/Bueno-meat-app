@@ -1,9 +1,5 @@
-import currentUserReducer from "./slices/currentUserSlice";
-import editUserReducer from "./slices/memberEditSlice";
-import productReducer from "./slices/productSlice";
-import cartReducer from "./slices/cartSlice";
-
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./rootReducers";
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from "redux-persist";
 import persistStore from "redux-persist/es/persistStore";
@@ -11,17 +7,9 @@ import persistStore from "redux-persist/es/persistStore";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["currentUser"],
-};
+}
 
-const reducer = combineReducers({
-    currentUser: currentUserReducer,
-    editUser: editUserReducer,
-    product: productReducer,
-    cart: cartReducer
-});
-
-const persistedReducer = persistReducer(persistConfig, reducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,

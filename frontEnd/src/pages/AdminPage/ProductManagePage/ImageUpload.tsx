@@ -12,6 +12,7 @@ const ImageUpload = ({
     value
 }: ImageUploadProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    
 
     const handleButtonClick = () => {
         fileInputRef.current?.click();

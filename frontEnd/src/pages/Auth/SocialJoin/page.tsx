@@ -22,9 +22,6 @@ const SocialJoin = () => {
         setUser(jwtDecode(location.search.slice(13, )))
     }, []);
     
-    console.log(location.search.slice(13, ));
-    
-
     const { register, control, handleSubmit, setValue, formState: { 
         errors
     }} = useForm<FieldValues>({
