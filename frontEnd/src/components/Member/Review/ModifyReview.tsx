@@ -11,7 +11,6 @@ interface ModifyReviewProps {
     name: string;
     img: string;
     setShowModify: React.Dispatch<React.SetStateAction<boolean>>;
-    patchHandler: (reviewId: number, data: any) => Promise<void>;
 }
 
 interface PatchDataProps {
@@ -27,7 +26,6 @@ const ModifyReview = ({
     name,
     img,
     setShowModify,
-    patchHandler
 }: ModifyReviewProps) => {
     const [starNum, setStarNum] = useState(5);
     const [enteredText, setEnteredText] = useState('');
@@ -49,7 +47,7 @@ const ModifyReview = ({
             "reviewImage": uploadedFileUrl,
         }
         
-        patchHandler(reviewId, data);
+        
         setShowModify(false);
     }
 

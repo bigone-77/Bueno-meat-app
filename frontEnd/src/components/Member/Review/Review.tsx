@@ -1,8 +1,9 @@
 import ReviewProfile from "./ReviewProfile"
 import { useSelector } from "react-redux"
 import Posted from "./Posted"
-// import { useGetReviewQuery } from '../../../redux/api/reviewApi'
-import { RootState } from '@reduxjs/toolkit/query';
+import { useGetReviewQuery } from '../../../redux/api/reviewApi'
+import { RootState } from '../../../redux';
+
 
 export interface PatchDataProps {
     starRating: number;
