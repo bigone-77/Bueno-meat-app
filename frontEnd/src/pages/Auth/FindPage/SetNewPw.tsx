@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,6 +17,7 @@ const SetNewPw = () => {
       pw: newPassword
     })
     .then((response) => {
+      toast.success("비밀번호 변경이 성공적으로 완료됐습니다")
       navigate('/auth/login');
     })
     .catch(error => {

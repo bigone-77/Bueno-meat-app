@@ -4,9 +4,11 @@ import ShowStars from "../../utils/ShowStars";
 import { FaStar } from "react-icons/fa6";
 import { useState } from "react";
 import ModifyReview from "./ModifyReview";
-import { useDeleteReviewMutation } from '../../../redux/api/reviewApi';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux';
+
+interface PostedProps extends ReviewItemProps {
+    deleteHandler: (reviewId: number) => Promise<void>;
+    patchHandler: (reviewId: number, data: any) => Promise<void>;
+}
 
 const Posted = ({
     comment,
@@ -17,16 +19,12 @@ const Posted = ({
     reviewImage,
     reviewTime,
     starRating,
-}: ReviewItemProps ) => {
-    const [deleteReview] = useDeleteReviewMutation();
+    deleteHandler,
+    patchHandler
+}: PostedProps ) => {
     const navigate = useNavigate();
 
-    const memberId = useSelector((state: RootState) => state.currentUser.id);
     const [showModify, setShowModify] = useState(false);
-
-    const deleteHandler = () => {
-        deleteReview({ reviewId: reviewId, memberId: memberId })
-    }
 
     return (
         <div className="px-10 py-5 mb-10 border-4 rounded-md">
@@ -53,7 +51,7 @@ const Posted = ({
                     <span className="h-10 border-l-2 bg-slate-400"/>
                     <p 
                         className="cursor-pointer"
-                        onClick={() => deleteHandler()}
+                        onClick={() => deleteHandler(reviewId)}
                     >
                         삭제
                     </p>
@@ -84,6 +82,7 @@ const Posted = ({
                     name={itemName}
                     img={itemImage}
                     setShowModify={setShowModify}
+                    patchHandler={patchHandler}
                 />
             }
         </div>

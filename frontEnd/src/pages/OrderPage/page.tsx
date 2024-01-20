@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import First from "../../components/Member/Order/First";
-import SecondCard from "../../components/Member/Order/Second";
-import Third from "../../components/Member/Order/Third";
 import Container from "../../components/utils/Container"
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { OrderMemberInfoProps } from "../../types/Order/OrderMemberInfoProps";
 import { OrderItemListProps } from "../../types/Order/OrderItemListProps";
 import EmptyState from "../../components/utils/EmptyState";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import Contents from '../../components/Member/Order/Contents';
+import axios from 'axios';
 
 
 
@@ -67,6 +66,11 @@ const OrderPage = () => {
                     "totalPrice": productData.map((data) => data.totalPrice - Number(data.itemUsePoint)).reduce((a,b) => a + b),
                     "orderNum": orderNum.slice(0,10)
                 };
+
+                if (data.email === "" || data.memo === "") {
+                    toast.error("빈 항목이 있습니다");
+                    return;
+                }
 
             console.log(data);
             await axios.post(`/order/${memberId}`,data)
