@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react"
 import ReviewProfile from "./ReviewProfile"
-import axios from "axios"
+
 import { useSelector } from "react-redux"
 import { RootState } from "../../../redux"
 import { ReviewItemProps } from "../../../types/Review/ItemProps"
 import { ReviewUserProps } from "../../../types/Review/UserProps"
 import Posted from "./Posted"
 import { toast } from "react-toastify"
+import axios from 'axios'
+
 
 export interface PatchDataProps {
     starRating: number;
     comment: string;
-    reviewImage: string | null;
+    reviewImage: File | null;
 }
 
 const Review = () => {
@@ -31,10 +33,28 @@ const Review = () => {
             })
     }
 
-    const patchHandler = async (reviewId: number, data: PatchDataProps) => {
-        console.log(data);
+    const patchHandler = async (reviewId: number, dataProps: PatchDataProps) => {
+        const { starRating, comment, reviewImage } = dataProps;
+
+        const data = {
+            "starRating": starRating,
+            "comment": comment
+        };
+
+        const formData = new FormData();
+        formData.append('data', new Blob([JSON.stringify(data)], {
+            type: "application/json"
+        }));
+
+        if (reviewImage) {
+            formData.append('image', reviewImage);
+        }
         
-        await axios.patch(`/review/${reviewId}`, data)
+        await axios.patch(`/review/${reviewId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
             .then(response => {
                 toast.success("리뷰 수정이 완료되었습니다!");
                 fetchData();
@@ -45,7 +65,7 @@ const Review = () => {
     }
 
     const deleteHandler = async (reviewId: number) => {
-        await axios.delete(`/review/${reviewId}`)
+        await axios.delete(`/review/${reviewId}/${memberId}`)
             .then(response => {
                 toast.success("해당 리뷰글이 삭제되었습니다!");
                 fetchData();

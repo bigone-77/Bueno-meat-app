@@ -156,7 +156,7 @@ public class ItemDto {
     public static class enrollReviewDto {
         private int starRating;
         private String comment;
-        private String reviewImage;
+        private String orderNum;
     }
 
     @Data
@@ -165,7 +165,6 @@ public class ItemDto {
     public static class updateReviewDto {
         private int starRating;
         private String comment;
-        private String reviewImage;
     }
 
 }

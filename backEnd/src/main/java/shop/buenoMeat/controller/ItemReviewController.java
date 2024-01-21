@@ -1,11 +1,15 @@
 package shop.buenoMeat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import shop.buenoMeat.dto.ItemDto;
 import shop.buenoMeat.dto.MemberDto;
 import shop.buenoMeat.service.ItemReviewService;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +25,11 @@ public class ItemReviewController {
     }
 
     //-- 리뷰 작성하기 --//
-    @PostMapping("/{memberId}/{itemId}")
-    public ResponseEntity<String> enrollReview(@PathVariable Long memberId, @PathVariable Long itemId, @RequestBody ItemDto.enrollReviewDto enrollReviewDto) {
-        itemReviewService.enrollReview(memberId, itemId, enrollReviewDto);
+    @PostMapping(value = "/{memberId}/{itemId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> enrollReview(@PathVariable Long memberId, @PathVariable Long itemId,
+                                               @RequestPart(value = "data") ItemDto.enrollReviewDto enrollReviewDto,
+                                               @RequestPart(value = "image") MultipartFile file) throws IOException {
+        itemReviewService.enrollReview(memberId, itemId, enrollReviewDto,file);
         return ResponseEntity.ok("상품리뷰등록이 완료되었습니다.");
     }
 
@@ -41,9 +47,10 @@ public class ItemReviewController {
 
     //-- 리뷰 수정하기 --//
     @PatchMapping("/{reviewId}")
-    public ResponseEntity<String> updateReview(@PathVariable Long reviewId, @RequestBody ItemDto.updateReviewDto updateReviewDto) {
-        itemReviewService.updateReview(reviewId, updateReviewDto);
-        return ResponseEntity.ok("리뷰 수정이 완료되었습니다");
+    public String updateReview(@PathVariable Long reviewId, @RequestPart(name = "data") ItemDto.updateReviewDto updateReviewDto,
+                               @RequestPart(name = "image") MultipartFile file) throws IOException{
+        itemReviewService.updateReview(reviewId, updateReviewDto, file);
+        return "리뷰 수정이 완료되었습니다.";
     }
 
     //-- 리뷰 삭제하기 --//

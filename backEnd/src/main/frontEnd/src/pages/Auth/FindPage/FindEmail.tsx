@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { useState } from 'react'
 import { toast } from 'react-toastify';
@@ -17,10 +18,14 @@ const FindEmail = ({
     
     await axios.post('/email/findId', { username: username, phone: phone })
       .then((response) => {
-        setId(response.data.email);
-        toast.success(`아이디는 ${response.data.email}`);
+        console.log(response.data);
+        
+        setId(response.data);
+        toast.success(`아이디는 ${response.data}`);
       })
       .catch((error) => {
+        console.log(error);
+        
         toast.error("일치하는 회원이 없습니다")
         // setId("taeill012@gmail.com");
       })
