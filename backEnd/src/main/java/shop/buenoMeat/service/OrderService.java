@@ -25,6 +25,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ItemReviewRepository itemReviewRepository;
 
     //-- 주문 페이지 불러오기 --//
     public OrderDto.orderPageResponseDto getOrderPage(Long memberId){
@@ -102,6 +103,9 @@ public class OrderService {
 
          // 주문 상태 변경
         findOrderItem.changeOrderStatus(OrderItemStatus.CANCEL);
+
+        //해당 주문 리뷰 삭제
+        //itemRepository.
     }
 
 

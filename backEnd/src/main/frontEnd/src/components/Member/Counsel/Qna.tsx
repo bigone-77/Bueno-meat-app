@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import QuestionList from "./QuestionList"
-import axios from 'axios'
+
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux'
 import { QnaDataProps } from '../../../types/DetailProduct/QnaDataProps'
+import axios from 'axios'
+
 
 const Qna = () => {
     const memberId = useSelector((state: RootState) => state.currentUser.id);

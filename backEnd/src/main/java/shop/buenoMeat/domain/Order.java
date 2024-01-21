@@ -37,7 +37,7 @@ public class Order {
     @Column(name = "rcp_email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime orderDate;
 
     @Column(name = "delivery_address", nullable = false)
