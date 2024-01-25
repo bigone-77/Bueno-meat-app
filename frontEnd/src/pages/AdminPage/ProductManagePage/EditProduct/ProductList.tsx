@@ -3,7 +3,7 @@ import { ProductProps } from "../../../../types/ProductProps"
 import ModifyProduct from "./ModifyProduct";
 
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from '../../../../api/axios';
 
 interface ProductListProps extends ProductProps{
     index: number;

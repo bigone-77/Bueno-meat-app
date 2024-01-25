@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../../../redux/slices/currentUserSlice';
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 const AdminLoginPage = () => {
     const navigate = useNavigate();

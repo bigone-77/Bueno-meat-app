@@ -7,13 +7,12 @@ import { ReviewItemProps } from "../../../types/Review/ItemProps"
 import { ReviewUserProps } from "../../../types/Review/UserProps"
 import Posted from "./Posted"
 import { toast } from "react-toastify"
-import axios from 'axios'
-
+import axios from '../../../api/axios'
 
 export interface PatchDataProps {
     starRating: number;
     comment: string;
-    reviewImage: File | null;
+    reviewImage: any;
 }
 
 const Review = () => {
@@ -41,13 +40,16 @@ const Review = () => {
             "comment": comment
         };
 
+        let ran = "";
+
         const formData = new FormData();
         formData.append('data', new Blob([JSON.stringify(data)], {
             type: "application/json"
         }));
-
         if (reviewImage) {
             formData.append('image', reviewImage);
+        } else {
+            formData.append('image', ran);
         }
         
         await axios.patch(`/review/${reviewId}`, formData, {
@@ -65,12 +67,13 @@ const Review = () => {
     }
 
     const deleteHandler = async (reviewId: number) => {
+        if(window.confirm("해당 리뷰글을 삭제하면 이 상품에 대한 리뷰글을 쓸 수 없습니다. 그래도 삭제하시겠습니까?")) {
         await axios.delete(`/review/${reviewId}/${memberId}`)
             .then(response => {
                 toast.success("해당 리뷰글이 삭제되었습니다!");
                 fetchData();
             })
-    }
+    }}
 
     useEffect(() => {
         fetchData();

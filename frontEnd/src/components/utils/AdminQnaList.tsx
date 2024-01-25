@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FcAnswers } from "react-icons/fc";
 
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 interface AdminQnaListProps {
     qnaId: number;

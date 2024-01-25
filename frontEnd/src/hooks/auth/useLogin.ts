@@ -5,10 +5,8 @@ import requests from "../../api/requests";
 import { useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../../redux/slices/currentUserSlice";
 import { FieldValues } from "react-hook-form";
-import axios from 'axios';
-
-
-
+import axios from '../../api/axios';
+import { toast } from 'react-toastify';
 
 export const useLogin = () => {
     const dispatch = useDispatch();
@@ -28,6 +26,7 @@ export const useLogin = () => {
             })
             .catch(error => {
                 console.log(error);
+                toast.error("아이디, 비밀번호가 올바르지 않습니다.")
             });
                     
     };

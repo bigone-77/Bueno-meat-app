@@ -9,7 +9,7 @@ import { RootState } from "../../../redux";
 
 import { updateField } from "../../../redux/slices/memberEditSlice";
 import { toast } from "react-toastify";
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 const UpdatePasswordField = ({
     fieldName,

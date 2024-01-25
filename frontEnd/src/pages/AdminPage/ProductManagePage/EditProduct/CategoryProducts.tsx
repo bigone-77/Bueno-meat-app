@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { ProductProps } from "../../../../types/ProductProps";
 import ProductList from "./ProductList";
-import axios from 'axios';
+import axios from '../../../../api/axios';
 
 const CategoryProducts = () => {
     const params = useParams();

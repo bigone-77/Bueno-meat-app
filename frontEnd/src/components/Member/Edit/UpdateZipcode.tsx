@@ -8,7 +8,7 @@ import Input from '../../utils/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux';
 import { updateField } from '../../../redux/slices/memberEditSlice';
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 const UpdateZipcode = ({
     prevValue,

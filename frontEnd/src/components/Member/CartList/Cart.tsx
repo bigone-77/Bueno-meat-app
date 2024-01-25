@@ -6,8 +6,7 @@ import CartItem from "./CartItem"
 
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
-import axios from 'axios'
-
+import axios from '../../../api/axios'
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -18,6 +17,8 @@ const Cart = () => {
     const fetchData = async () => {
         await axios.get(`/mypage/cart/${memberId}`)
             .then((response) => {
+                console.log(response.data);
+                
                 setCartData(response?.data);
             })
             .catch(error => {
@@ -61,6 +62,15 @@ const Cart = () => {
                 }
             }
     }, []);
+
+    const naviagteHandler = () => {
+        if (cartData.filter((c) => c.stock === 0).length > 0) {
+            toast.warn("품절된 상품이 있습니다.");
+            return;
+        } else {
+            navigate('/order');
+        }
+    }
     
     return (
         <div className='my-10 ml-52'>
@@ -140,7 +150,7 @@ const Cart = () => {
                         <button onClick={() => deleteHandler()}>전체삭제</button>
                         <button 
                             className="text-white bg-black"
-                            onClick={() => navigate('/order')}
+                            onClick={naviagteHandler}
                         >
                             주문하기
                         </button> 

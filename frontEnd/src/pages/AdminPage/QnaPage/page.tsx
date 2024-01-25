@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import AdminQnaList from "../../../components/utils/AdminQnaList";
 
 import { AdminQnaDataProps } from '../../../types/AdminQnaDataProps';
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 const AdminQnaPage = () => {
     const [qnaData, setQnaData] = useState<AdminQnaDataProps[]>([]);

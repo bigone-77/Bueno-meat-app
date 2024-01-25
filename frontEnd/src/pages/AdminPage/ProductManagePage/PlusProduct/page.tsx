@@ -10,7 +10,7 @@ import Button from "../../../../components/utils/Button";
 
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../../api/axios';
 
 
 
@@ -40,19 +40,23 @@ const PlusProductPage = () => {
     });
     const category_name = watch('category_name');
 
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<any>(null);
     console.log(image);
-    
-    
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
 
         setIsLoading(true);
+
         const formData = new FormData();
-        formData.append('image', image!);
         formData.append('data', new Blob([JSON.stringify(data)], {
             type: "application/json"
         }));
+        if (image){
+            formData.append('image', image);
+        } else {
+            toast.error("상품에 사진이 없습니다.")
+        }
+        
     
         axios.post('/admin/product/upload', formData, {
             headers: {

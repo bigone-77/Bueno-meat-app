@@ -9,7 +9,7 @@ import { useState } from "react";
 import { ProductProps } from "../../../../types/ProductProps";
 
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from '../../../../api/axios';
 
 interface ModifyProductProps extends ProductProps {
     setShowModify:  React.Dispatch<React.SetStateAction<boolean>>;

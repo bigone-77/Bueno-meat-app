@@ -9,7 +9,7 @@ import Button from '../../../components/utils/Button';
 import { DevTool } from '@hookform/devtools';
 import { jwtDecode } from 'jwt-decode';
 import { SocialUserProps } from '../../../types/SocialUserProps';
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 const SocialJoin = () => {
     const [user, setUser] = useState<SocialUserProps>();

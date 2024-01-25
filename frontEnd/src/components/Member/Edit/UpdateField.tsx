@@ -8,7 +8,7 @@ import { RootState } from "../../../redux";
 import { updateField } from "../../../redux/slices/memberEditSlice";
 import { updateCurrentUserNickname } from "../../../redux/slices/currentUserSlice";
 import { toast } from "react-toastify";
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 export interface UpdateFieldProps {
     prevValue?: string;

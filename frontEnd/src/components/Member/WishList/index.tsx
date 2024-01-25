@@ -3,9 +3,8 @@ import { RootState } from "../../../redux"
 
 import { useEffect, useState } from "react";
 import ProductCard from "../../ProductCard";
-import { AiFillFire } from "react-icons/ai";
 import { ProductProps } from "../../../types/ProductProps";
-import axios from 'axios';
+import axios from '../../../api/axios';
 
 const WishList = () => {
     const memberId = useSelector((state: RootState) => state.currentUser.id);
@@ -36,7 +35,6 @@ const WishList = () => {
                                 name={product.name}
                                 price={product.price}
                                 image={product.image}
-                                icon={AiFillFire}
                             />
                         </span>
                     ))}

@@ -5,11 +5,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProduct, setProduct } from "../../redux/slices/productSlice";
 import { RootState } from "../../redux";
-import { AiFillFire } from "react-icons/ai";
 import ProductCard from "../../components/ProductCard";
 import useSearchProduct from "../../utils/useSearchProduct";
 import EmptyState from "../../components/utils/EmptyState";
-import axios from 'axios';
+import axios from '../../api/axios';
 
 const SearchPage = () => {
     const navigate = useNavigate();
@@ -55,7 +54,6 @@ const SearchPage = () => {
                                     name={product.name}
                                     price={product.price}
                                     image={product.image}
-                                    icon={AiFillFire}
                                 />
                             </span>
                             ))}
